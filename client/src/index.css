@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#FAFAFC] text-zinc-900;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f4f4f5;
+}
+::-webkit-scrollbar-thumb {
+  background: #d4d4d8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1aa;
+}
+
+/* Passport Card Shimmer / Accent Top Border */
+.passport-border {
+  position: relative;
+}
+.passport-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4C1D95 0%, #6D28D9 50%, #8B5CF6 100%);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+/* Glassmorphism utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(228, 228, 231, 0.8);
+}
+
+.pattern-grid {
+  background-size: 24px 24px;
+  background-image: linear-gradient(to right, rgba(109, 40, 217, 0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(109, 40, 217, 0.04) 1px, transparent 1px);
+}
+
+.pattern-dots {
+  background-image: radial-gradient(rgba(109, 40, 217, 0.08) 1px, transparent 0);
+  background-size: 16px 16px;
+}
+
+/* Print styling for hangtags */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #printable-hangtag, #printable-hangtag * {
+    visibility: visible;
+  }
+  #printable-hangtag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
