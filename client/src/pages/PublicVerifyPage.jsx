@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { CertificateModal } from '../components/CertificateModal';
+import { SupplyChainStepper } from '../components/SupplyChainStepper';
 import { 
   ShieldCheck, 
   CheckCircle2, 
@@ -21,7 +22,7 @@ import {
 } from 'lucide-react';
 
 export function PublicVerifyPage({ passportId, navigate }) {
-  const { batches } = useApp();
+  const { batches, loading } = useApp();
   const [activeTab, setActiveTab] = useState('overview');
   const [activeCert, setActiveCert] = useState(null);
 
@@ -75,23 +76,8 @@ export function PublicVerifyPage({ passportId, navigate }) {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
         
-        {/* Traceability Flow Bar */}
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-3">
-          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
-            Supply Chain Route
-          </span>
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-zinc-800">
-            <span className="bg-zinc-100 px-3 py-1.5 rounded-lg">Tiruppur (Origin)</span>
-            <span className="text-zinc-300">→</span>
-            <span className="bg-indigo-50 text-indigo-900 px-3 py-1.5 rounded-lg">Rainbow Eco-Dyers</span>
-            <span className="text-zinc-300">→</span>
-            <span className="bg-cyan-50 text-cyan-900 px-3 py-1.5 rounded-lg">Arulpuram CETP (ZLD)</span>
-            <span className="text-zinc-300">→</span>
-            <span className="bg-zinc-100 px-3 py-1.5 rounded-lg">Port of Hamburg</span>
-            <span className="text-zinc-300">→</span>
-            <span className="bg-brand-50 text-brand-900 px-3 py-1.5 rounded-lg">{batch.targetCountry}</span>
-          </div>
-        </div>
+        {/* Dynamic Interactive Supply Chain Stepper */}
+        <SupplyChainStepper batch={batch} loading={loading} />
 
         {/* Clean Tabs */}
         <div className="flex border-b border-zinc-200 gap-2 overflow-x-auto pb-1 text-xs font-semibold">

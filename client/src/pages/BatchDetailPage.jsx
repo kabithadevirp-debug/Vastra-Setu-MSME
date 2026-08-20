@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { StatusBadge } from '../components/StatusBadge';
 import { BatchPipelineStepper } from '../components/BatchPipelineStepper';
+import { SupplyChainStepper } from '../components/SupplyChainStepper';
 import { CertificateModal } from '../components/CertificateModal';
 import { HangtagPrintModal } from '../components/HangtagPrintModal';
 import { QRCodeSVG } from 'qrcode.react';
@@ -237,48 +238,8 @@ export function BatchDetailPage({ batchId, navigate }) {
 
       {/* TAB 2: Supply Chain */}
       {activeTab === 'supply_chain' && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-sm space-y-6 animate-in fade-in">
-          <div className="flex items-center justify-between">
-            <h3 className="font-display font-bold text-lg text-zinc-900">
-              Interactive Supply Chain Traceability
-            </h3>
-            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-              ✓ Verified Traceability Route
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            {[
-              { node: 'EXPORTER', name: 'Sri Jayavarma Knits & Exports', loc: 'Tiruppur, India', status: 'Verified ✓', role: 'Garmenting & Assembly', time: '14 Aug 2026' },
-              { node: 'DYER', name: batch.dyerName, loc: 'Veerapandi, Tiruppur', status: batch.dyeingRecord ? 'Verified ✓' : 'Pending Verification', role: 'Wet Processing (OEKO-TEX Class I)', time: batch.dyeingRecord?.completedAt ? new Date(batch.dyeingRecord.completedAt).toLocaleDateString() : 'Awaiting action' },
-              { node: 'CETP', name: batch.cetpName, loc: 'Arulpuram, Tiruppur', status: batch.cetpRecord ? 'Verified ✓' : 'Pending Clearance', role: '92% ZLD Closed-Loop Water Recovery', time: batch.cetpRecord?.completedAt ? new Date(batch.cetpRecord.completedAt).toLocaleDateString() : 'Awaiting action' },
-              { node: 'PORT', name: 'Tuticorin / Chennai Port', loc: 'Tamil Nadu, India', status: 'Verified ✓', role: 'Export Customs Clearance', time: 'Pending Dispatch' },
-              { node: 'BUYER', name: `${batch.buyerName} Distribution Hub`, loc: `${batch.targetCountry}`, status: 'Scheduled', role: 'Retail Distribution & EU Customs', time: 'Scheduled' },
-            ].map((item, idx) => (
-              <div key={idx} className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-                <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-lg bg-brand-900 text-white flex items-center justify-center font-bold text-[10px]">
-                    0{idx + 1}
-                  </span>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-brand-700">{item.node}</span>
-                      <span className="text-zinc-300">•</span>
-                      <strong className="text-zinc-900">{item.name}</strong>
-                    </div>
-                    <p className="text-zinc-500 text-[11px] mt-0.5">{item.role} • {item.loc}</p>
-                  </div>
-                </div>
-
-                <div className="text-right text-[11px] shrink-0">
-                  <span className={`font-bold block ${item.status.includes('Verified') ? 'text-emerald-700' : 'text-amber-700'}`}>
-                    {item.status}
-                  </span>
-                  <span className="text-zinc-400 font-mono text-[10px]">{item.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="space-y-6 animate-in fade-in">
+          <SupplyChainStepper batch={batch} />
         </div>
       )}
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { CertificateModal } from '../components/CertificateModal';
 import { HangtagPrintModal } from '../components/HangtagPrintModal';
+import { SupplyChainStepper } from '../components/SupplyChainStepper';
 import { QRCodeSVG } from 'qrcode.react';
 import { 
   ShieldCheck, 
@@ -19,12 +20,12 @@ import {
   FlaskConical, 
   Ship, 
   Sparkles, 
-  Info,
+  Info, 
   ChevronRight
 } from 'lucide-react';
 
 export function PassportViewPage({ batchId, navigate }) {
-  const { batches, showToast } = useApp();
+  const { batches, loading, showToast } = useApp();
 
   const batch = batches.find(b => b.id === batchId || (b.passport && b.passport.id === batchId)) || 
                 batches.find(b => b.passport) || 
@@ -143,6 +144,9 @@ export function PassportViewPage({ batchId, navigate }) {
           </button>
         </div>
       </div>
+
+      {/* Dynamic Supply Chain Route Stepper */}
+      <SupplyChainStepper batch={batch} loading={loading} />
 
       {/* THE CENTERPIECE PASSPORT CARD */}
       <div className="bg-white rounded-3xl shadow-passport border border-brand-900/10 overflow-hidden passport-border">
