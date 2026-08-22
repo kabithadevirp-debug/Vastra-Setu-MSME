@@ -1,290 +1,332 @@
-import React, { useState } from 'react';
-import { useApp } from '../context/AppContext';
-import { StatusBadge } from '../components/StatusBadge';
-import { BatchPipelineStepper } from '../components/BatchPipelineStepper';
-import { HangtagPrintModal } from '../components/HangtagPrintModal';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { 
-  Plus, 
-  Search, 
-  QrCode, 
-  ExternalLink, 
-  ArrowRight, 
-  Printer, 
+  Building2, 
   ShieldCheck, 
+  Award, 
+  TrendingUp, 
+  QrCode, 
+  CheckCircle2, 
+  AlertTriangle, 
   Leaf, 
-  Droplets,
-  Layers,
+  ArrowRight, 
+  ExternalLink, 
+  Plus, 
   Sparkles,
-  CheckCircle2,
+  FileText,
   Clock,
-  AlertTriangle,
-  ChevronRight
+  Loader2
 } from 'lucide-react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export function DashboardPage({ navigate }) {
-  const { batches, loading, analytics, setCurrentRole } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState('ALL');
-  const [selectedPrintBatch, setSelectedPrintBatch] = useState(null);
-
-  const filteredBatches = batches.filter(batch => {
-    const matchesSearch = 
-      batch.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      batch.garmentTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      batch.buyerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      batch.orderRef.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesStatus = statusFilter === 'ALL' || 
-      (statusFilter === 'IN_PROGRESS' && batch.status !== 'PASSPORT_GENERATED') ||
-      (statusFilter === 'PASSPORT_READY' && batch.status === 'PASSPORT_GENERATED');
-
-    return matchesSearch && matchesStatus;
+  const { msme } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState({
+    trustScore: 98,
+    totalPassports: 14,
+    complianceStatus: 'All Documents Verified',
+    latestCarbon: '2.84 t CO₂e',
+    passports: [],
+    twinTrend: [],
+    recommendation: '',
+    alerts: []
   });
 
-  const totalBatches = batches.length;
-  const issuedPassports = batches.filter(b => b.passport).length;
+  useEffect(() => {
+    // Parallel API fetching from Spring Boot / Express endpoints
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      try {
+        const [passportsRes, trustRes, twinRes, alertsRes] = await Promise.allSettled([
+          fetch('/api/passports/summary').then(r => r.json()),
+          fetch('/api/trust-score').then(r => r.json()),
+          fetch('/api/twin/summary').then(r => r.json()),
+          fetch('/api/compliance/alerts').then(r => r.json())
+        ]);
+
+        const passportsData = passportsRes.status === 'fulfilled' && passportsRes.value.success ? passportsRes.value.data : null;
+        const trustData = trustRes.status === 'fulfilled' && trustRes.value.success ? trustRes.value.data : null;
+        const twinData = twinRes.status === 'fulfilled' && twinRes.value.success ? twinRes.value.data : null;
+        const alertsData = alertsRes.status === 'fulfilled' && alertsRes.value.success ? alertsRes.value.data : [];
+
+        setDashboardData({
+          trustScore: trustData?.score || 98,
+          totalPassports: passportsData?.totalGenerated || 14,
+          complianceStatus: 'All 4 Documents Valid',
+          latestCarbon: twinData?.currentCarbonLca || '2.84 t CO₂e',
+          passports: passportsData?.recentPassports || [
+            { id: 'DPP-VS-2026-00892', productName: 'Organic Cotton Polo Shirt', quantity: '4,000 pcs', buyer: 'Inditex / Zara (Germany)', date: '2026-08-14', status: 'ISSUED', trustScore: 98 },
+            { id: 'DPP-VS-2026-00741', productName: 'Knitted Fleece Crewneck Hoodie', quantity: '2,500 pcs', buyer: 'H&M Global (Sweden)', date: '2026-08-02', status: 'ISSUED', trustScore: 96 },
+            { id: 'DPP-VS-2026-00619', productName: 'Zero-Dye Recycled Cotton T-Shirt', quantity: '5,000 pcs', buyer: 'C&A Exporters (Netherlands)', date: '2026-07-28', status: 'ISSUED', trustScore: 99 }
+          ],
+          twinTrend: twinData?.monthlyTrend || [
+            { month: 'Mar', carbon: 3.42 },
+            { month: 'Apr', carbon: 3.25 },
+            { month: 'May', carbon: 3.10 },
+            { month: 'Jun', carbon: 2.98 },
+            { month: 'Jul', carbon: 2.89 },
+            { month: 'Aug', carbon: 2.84 }
+          ],
+          recommendation: twinData?.recommendation || 'Switching 10% more grid electricity to solar rooftop will increase your Trust Score to 99/100.',
+          alerts: alertsData || []
+        });
+      } catch (err) {
+        console.error('Dashboard data fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="space-y-6 pb-12">
       
-      {/* Top Welcome Header */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-brand-50 text-brand-700 text-[11px] font-bold border border-brand-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse" />
-            <span>Sustainability Command Center</span>
+      {/* SECTION 1: WELCOME HEADER */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
+              Active MSME Account
+            </span>
+            <span className="text-xs text-zinc-400 font-mono">ID: {msme?.id || 'MSME-TPR-001'}</span>
           </div>
-          <h1 className="font-display font-extrabold text-2xl sm:text-3xl text-zinc-900">
-            Good morning, Exporter
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-900 font-display">
+            Welcome back, {msme?.businessName || 'Sri Jayavarma Knits & Exports'}
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-500">
-            Track your garment batches, compliance and sustainability data.
+          <p className="text-xs sm:text-sm text-zinc-500 mt-0.5">
+            GSTIN: <span className="font-mono font-bold text-zinc-800">{msme?.gstin || '33AAACJ1928A1Z5'}</span> • Tiruppur Textile Cluster
           </p>
         </div>
 
         <button
           onClick={() => navigate('/create-batch')}
-          className="px-5 py-3 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:shadow hover:-translate-y-0.5 shrink-0"
+          className="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-all hover:shadow"
         >
           <Plus className="w-4 h-4" />
-          <span>+ Create New Batch</span>
+          <span>Generate Digital Passport</span>
         </button>
       </div>
 
-      {/* 5 Primary KPI Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+      {/* SECTION 5: COMPLIANCE ALERTS (IF ANY) */}
+      {dashboardData.alerts && dashboardData.alerts.length > 0 && (
+        <div className="bg-amber-50 rounded-2xl p-4 border border-amber-200 flex items-start gap-3 text-xs text-amber-900 shadow-sm">
+          <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <strong className="font-bold text-amber-950">{dashboardData.alerts[0].title}</strong>
+              <span className="text-[10px] font-mono text-amber-700">{dashboardData.alerts[0].date}</span>
+            </div>
+            <p className="text-amber-800 mt-0.5">{dashboardData.alerts[0].message}</p>
+          </div>
+          <button
+            onClick={() => navigate('/documents')}
+            className="px-3 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] shrink-0"
+          >
+            Renew Now
+          </button>
+        </div>
+      )}
+
+      {/* SECTION 2: KEY METRICS ROW (4 CARDS) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block">Active Batches</span>
-          <span className="text-3xl font-extrabold text-zinc-900 font-display block">
-            12
-          </span>
-          <span className="text-[10px] text-zinc-400">Tiruppur Cluster</span>
+        {/* Metric 1: Trust Score Ring */}
+        <div 
+          onClick={() => navigate('/compliance')}
+          className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm hover:border-emerald-500/40 cursor-pointer transition-all space-y-3"
+        >
+          <div className="flex items-center justify-between text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            <span>Trust Score</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          </div>
+          <div className="flex items-baseline justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-4xl font-extrabold text-zinc-900 font-display">{dashboardData.trustScore}</span>
+              <span className="text-xs text-zinc-400 font-bold">/100</span>
+            </div>
+            <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded flex items-center gap-0.5">
+              <TrendingUp className="w-3 h-3" />
+              <span>+3 pts</span>
+            </span>
+          </div>
+          <p className="text-[11px] text-emerald-700 font-semibold">
+            Status: Platinum Green Rating
+          </p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-brand-700 block">Passports Issued</span>
-          <span className="text-3xl font-extrabold text-brand-700 font-display block">
-            08
-          </span>
-          <span className="text-[10px] text-emerald-600 font-semibold">Ready for Export</span>
+        {/* Metric 2: Total Passports */}
+        <div 
+          onClick={() => navigate('/passports')}
+          className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm hover:border-emerald-500/40 cursor-pointer transition-all space-y-3"
+        >
+          <div className="flex items-center justify-between text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            <span>Passports Issued</span>
+            <QrCode className="w-4 h-4 text-indigo-600" />
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="text-4xl font-extrabold text-zinc-900 font-display">{dashboardData.totalPassports}</span>
+            <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">
+              EU Ready
+            </span>
+          </div>
+          <p className="text-[11px] text-zinc-500">
+            Across 14 completed garment orders
+          </p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block">CO₂e Tracked</span>
-          <span className="text-3xl font-extrabold text-zinc-900 font-display block">
-            4.8 <span className="text-sm font-normal text-zinc-500">t</span>
-          </span>
-          <span className="text-[10px] text-emerald-600 font-semibold">↓ 18% vs baseline</span>
+        {/* Metric 3: Compliance Status */}
+        <div 
+          onClick={() => navigate('/compliance')}
+          className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm hover:border-emerald-500/40 cursor-pointer transition-all space-y-3"
+        >
+          <div className="flex items-center justify-between text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            <span>Compliance Status</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          </div>
+          <div className="text-lg font-bold text-emerald-800 leading-tight">
+            {dashboardData.complianceStatus}
+          </div>
+          <p className="text-[11px] text-zinc-500">
+            GST, TNEB, CETP & PCB verified via DPI
+          </p>
         </div>
 
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block">Water Recycled</span>
-          <span className="text-3xl font-extrabold text-cyan-900 font-display block">
-            2.4M <span className="text-sm font-normal text-zinc-500">L</span>
-          </span>
-          <span className="text-[10px] text-cyan-700 font-semibold">92% ZLD Recovery</span>
-        </div>
-
-        <div className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-sm space-y-1 col-span-2 sm:col-span-1">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-800 block">EU DPP Readiness</span>
-          <span className="text-3xl font-extrabold text-emerald-800 font-display block">
-            87%
-          </span>
-          <span className="text-[10px] text-emerald-600 font-semibold">ESPR 2026 Ready</span>
+        {/* Metric 4: Latest Carbon LCA */}
+        <div 
+          onClick={() => navigate('/twin')}
+          className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm hover:border-emerald-500/40 cursor-pointer transition-all space-y-3"
+        >
+          <div className="flex items-center justify-between text-xs text-zinc-500 font-bold uppercase tracking-wider">
+            <span>Latest Carbon LCA</span>
+            <Leaf className="w-4 h-4 text-teal-600" />
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="text-2xl font-extrabold text-zinc-900 font-display">{dashboardData.latestCarbon}</span>
+            <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded">
+              ↓ 18%
+            </span>
+          </div>
+          <p className="text-[11px] text-zinc-500">
+            Below European industry baseline
+          </p>
         </div>
 
       </div>
 
-      {/* 2-Column Section: Batch Pipeline (8 cols) + Compliance & Recent Activity (4 cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* TWO COLUMN GRID: RECENT PASSPORTS + GREEN GROWTH TWIN */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Left (8 Cols): Batch Pipeline */}
-        <div className="lg:col-span-8 space-y-4">
-          
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        {/* SECTION 3: RECENT PASSPORTS MINI LIST (8 COLS) */}
+        <div className="lg:col-span-8 bg-white rounded-3xl p-6 border border-zinc-200 shadow-sm space-y-4">
+          <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-display font-bold text-lg text-zinc-900">Batch Pipeline</h2>
-              <p className="text-xs text-zinc-500">Track active batches progressing through supplier verifications.</p>
+              <h2 className="text-lg font-bold text-zinc-900 font-display">Recent Digital Product Passports</h2>
+              <p className="text-xs text-zinc-500">Generated passports for European export buyers</p>
             </div>
+            <button
+              onClick={() => navigate('/passports')}
+              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
+            >
+              <span>View All ({dashboardData.totalPassports})</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
 
-            <div className="flex items-center gap-1.5">
-              {[
-                { id: 'ALL', label: 'All' },
-                { id: 'IN_PROGRESS', label: 'In Progress' },
-                { id: 'PASSPORT_READY', label: 'Passport Ready' },
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setStatusFilter(tab.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
-                    statusFilter === tab.id
-                      ? 'bg-zinc-900 text-white shadow-sm'
-                      : 'bg-white text-zinc-600 border border-zinc-200 hover:bg-zinc-50'
-                  }`}
-                >
-                  {tab.label}
-                </button>
+          {dashboardData.passports && dashboardData.passports.length > 0 ? (
+            <div className="divide-y divide-zinc-100">
+              {dashboardData.passports.map((p) => (
+                <div key={p.id} className="py-3.5 flex items-center justify-between gap-4 hover:bg-zinc-50/80 px-2 rounded-xl transition-colors">
+                  <div className="flex items-center gap-3.5">
+                    <div className="p-2 bg-zinc-100 rounded-xl border border-zinc-200 shrink-0">
+                      <QRCodeSVG value={`https://vastrasetu.vercel.app/verify/${p.id}`} size={44} fgColor="#020617" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <strong className="text-xs font-bold text-zinc-900">{p.productName}</strong>
+                        <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+                          {p.id}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-zinc-500 mt-0.5">
+                        {p.buyer} • {p.quantity} • {p.date}
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => navigate(`/passport/${p.id}`)}
+                    className="px-3 py-1.5 rounded-lg border border-zinc-200 hover:bg-zinc-100 text-xs font-bold text-zinc-800 flex items-center gap-1 shrink-0"
+                  >
+                    <span>View</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </button>
+                </div>
               ))}
             </div>
-          </div>
-
-          {/* Batches Cards */}
-          <div className="space-y-3">
-            {filteredBatches.map((batch) => {
-              const hasPassport = !!batch.passport;
-
-              return (
-                <div
-                  key={batch.id}
-                  className="bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm hover:border-zinc-300 hover:shadow-card-hover transition-all space-y-3.5"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-3">
-                    <div className="flex items-center gap-2.5">
-                      <span className="font-mono font-bold text-xs text-brand-900 bg-brand-50 px-2.5 py-0.5 rounded border border-brand-200">
-                        {batch.id}
-                      </span>
-                      <h3 className="font-display font-bold text-sm text-zinc-900">{batch.garmentTitle}</h3>
-                      <span className="text-zinc-300 text-xs">•</span>
-                      <span className="text-xs text-zinc-500">
-                        {batch.quantity.toLocaleString()} pcs • {batch.targetCountry}
-                      </span>
-                    </div>
-
-                    <StatusBadge status={batch.status} size="sm" />
-                  </div>
-
-                  {/* 5-Stage Stepper */}
-                  <div className="px-2">
-                    <BatchPipelineStepper batch={batch} />
-                  </div>
-
-                  {/* Footer Actions */}
-                  <div className="flex items-center justify-between pt-2 text-xs border-t border-zinc-100">
-                    <span className="text-zinc-500 text-[11px]">
-                      Buyer: <strong>{batch.buyerName}</strong>
-                    </span>
-
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => navigate(`/batches/${batch.id}`)}
-                        className="px-3 py-1.5 rounded-lg border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-semibold text-xs flex items-center gap-1"
-                      >
-                        <span>View Batch Details</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
-                      </button>
-
-                      {hasPassport && (
-                        <button
-                          onClick={() => navigate(`/verify/${batch.passport.id}`)}
-                          className="px-3.5 py-1.5 rounded-lg bg-brand-700 hover:bg-brand-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
-                        >
-                          <QrCode className="w-3.5 h-3.5" />
-                          <span>View Passport</span>
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
+          ) : (
+            /* EMPTY STATE FOR FIRST TIME USERS */
+            <div className="p-8 text-center bg-zinc-50 rounded-2xl border border-dashed border-zinc-300 space-y-3">
+              <QrCode className="w-10 h-10 text-zinc-400 mx-auto" />
+              <h3 className="text-sm font-bold text-zinc-900">No Passports Generated Yet</h3>
+              <p className="text-xs text-zinc-500 max-w-sm mx-auto">
+                Upload your required operational documents (GST, TNEB, CETP) to start issuing verified Digital Product Passports.
+              </p>
+              <button
+                onClick={() => navigate('/documents')}
+                className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-sm"
+              >
+                Upload Documents Now →
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Right (4 Cols): EU Compliance Readiness + Recent Activity */}
-        <div className="lg:col-span-4 space-y-6">
-          
-          {/* EU Compliance Readiness Card */}
-          <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
-              <h3 className="font-display font-bold text-sm text-zinc-900">EU DPP Readiness</h3>
-              <span className="text-xs font-extrabold text-brand-700 bg-brand-50 px-2.5 py-0.5 rounded-full border border-brand-200">
-                87%
+        {/* SECTION 4: GREEN GROWTH TWIN SNAPSHOT (4 COLS) */}
+        <div className="lg:col-span-4 bg-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-sm flex flex-col justify-between space-y-5">
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                <Leaf className="w-4 h-4" />
+                <span>Green Growth Twin</span>
               </span>
+              <span className="text-[10px] font-mono text-slate-400">LCA Trend</span>
             </div>
 
-            <div className="w-full bg-zinc-100 h-2.5 rounded-full overflow-hidden">
-              <div className="bg-emerald-500 h-full rounded-full" style={{ width: '87%' }}></div>
+            <h3 className="text-base font-bold text-white leading-snug">
+              6-Month Carbon Emissions Trajectory
+            </h3>
+
+            {/* Simple SVG Line Chart */}
+            <div className="h-32 w-full pt-4 flex items-end justify-between gap-2 border-b border-slate-800 pb-2">
+              {dashboardData.twinTrend.map((t, idx) => (
+                <div key={idx} className="flex-1 flex flex-col items-center gap-1">
+                  <div 
+                    className="w-full bg-emerald-500/80 rounded-t transition-all hover:bg-emerald-400"
+                    style={{ height: `${(t.carbon / 4.0) * 100}%` }}
+                  />
+                  <span className="text-[10px] font-mono text-slate-400">{t.month}</span>
+                </div>
+              ))}
             </div>
 
-            <div className="space-y-2 text-xs text-zinc-700">
-              <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Product Identity & Style Specs</span>
-              </div>
-              <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Material & Fiber Composition</span>
-              </div>
-              <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Supply Chain Partner Traceability</span>
-              </div>
-              <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Environmental & LCA Footprint</span>
-              </div>
-              <div className="flex items-center gap-2 font-medium">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Audited Compliance Certificates</span>
-              </div>
-              <div className="flex items-center gap-2 text-amber-700 font-medium">
-                <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0" />
-                <span>Circularity & End-of-Life Guidance</span>
-              </div>
+            {/* AI Recommendation Banner */}
+            <div className="bg-slate-800/80 rounded-2xl p-3.5 border border-slate-700 text-xs text-slate-300 flex items-start gap-2.5">
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <p className="leading-normal text-[11px]">
+                {dashboardData.recommendation}
+              </p>
             </div>
           </div>
 
-          {/* Recent Activity Card */}
-          <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-sm space-y-4">
-            <h3 className="font-display font-bold text-sm text-zinc-900">Recent Activity</h3>
-            
-            <div className="space-y-3">
-              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 text-xs space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-zinc-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>CETP data verified</span>
-                  </span>
-                  <span className="text-[10px] text-zinc-400 font-mono">2 min ago</span>
-                </div>
-                <p className="text-zinc-500 text-[11px]">Batch VS-2026-0042 • 92% Water Recycled</p>
-              </div>
-
-              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200 text-xs space-y-1">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-zinc-900 flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>OEKO-TEX cert uploaded</span>
-                  </span>
-                  <span className="text-[10px] text-zinc-400 font-mono">15 min ago</span>
-                </div>
-                <p className="text-zinc-500 text-[11px]">Batch VS-2026-0041 • Rainbow Eco-Dyers</p>
-              </div>
-            </div>
-          </div>
-
+          <button
+            onClick={() => navigate('/twin')}
+            className="w-full py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all"
+          >
+            <span>View Full Green Growth Twin →</span>
+          </button>
         </div>
 
       </div>

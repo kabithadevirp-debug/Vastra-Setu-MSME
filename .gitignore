@@ -7,7 +7,19 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Node dependencies
+# Environment files & secrets
+.env
+*.env
+*.env.local
+
+# Maven build artifacts
+**/target/
+target/
+*.jar
+*.war
+*.class
+
+# Node dependencies & web builds
 node_modules
 dist
 dist-ssr
@@ -25,6 +37,7 @@ dist-ssr
 *.sw?
 
 # Temporary and upload files
+uploads/
 server/uploads/*
 !server/uploads/.gitkeep
 server/test-ocr.js
