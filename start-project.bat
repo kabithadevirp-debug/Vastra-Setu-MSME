@@ -18,8 +18,8 @@ echo.
 :: Load environment variables from .env if present
 if exist .env (
     echo Loading local environment variables from .env...
-    for /f "usebackq tokens=1* delims==" %%A in (".env") do (
-        if not "%%A"=="" if not "%%A:~0,1%"=="#" set "%%A=%%B"
+    for /f "usebackq eol=# tokens=1* delims==" %%A in (".env") do (
+        if not "%%A"=="" set "%%A=%%B"
     )
 )
 

@@ -14,20 +14,28 @@ import {
   Building2,
   Clock,
   ShieldAlert,
-  FileText
+  FileText,
+  Landmark,
+  Shield,
+  Cpu
 } from 'lucide-react';
 
 export function AppLayout({ currentPath, navigate, children }) {
   const { msme, logout } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  const sidebarNavItems = [
+  const msmeNavItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
     { label: 'Document Upload', path: '/documents', icon: FileUp },
     { label: 'Passports', path: '/passports', icon: QrCode },
     { label: 'Trust & Compliance', path: '/compliance', icon: ShieldCheck },
     { label: 'Green Growth Twin', path: '/twin', icon: Leaf },
+  ];
+
+  const rolePortals = [
+    { label: 'Bank / NBFC Portal', path: '/portal/bank', icon: Landmark, role: 'Role 3' },
+    { label: 'Government Auditor', path: '/portal/auditor', icon: ShieldAlert, role: 'Role 4' },
+    { label: 'System Admin', path: '/portal/admin', icon: Cpu, role: 'Role 5' },
   ];
 
   const handleLogout = () => {
@@ -54,7 +62,7 @@ export function AppLayout({ currentPath, navigate, children }) {
                   Vastra<span className="text-emerald-700">Setu</span>
                 </span>
                 <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  MSME
+                  DPP Platform
                 </span>
               </div>
             </div>
@@ -96,7 +104,7 @@ export function AppLayout({ currentPath, navigate, children }) {
                     {msme?.businessName ? msme.businessName.charAt(0) : 'M'}
                   </div>
                   <span className="hidden md:inline font-bold text-zinc-900 max-w-[140px] truncate">
-                    {msme?.businessName || 'MSME Profile'}
+                    {msme?.businessName || 'MSME Account'}
                   </span>
                   <ChevronDown className="w-3.5 h-3.5 text-zinc-400" />
                 </button>
@@ -148,28 +156,63 @@ export function AppLayout({ currentPath, navigate, children }) {
         
         {/* SIDEBAR NAVIGATION (WEB) */}
         <aside className="w-full md:w-64 shrink-0">
-          <div className="bg-white rounded-2xl p-3 border border-zinc-200 shadow-sm sticky top-22 space-y-1">
-            <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-              MSME Navigation
+          <div className="bg-white rounded-2xl p-3 border border-zinc-200 shadow-sm sticky top-22 space-y-4">
+            
+            {/* SECTION 1: ROLE 1 MSME / PRODUCER */}
+            <div className="space-y-1">
+              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 rounded-md">
+                Role 1: MSME Producer
+              </div>
+              {msmeNavItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPath === item.path || (item.path === '/dashboard' && currentPath === '/');
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => navigate(item.path)}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                      isActive 
+                        ? 'bg-emerald-700 text-white shadow-sm font-extrabold' 
+                        : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/70'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-zinc-400'}`} />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
             </div>
-            {sidebarNavItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPath === item.path || (item.path === '/dashboard' && currentPath === '/');
-              return (
-                <button
-                  key={item.label}
-                  onClick={() => navigate(item.path)}
-                  className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all ${
-                    isActive 
-                      ? 'bg-emerald-50 text-emerald-800 font-extrabold shadow-sm border border-emerald-200/60' 
-                      : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/70'
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-700' : 'text-zinc-400'}`} />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
+
+            {/* SECTION 2: ROLE PORTALS */}
+            <div className="pt-2 border-t border-zinc-100 space-y-1">
+              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                Other Platform Portals
+              </div>
+              {rolePortals.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPath === item.path;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => navigate(item.path)}
+                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
+                      isActive 
+                        ? 'bg-slate-900 text-white shadow-sm font-extrabold' 
+                        : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/70'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-teal-400' : 'text-zinc-400'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-500 font-mono">
+                      {item.role}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
           </div>
         </aside>
 

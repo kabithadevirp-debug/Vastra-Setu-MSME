@@ -115,7 +115,27 @@ export function CreateBatchPage({ navigate }) {
     e.preventDefault();
     try {
       setSubmitting(true);
-      const created = await createBatch(formData);
+      const msmeId = localStorage.getItem('vastrasetu_msme_id') || '00000000-0000-0000-0000-000000000000';
+      
+      const res = await fetch(`/api/passports?msmeId=${msmeId}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          productName: formData.garmentTitle,
+          batchId: formData.orderRef,
+          garmentType: formData.garmentType,
+          fabricType: formData.fabricType,
+          yarnSpinningMill: formData.yarnSpinningMill,
+          dyerName: formData.dyerName,
+          cetpName: formData.cetpName,
+          weightGsm: formData.weightGsm,
+          quantity: formData.quantity,
+          buyerName: formData.buyerName,
+          destinationPort: formData.destinationPort
+        })
+      });
+
+      await createBatch(formData);
       
       confetti({
         particleCount: 80,
@@ -124,11 +144,11 @@ export function CreateBatchPage({ navigate }) {
       });
 
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/passports');
       }, 1000);
 
     } catch (err) {
-      console.error(err);
+      console.error('Passport creation error:', err);
     } finally {
       setSubmitting(false);
     }

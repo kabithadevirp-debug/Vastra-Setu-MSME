@@ -17,9 +17,13 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { OtpVerifyPage } from './pages/OtpVerifyPage';
 import { IdentityUploadPage } from './pages/IdentityUploadPage';
+import { DocumentUploadPage } from './pages/DocumentUploadPage';
 import { VerificationStatusPage } from './pages/VerificationStatusPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { LoginPage } from './pages/LoginPage';
+import { BankPortalPage } from './pages/BankPortalPage';
+import { AuditorPortalPage } from './pages/AuditorPortalPage';
+import { AdminPortalPage } from './pages/AdminPortalPage';
 
 function AppContent() {
   const { toast } = useApp();
@@ -66,8 +70,9 @@ function AppContent() {
         </div>
       );
     }
-    if (currentPath.startsWith('/verify/')) {
-      const passportId = currentPath.replace('/verify/', '');
+    // ROLE 2: BUYER PUBLIC VERIFY ROUTE (No login required)
+    if (currentPath.startsWith('/verify/') || currentPath === '/verify') {
+      const passportId = currentPath.startsWith('/verify/') ? currentPath.replace('/verify/', '') : 'BATCH-9942-01';
       return (
         <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
           <Navbar currentPath={currentPath} navigate={navigate} />
@@ -76,7 +81,7 @@ function AppContent() {
       );
     }
 
-    // 2. ROUTE PROTECTION: Require MSME Authentication
+    // 2. ROUTE PROTECTION: Require Authentication
     if (!msme) {
       return (
         <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
@@ -96,8 +101,15 @@ function AppContent() {
       );
     }
 
-    // 4. AUTHENTICATED DASHBOARD SHELL ROUTES (<AppLayout>)
-    if (currentPath === '/documents' || currentPath === '/identity-proof' || currentPath === '/upload-proofs') {
+    // 4. ROLE 1: MSME / PRODUCER DASHBOARD SHELL ROUTES (<AppLayout>)
+    if (currentPath === '/documents' || currentPath === '/op-docs' || currentPath === '/upload-documents') {
+      return (
+        <AppLayout currentPath="/documents" navigate={navigate}>
+          <DocumentUploadPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (currentPath === '/identity-proof' || currentPath === '/upload-proofs') {
       return (
         <AppLayout currentPath="/documents" navigate={navigate}>
           <IdentityUploadPage navigate={navigate} />
@@ -155,6 +167,34 @@ function AppContent() {
         </AppLayout>
       );
     }
+
+    // 5. ROLE 3: BANK / NBFC PORTAL
+    if (currentPath === '/portal/bank' || currentPath === '/bank') {
+      return (
+        <AppLayout currentPath="/portal/bank" navigate={navigate}>
+          <BankPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // 6. ROLE 4: GOVERNMENT / AUDITOR PORTAL
+    if (currentPath === '/portal/auditor' || currentPath === '/auditor' || currentPath === '/government') {
+      return (
+        <AppLayout currentPath="/portal/auditor" navigate={navigate}>
+          <AuditorPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // 7. ROLE 5: SYSTEM ADMIN PORTAL
+    if (currentPath === '/portal/admin' || currentPath === '/admin') {
+      return (
+        <AppLayout currentPath="/portal/admin" navigate={navigate}>
+          <AdminPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
     if (currentPath === '/portal/dyer') {
       return (
         <AppLayout currentPath="/dashboard" navigate={navigate}>
