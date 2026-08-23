@@ -38,11 +38,12 @@ export function DashboardPage({ navigate }) {
     const fetchDashboardData = async () => {
       setLoading(true);
       try {
+        const msmeId = msme?.id || '';
         const [passportsRes, trustRes, twinRes, alertsRes] = await Promise.allSettled([
           fetch('/api/passports/summary').then(r => r.json()),
-          fetch('/api/trust-score').then(r => r.json()),
+          fetch(`/api/trust-score?msmeId=${msmeId}`).then(r => r.json()),
           fetch('/api/twin/summary').then(r => r.json()),
-          fetch('/api/compliance/alerts').then(r => r.json())
+          fetch(`/api/compliance/alerts?msmeId=${msmeId}`).then(r => r.json())
         ]);
 
         const passportsData = passportsRes.status === 'fulfilled' && passportsRes.value.success ? passportsRes.value.data : null;
@@ -51,14 +52,14 @@ export function DashboardPage({ navigate }) {
         const alertsData = alertsRes.status === 'fulfilled' && alertsRes.value.success ? alertsRes.value.data : [];
 
         setDashboardData({
-          trustScore: trustData?.score || 98,
+          trustScore: trustData?.score || trustData?.compositeScore || 94,
           totalPassports: passportsData?.totalGenerated || 14,
           complianceStatus: 'All 4 Documents Valid',
           latestCarbon: twinData?.currentCarbonLca || '2.84 t CO₂e',
           passports: passportsData?.recentPassports || [
-            { id: 'DPP-VS-2026-00892', productName: 'Organic Cotton Polo Shirt', quantity: '4,000 pcs', buyer: 'Inditex / Zara (Germany)', date: '2026-08-14', status: 'ISSUED', trustScore: 98 },
-            { id: 'DPP-VS-2026-00741', productName: 'Knitted Fleece Crewneck Hoodie', quantity: '2,500 pcs', buyer: 'H&M Global (Sweden)', date: '2026-08-02', status: 'ISSUED', trustScore: 96 },
-            { id: 'DPP-VS-2026-00619', productName: 'Zero-Dye Recycled Cotton T-Shirt', quantity: '5,000 pcs', buyer: 'C&A Exporters (Netherlands)', date: '2026-07-28', status: 'ISSUED', trustScore: 99 }
+            { id: 'DPP-VS-2026-00892', productName: 'Organic Cotton Polo Shirt', quantity: '4,000 pcs', buyer: 'Inditex / Zara (Germany)', date: '2026-08-14', status: 'ISSUED', trustScore: 94 },
+            { id: 'DPP-VS-2026-00741', productName: 'Knitted Fleece Crewneck Hoodie', quantity: '2,500 pcs', buyer: 'H&M Global (Sweden)', date: '2026-08-02', status: 'ISSUED', trustScore: 94 },
+            { id: 'DPP-VS-2026-00619', productName: 'Zero-Dye Recycled Cotton T-Shirt', quantity: '5,000 pcs', buyer: 'C&A Exporters (Netherlands)', date: '2026-07-28', status: 'ISSUED', trustScore: 94 }
           ],
           twinTrend: twinData?.monthlyTrend || [
             { month: 'Mar', carbon: 3.42 },
@@ -68,7 +69,7 @@ export function DashboardPage({ navigate }) {
             { month: 'Jul', carbon: 2.89 },
             { month: 'Aug', carbon: 2.84 }
           ],
-          recommendation: twinData?.recommendation || 'Switching 10% more grid electricity to solar rooftop will increase your Trust Score to 99/100.',
+          recommendation: twinData?.recommendation || 'Switching 10% more grid electricity to solar rooftop will increase your Trust Score to 98/100.',
           alerts: alertsData || []
         });
       } catch (err) {

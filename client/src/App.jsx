@@ -24,6 +24,8 @@ import { LoginPage } from './pages/LoginPage';
 import { BankPortalPage } from './pages/BankPortalPage';
 import { AuditorPortalPage } from './pages/AuditorPortalPage';
 import { AdminPortalPage } from './pages/AdminPortalPage';
+import { ComplianceDashboardPage } from './pages/ComplianceDashboardPage';
+import { GreenGrowthTwinPage } from './pages/GreenGrowthTwinPage';
 
 function AppContent() {
   const { toast } = useApp();
@@ -139,14 +141,28 @@ function AppContent() {
         </AppLayout>
       );
     }
-    if (currentPath === '/compliance' || currentPath === '/verification-status') {
+    if (currentPath === '/compliance') {
+      return (
+        <AppLayout currentPath="/compliance" navigate={navigate}>
+          <ComplianceDashboardPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (currentPath === '/verification-status' || currentPath === '/audit-trail') {
       return (
         <AppLayout currentPath="/compliance" navigate={navigate}>
           <VerificationStatusPage navigate={navigate} />
         </AppLayout>
       );
     }
-    if (currentPath === '/twin' || currentPath === '/analytics' || currentPath === '/sustainability') {
+    if (currentPath === '/twin') {
+      return (
+        <AppLayout currentPath="/twin" navigate={navigate}>
+          <GreenGrowthTwinPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (currentPath === '/analytics' || currentPath === '/sustainability') {
       return (
         <AppLayout currentPath="/twin" navigate={navigate}>
           <AnalyticsPage navigate={navigate} />
