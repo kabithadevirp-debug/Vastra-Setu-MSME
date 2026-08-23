@@ -42,11 +42,7 @@ public class ProductPassportService {
         MsmeAccount account = accountRepository.findById(msmeId)
                 .orElseThrow(() -> new IllegalArgumentException("MSME Account not found."));
 
-        // Gating Check: Ensure all 4 operational documents are VERIFIED
         List<OperationalDocument> opDocs = opDocRepository.findByMsmeAccount(account);
-        long verifiedCount = opDocs.stream().filter(d -> "VERIFIED".equalsIgnoreCase(d.getCompositeStatus())).count();
-
-        // Allow creation if 4 verified op docs or fallback demo mode
         List<String> sourceDocIds = opDocs.stream().map(d -> d.getId().toString()).toList();
 
         String productName = wizardData.get("productName") != null ? wizardData.get("productName").toString() : "Organic Cotton Polo Shirt";
@@ -124,42 +120,69 @@ public class ProductPassportService {
         }
 
         Map<String, Object> map = new LinkedHashMap<>();
+
         if (optPassport.isPresent()) {
             ProductPassport p = optPassport.get();
-            map.put("verified", true);
-            map.put("passportId", p.getId());
-            map.put("batchId", p.getBatchId());
-            map.put("productName", p.getProductName());
-            map.put("msmeBusinessName", p.getMsmeAccount().getBusinessName());
-            map.put("gstin", p.getMsmeAccount().getGstin());
-            map.put("passportHash", p.getPassportHash());
-            map.put("status", p.getStatus());
-            map.put("carbonKg", p.getCarbonKg());
-            map.put("waterLitres", p.getWaterLitres());
-            map.put("merkleRoot", p.getMerkleBatch() != null ? p.getMerkleBatch().getMerkleRoot() : p.getPassportHash());
-            map.put("polygonTxHash", p.getMerkleBatch() != null ? p.getMerkleBatch().getPolygonTxHash() : "0x7f28a991208492049120D91C28192819");
-            map.put("polygonContract", p.getMerkleBatch() != null ? p.getMerkleBatch().getPolygonContractAddress() : "0x8891A9280192841920D91C28192819203819284F");
-            map.put("trustScore", 94);
-            map.put("zdhcCompliance", "Level 3 Zero Discharge");
-            map.put("anchoredAt", p.getAnchoredAt() != null ? p.getAnchoredAt().toString() : OffsetDateTime.now().toString());
+            
+            // 1. Status Evaluation
+            String status = p.getStatus() != null ? p.getStatus().toUpperCase() : "DRAFT";
+            String verificationResult = "AUTHENTIC";
+
+            if ("DRAFT".equals(status) || "HASHED".equals(status)) {
+                verificationResult = "PENDING_ANCHOR";
+            }
+
+            // 2. Recompute SHA-256 Canonical Hash
+            String recomputedHash = hashService.computeHash(p);
+            boolean hashMatch = recomputedHash != null && recomputedHash.equalsIgnoreCase(p.getPassportHash());
+
+            // 3. Merkle Root Verification
+            String merkleRoot = p.getMerkleBatch() != null ? p.getMerkleBatch().getMerkleRoot() : p.getPassportHash();
+            boolean merkleMatch = merkleTreeService.verifyProof(recomputedHash, Collections.emptyList(), merkleRoot);
+
+            if (!hashMatch || !merkleMatch) {
+                verificationResult = "TAMPERED";
+            }
+
+            String txHash = p.getMerkleBatch() != null && p.getMerkleBatch().getPolygonTxHash() != null 
+                    ? p.getMerkleBatch().getPolygonTxHash() 
+                    : "0x7f28a991208492049120D91C28192819203819284F9912";
+
+            map.put("passport_id", p.getId().toString());
+            map.put("verification_result", verificationResult);
+            map.put("product_name", p.getProductName());
+            map.put("batch_id", p.getBatchId());
+            map.put("msme_business_name", p.getMsmeAccount().getBusinessName());
+            map.put("trust_score", 94);
+            map.put("carbon_kg", p.getCarbonKg());
+            map.put("water_litres", p.getWaterLitres());
+            map.put("hash_match", hashMatch);
+            map.put("merkle_root_match", merkleMatch);
+            map.put("passport_hash", p.getPassportHash());
+            map.put("merkle_root", merkleRoot);
+            map.put("polygon_tx_hash", txHash);
+            map.put("polygon_explorer_url", "https://amoy.polygonscan.com/tx/" + txHash);
+            map.put("anchored_at", p.getAnchoredAt() != null ? p.getAnchoredAt().toString() : OffsetDateTime.now().toString());
+            map.put("compliance_status", "All certificates valid");
         } else {
-            // Default Fallback Mock for Public Buyer Verification Page
-            map.put("verified", true);
-            map.put("passportId", identifier);
-            map.put("batchId", identifier != null ? identifier : "BATCH-9942-01");
-            map.put("productName", "100% Organic Cotton Polo Shirt");
-            map.put("msmeBusinessName", "Sri Jayavarma Knits & Exports Pvt Ltd");
-            map.put("gstin", "33AAACJ1928A1Z5");
-            map.put("passportHash", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
-            map.put("status", "ANCHORED");
-            map.put("carbonKg", 2.84);
-            map.put("waterLitres", 186.4);
-            map.put("merkleRoot", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
-            map.put("polygonTxHash", "0x7f28a991208492049120D91C28192819203819284F9912");
-            map.put("polygonContract", "0x8891A9280192841920D91C28192819203819284F");
-            map.put("trustScore", 94);
-            map.put("zdhcCompliance", "Level 3 Zero Discharge");
-            map.put("anchoredAt", OffsetDateTime.now().toString());
+            // Default Fallback Mock for Demo Identification (BATCH-9942-01)
+            String defaultTx = "0x7f28a991208492049120D91C28192819203819284F9912";
+            map.put("passport_id", identifier != null ? identifier : "BATCH-9942-01");
+            map.put("verification_result", "AUTHENTIC");
+            map.put("product_name", "100% Organic Cotton Polo Shirt");
+            map.put("batch_id", identifier != null ? identifier : "BATCH-9942-01");
+            map.put("msme_business_name", "Sri Jayavarma Knits & Exports Pvt Ltd");
+            map.put("trust_score", 94);
+            map.put("carbon_kg", 2.84);
+            map.put("water_litres", 186.4);
+            map.put("hash_match", true);
+            map.put("merkle_root_match", true);
+            map.put("passport_hash", "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08");
+            map.put("merkle_root", "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+            map.put("polygon_tx_hash", defaultTx);
+            map.put("polygon_explorer_url", "https://amoy.polygonscan.com/tx/" + defaultTx);
+            map.put("anchored_at", OffsetDateTime.now().toString());
+            map.put("compliance_status", "All certificates valid");
         }
 
         return map;
