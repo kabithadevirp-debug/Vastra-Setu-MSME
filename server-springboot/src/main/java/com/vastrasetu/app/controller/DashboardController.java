@@ -21,7 +21,7 @@ public class DashboardController {
                         "buyer", "Inditex / Zara (Germany)",
                         "date", "2026-08-14",
                         "status", "ISSUED",
-                        "trustScore", 98
+                        "trustScore", 94
                 ),
                 Map.of(
                         "id", "DPP-VS-2026-00741",
@@ -30,7 +30,7 @@ public class DashboardController {
                         "buyer", "H&M Global (Sweden)",
                         "date", "2026-08-02",
                         "status", "ISSUED",
-                        "trustScore", 96
+                        "trustScore", 94
                 ),
                 Map.of(
                         "id", "DPP-VS-2026-00619",
@@ -39,7 +39,7 @@ public class DashboardController {
                         "buyer", "C&A Exporters (Netherlands)",
                         "date", "2026-07-28",
                         "status", "ISSUED",
-                        "trustScore", 99
+                        "trustScore", 94
                 )
         );
 
@@ -50,22 +50,6 @@ public class DashboardController {
         );
 
         return ResponseEntity.ok(ApiResponse.ok("Passports summary fetched.", data));
-    }
-
-    @GetMapping("/trust-score")
-    public ResponseEntity<ApiResponse<Map<String, Object>>> getTrustScore() {
-        Map<String, Object> data = Map.of(
-                "score", 98,
-                "badge", "PLATINUM GREEN",
-                "trend", "+3 pts vs last month",
-                "breakdown", Map.of(
-                        "dpiVerification", 100,
-                        "utilityConsistency", 96,
-                        "zldEffluentRecycling", 98,
-                        "traceabilityChain", 98
-                )
-        );
-        return ResponseEntity.ok(ApiResponse.ok("Trust score fetched.", data));
     }
 
     @GetMapping("/twin/summary")
@@ -84,23 +68,9 @@ public class DashboardController {
                 "carbonBaselineDiff", "-18%",
                 "currentWaterLca", "186,400 L",
                 "waterRecycledPct", "92%",
-                "recommendation", "Switching 10% more grid electricity to solar rooftop will increase your Trust Score to 99/100.",
+                "recommendation", "Switching 10% more grid electricity to solar rooftop will increase your Trust Score to 98/100.",
                 "monthlyTrend", trendData
         );
         return ResponseEntity.ok(ApiResponse.ok("Green Growth Twin summary fetched.", data));
-    }
-
-    @GetMapping("/compliance/alerts")
-    public ResponseEntity<ApiResponse<List<Map<String, Object>>>> getComplianceAlerts() {
-        List<Map<String, Object>> alerts = List.of(
-                Map.of(
-                        "id", "ALERT-01",
-                        "severity", "warning",
-                        "title", "OEKO-TEX Standard 100 Certificate Renewal",
-                        "message", "Certificate Lic #091 expires in 28 days. Upload renewed copy to maintain Platinum rating.",
-                        "date", "2026-08-20"
-                )
-        );
-        return ResponseEntity.ok(ApiResponse.ok("Compliance alerts fetched.", alerts));
     }
 }
