@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { useApp, ROLES } from '../context/AppContext';
+import { useApp } from '../context/AppContext';
 import { useAuth } from '../context/AuthContext';
 import { 
   ChevronDown, 
-  RotateCcw, 
   Plus, 
   Bell,
   CheckCircle2,
   AlertTriangle,
-  Building2,
-  FlaskConical,
-  Droplets,
-  ScanLine,
-  UserCheck,
   ShieldCheck,
   ShieldAlert,
   Clock,
@@ -24,13 +18,12 @@ import {
 } from 'lucide-react';
 
 export function Navbar({ currentPath, navigate }) {
-  const { currentRole, setCurrentRole, activeRoleConfig, batches, resetDemo } = useApp();
+  const { batches } = useApp() || {};
   const { msme, logout } = useAuth();
-  const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
 
-  const completedBatch = batches.find(b => b.passport) || batches[0];
+  const completedBatch = (batches || []).find(b => b.passport) || (batches || [])[0];
 
   const navItems = [
     { label: 'Overview', path: '/dashboard' },
@@ -61,19 +54,17 @@ export function Navbar({ currentPath, navigate }) {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-950 via-emerald-800 to-teal-700 flex items-center justify-center text-white font-extrabold shadow-md shadow-emerald-900/10">
               <span className="text-base">◈</span>
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-display font-extrabold text-xl tracking-tight text-zinc-900">
-                  Vastra<span className="text-emerald-700">Setu</span>
-                </span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  DPP
-                </span>
-              </div>
+            <div className="flex items-center gap-1.5">
+              <span className="font-display font-extrabold text-xl tracking-tight text-zinc-900">
+                Vastra<span className="text-emerald-700">Setu</span>
+              </span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                DPP Platform
+              </span>
             </div>
           </div>
 
-          {/* 4 Core Navigation Items (LOGGED IN USERS ONLY) */}
+          {/* 4 Core Navigation Items (LOGGED IN MSME USERS ONLY) */}
           {msme && (
             <nav className="hidden md:flex items-center gap-1">
               {navItems.map((item) => {
@@ -102,11 +93,11 @@ export function Navbar({ currentPath, navigate }) {
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2.5">
             
-            {/* Account Verification Status Badge (ONLY WHEN LOGGED IN) */}
+            {/* Account Verification Status Badge */}
             {msme && (
               <button
                 onClick={() => navigate('/verification-status')}
-                className={`hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
+                className={`hidden lg:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
                   (msme.status === 'ACTIVE' || msme.status === 'active')
                     ? 'bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100'
                     : (msme.status === 'VERIFICATION_FAILED' || msme.status === 'verification_failed')
@@ -144,7 +135,7 @@ export function Navbar({ currentPath, navigate }) {
               </button>
             )}
 
-            {/* Notifications Bell (Logged In Only) */}
+            {/* Notifications Bell */}
             {msme && (
               <div className="relative">
                 <button
@@ -211,11 +202,11 @@ export function Navbar({ currentPath, navigate }) {
                     </button>
 
                     <button
-                      onClick={() => { navigate('/identity-proof'); setUserDropdownOpen(false); }}
+                      onClick={() => { navigate('/documents'); setUserDropdownOpen(false); }}
                       className="w-full text-left px-3.5 py-2 text-xs text-zinc-700 hover:bg-zinc-50 flex items-center gap-2"
                     >
                       <FileCheck2 className="w-3.5 h-3.5 text-emerald-600" />
-                      <span>Identity Proof Documents</span>
+                      <span>Document Upload Status</span>
                     </button>
 
                     <div className="border-t border-zinc-100 mt-1 pt-1">

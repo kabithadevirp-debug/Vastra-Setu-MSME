@@ -4,7 +4,7 @@ import { useApp } from './AppContext';
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const { showToast } = useApp();
+  const { showToast } = useApp() || {};
   const [token, setToken] = useState(() => localStorage.getItem('vastrasetu_jwt') || null);
   const [msme, setMsme] = useState(() => {
     const saved = localStorage.getItem('vastrasetu_account');
@@ -61,10 +61,10 @@ export function AuthProvider({ children }) {
       }
       setToken(data.data.accessToken);
       setMsme(data.data.account);
-      showToast('Logged in successfully!', 'success');
+      if (showToast) showToast('Logged in successfully!', 'success');
       return data.data;
     } catch (err) {
-      showToast(err.message, 'error');
+      if (showToast) showToast(err.message, 'error');
       throw err;
     } finally {
       setLoading(false);
@@ -89,72 +89,56 @@ export function AuthProvider({ children }) {
         demoOtp: data.data.demoOtp,
       });
       setMsme(data.data.account);
-      showToast('Account registered! Please verify contact with OTP.', 'success');
+      if (showToast) showToast('Account registered successfully!', 'success');
       return data.data;
     } catch (err) {
-      showToast(err.message, 'error');
+      if (showToast) showToast(err.message, 'error');
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  const verifyOtp = async (msmeId, otp) => {
+  const verifyOtp = async (msmeId, rawOtp) => {
     setLoading(true);
     try {
-      const targetId = msmeId || msme?.id || pendingRegistration?.account?.id;
-      if (!targetId) {
-        throw new Error('No active account ID found. Please register a new account.');
-      }
-
       const res = await fetch('/api/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ msmeId: targetId, otp }),
+        body: JSON.stringify({ msmeId, otp: rawOtp }),
       });
       const data = await res.json();
       if (!data.success) {
-        throw new Error(data.message || 'OTP verification failed.');
+        throw new Error(data.message || 'Invalid OTP code.');
       }
       setMsme(data.data.account);
-      showToast('Contact verified successfully!', 'success');
+      setPendingRegistration(null);
+      if (showToast) showToast('Contact verified successfully!', 'success');
       return data.data;
     } catch (err) {
-      showToast(err.message, 'error');
+      if (showToast) showToast(err.message, 'error');
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  const submitIdentityProof = async (msmeId, docType, file, extraFields = {}) => {
+  const submitIdentityProof = async (msmeId, docType, fileUrl, extractedData) => {
     setLoading(true);
     try {
-      const targetId = msmeId || msme?.id;
-      const formData = new FormData();
-      formData.append('msmeId', targetId);
-      formData.append('docType', docType);
-      if (file) formData.append('document', file);
-      if (extraFields.gstin) formData.append('gstin', extraFields.gstin);
-
-      const res = await fetch('/api/identity-proof', {
+      const res = await fetch('/api/documents/identity-proof', {
         method: 'POST',
-        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ msmeId, docType, fileUrl, extractedData }),
       });
       const data = await res.json();
-      if (!data.success && !data.data) {
-        throw new Error(data.message || 'Proof submission failed.');
+      if (!data.success) {
+        throw new Error(data.message || 'Failed to submit document.');
       }
-
-      if (data.data?.accountStatus) {
-        setMsme(prev => prev ? { ...prev, status: data.data.accountStatus } : prev);
-      }
-
-      showToast('Document processed via Tesseract OCR & OpenRouter AI!', 'success');
+      if (showToast) showToast(`${docType.toUpperCase()} document verified!`, 'success');
       return data.data;
     } catch (err) {
-      showToast(err.message, 'error');
+      if (showToast) showToast(err.message, 'error');
       throw err;
     } finally {
       setLoading(false);
@@ -168,39 +152,19 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('vastrasetu_jwt');
     localStorage.removeItem('vastrasetu_account');
     localStorage.removeItem('vastrasetu_pending');
-    localStorage.removeItem('vastrasetu_token');
-    localStorage.removeItem('vastrasetu_msme');
-    showToast('Logged out of VastraSetu.', 'info');
+    if (showToast) showToast('Logged out.', 'info');
   };
 
-  const updateProfile = async (formData) => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!data.success) throw new Error(data.message);
-      setMsme(data.data.account);
-      showToast('Profile updated successfully!', 'success');
-      return data.data;
-    } catch (err) {
-      showToast(err.message, 'error');
-      throw err;
-    } finally {
-      setLoading(false);
-    }
+  const updateProfile = (updatedFields) => {
+    setMsme(prev => ({ ...prev, ...updatedFields }));
   };
 
   return (
     <AuthContext.Provider value={{
       msme,
+      setMsme,
       token,
+      setToken,
       loading,
       pendingRegistration,
       login,
@@ -209,7 +173,7 @@ export function AuthProvider({ children }) {
       submitIdentityProof,
       logout,
       updateProfile,
-      isAuthenticated: !!msme && (msme.status === 'ACTIVE' || msme.status === 'active'),
+      isAuthenticated: !!msme,
       accountStatus: msme ? msme.status : 'UNAUTHENTICATED',
     }}>
       {children}

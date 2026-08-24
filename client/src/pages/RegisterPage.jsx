@@ -256,10 +256,12 @@ export function RegisterPage({ navigate, onRegistered }) {
                   onChange={handleChange}
                   className="block w-full px-4 py-3 bg-slate-900 rounded-xl border border-slate-700 text-xs font-medium text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
-                  <option value="Textiles & Apparel">Textiles & Apparel</option>
-                  <option value="Yarn & Spinning">Yarn & Spinning</option>
-                  <option value="Dyeing & Processing">Dyeing & Processing</option>
-                  <option value="Garment Export">Garment Export</option>
+                  <option value="Textiles & Apparel">Garments & Knitting (MSME Producer)</option>
+                  <option value="Dyeing & Processing">Dyeing & Processing (Dyer Facility)</option>
+                  <option value="Effluent Treatment (CETP)">Zero Liquid Discharge (CETP Plant)</option>
+                  <option value="Banking & Finance">Banking & NBFC (Green Finance)</option>
+                  <option value="Regulatory Audit">Government & Pollution Audit (TNPCB/MoT)</option>
+                  <option value="Yarn & Spinning">Yarn & Spinning Mill</option>
                 </select>
               </div>
             </div>

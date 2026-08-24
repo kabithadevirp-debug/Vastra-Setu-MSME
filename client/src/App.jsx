@@ -1,130 +1,133 @@
 import React, { useState, useEffect } from 'react';
-import { AppProvider, useApp } from './context/AppContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/Navbar';
 import { AppLayout } from './components/AppLayout';
 import { Toast } from './components/Toast';
+
 import { LandingPage } from './pages/LandingPage';
-import { DashboardPage } from './pages/DashboardPage';
-import { BatchesPage } from './pages/BatchesPage';
-import { BatchDetailPage } from './pages/BatchDetailPage';
-import { CreateBatchPage } from './pages/CreateBatchPage';
-import { DyerPortalPage } from './pages/DyerPortalPage';
-import { CetpPortalPage } from './pages/CetpPortalPage';
-import { PassportViewPage } from './pages/PassportViewPage';
-import { PublicVerifyPage } from './pages/PublicVerifyPage';
-import { AnalyticsPage } from './pages/AnalyticsPage';
+import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { OtpVerifyPage } from './pages/OtpVerifyPage';
 import { IdentityUploadPage } from './pages/IdentityUploadPage';
 import { DocumentUploadPage } from './pages/DocumentUploadPage';
 import { VerificationStatusPage } from './pages/VerificationStatusPage';
 import { ProfilePage } from './pages/ProfilePage';
-import { LoginPage } from './pages/LoginPage';
+import { AccessDeniedPage } from './pages/AccessDeniedPage';
+
+import { DashboardPage } from './pages/DashboardPage';
+import { BatchesPage } from './pages/BatchesPage';
+import { BatchDetailPage } from './pages/BatchDetailPage';
+import { CreateBatchPage } from './pages/CreateBatchPage';
+import { PassportViewPage } from './pages/PassportViewPage';
+import { PublicVerifyPage } from './pages/PublicVerifyPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+import { GreenGrowthTwinPage } from './pages/GreenGrowthTwinPage';
+import { ComplianceDashboardPage } from './pages/ComplianceDashboardPage';
+import { DyerPortalPage } from './pages/DyerPortalPage';
+import { CetpPortalPage } from './pages/CetpPortalPage';
 import { BankPortalPage } from './pages/BankPortalPage';
 import { AuditorPortalPage } from './pages/AuditorPortalPage';
 import { AdminPortalPage } from './pages/AdminPortalPage';
-import { ComplianceDashboardPage } from './pages/ComplianceDashboardPage';
-import { GreenGrowthTwinPage } from './pages/GreenGrowthTwinPage';
 
 function AppContent() {
-  const { toast } = useApp();
-  const { msme } = useAuth();
-  const [currentPath, setCurrentPath] = useState(window.location.pathname || '/');
+  const { msme, isAuthenticated, loading } = useAuth();
+  const { currentRole, toast } = useApp() || {};
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
   useEffect(() => {
     const handlePopState = () => {
-      setCurrentPath(window.location.pathname || '/');
+      setCurrentPath(window.location.pathname);
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigate = (path, state) => {
-    window.history.pushState(state || {}, '', path);
+  const navigate = (path, options = {}) => {
+    window.history.pushState(options.state || {}, '', path);
     setCurrentPath(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0);
   };
 
-  const renderCurrentPage = () => {
-    // 1. PUBLIC UNAUTHENTICATED ROUTES
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // PUBLIC BUYER VERIFICATION ROUTE (No Auth Required)
+  if (currentPath.startsWith('/verify/')) {
+    const passportId = currentPath.replace('/verify/', '');
+    return <PublicVerifyPage passportId={passportId} navigate={navigate} />;
+  }
+
+  // UNAUTHENTICATED USERS
+  if (!isAuthenticated || !msme) {
     if (currentPath === '/login') {
-      return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <LoginPage navigate={navigate} />
-        </div>
-      );
+      return <LoginPage navigate={navigate} />;
     }
     if (currentPath === '/register') {
-      return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <RegisterPage navigate={navigate} />
-        </div>
-      );
+      return <RegisterPage navigate={navigate} />;
     }
-    if (currentPath === '/' || currentPath === '/landing') {
-      return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <LandingPage navigate={navigate} />
-        </div>
-      );
-    }
-    // ROLE 2: BUYER PUBLIC VERIFY ROUTE (No login required)
-    if (currentPath.startsWith('/verify/') || currentPath === '/verify') {
-      const passportId = currentPath.startsWith('/verify/') ? currentPath.replace('/verify/', '') : 'BATCH-9942-01';
-      return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <PublicVerifyPage passportId={passportId} navigate={navigate} />
-        </div>
-      );
-    }
-
-    // 2. ROUTE PROTECTION: Require Authentication
-    if (!msme) {
-      return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <LoginPage navigate={navigate} />
-        </div>
-      );
-    }
-
-    // 3. AUTHENTICATED ONBOARDING & SPECIAL FLOWS
     if (currentPath === '/verify-otp') {
+      return <OtpVerifyPage navigate={navigate} />;
+    }
+    if (currentPath === '/identity-proof') {
+      return <IdentityUploadPage navigate={navigate} />;
+    }
+    if (currentPath === '/verification-status') {
+      return <VerificationStatusPage navigate={navigate} />;
+    }
+    return <LandingPage navigate={navigate} />;
+  }
+
+  // Active user role resolution
+  const userRole = currentRole || msme?.role || 'msme';
+
+  // LOGGED IN USER ROUTE SWITCHER WITH STRICT ROLE-BASED ACCESS CONTROL (RBAC)
+  const renderCurrentPage = () => {
+    if (currentPath === '/profile') {
       return (
-        <div className="min-h-screen flex flex-col bg-[#FAFAFC]">
-          <Navbar currentPath={currentPath} navigate={navigate} />
-          <OtpVerifyPage navigate={navigate} />
-        </div>
+        <AppLayout currentPath="/profile" navigate={navigate}>
+          <ProfilePage navigate={navigate} />
+        </AppLayout>
       );
     }
 
-    // 4. ROLE 1: MSME / PRODUCER DASHBOARD SHELL ROUTES (<AppLayout>)
-    if (currentPath === '/documents' || currentPath === '/op-docs' || currentPath === '/upload-documents') {
+    if (currentPath === '/documents') {
       return (
         <AppLayout currentPath="/documents" navigate={navigate}>
           <DocumentUploadPage navigate={navigate} />
         </AppLayout>
       );
     }
-    if (currentPath === '/identity-proof' || currentPath === '/upload-proofs') {
+
+    if (currentPath === '/identity-proof') {
       return (
-        <AppLayout currentPath="/documents" navigate={navigate}>
+        <AppLayout currentPath="/identity-proof" navigate={navigate}>
           <IdentityUploadPage navigate={navigate} />
         </AppLayout>
       );
     }
-    if (currentPath === '/passports' || currentPath === '/batches') {
+
+    if (currentPath === '/verification-status') {
+      return (
+        <AppLayout currentPath="/verification-status" navigate={navigate}>
+          <VerificationStatusPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    if (currentPath === '/batches' || currentPath === '/passports') {
       return (
         <AppLayout currentPath="/passports" navigate={navigate}>
           <BatchesPage navigate={navigate} />
         </AppLayout>
       );
     }
+
     if (currentPath.startsWith('/batches/')) {
       const batchId = currentPath.replace('/batches/', '');
       return (
@@ -133,6 +136,7 @@ function AppContent() {
         </AppLayout>
       );
     }
+
     if (currentPath.startsWith('/passport/')) {
       const batchId = currentPath.replace('/passport/', '');
       return (
@@ -141,20 +145,15 @@ function AppContent() {
         </AppLayout>
       );
     }
-    if (currentPath === '/compliance') {
+
+    if (currentPath === '/analytics') {
       return (
-        <AppLayout currentPath="/compliance" navigate={navigate}>
-          <ComplianceDashboardPage navigate={navigate} />
+        <AppLayout currentPath="/analytics" navigate={navigate}>
+          <AnalyticsPage navigate={navigate} />
         </AppLayout>
       );
     }
-    if (currentPath === '/verification-status' || currentPath === '/audit-trail') {
-      return (
-        <AppLayout currentPath="/compliance" navigate={navigate}>
-          <VerificationStatusPage navigate={navigate} />
-        </AppLayout>
-      );
-    }
+
     if (currentPath === '/twin') {
       return (
         <AppLayout currentPath="/twin" navigate={navigate}>
@@ -162,20 +161,15 @@ function AppContent() {
         </AppLayout>
       );
     }
-    if (currentPath === '/analytics' || currentPath === '/sustainability') {
+
+    if (currentPath === '/compliance') {
       return (
-        <AppLayout currentPath="/twin" navigate={navigate}>
-          <AnalyticsPage navigate={navigate} />
+        <AppLayout currentPath="/compliance" navigate={navigate}>
+          <ComplianceDashboardPage navigate={navigate} />
         </AppLayout>
       );
     }
-    if (currentPath === '/profile') {
-      return (
-        <AppLayout currentPath="/profile" navigate={navigate}>
-          <ProfilePage navigate={navigate} />
-        </AppLayout>
-      );
-    }
+
     if (currentPath === '/create-batch') {
       return (
         <AppLayout currentPath="/passports" navigate={navigate}>
@@ -184,8 +178,15 @@ function AppContent() {
       );
     }
 
-    // 5. ROLE 3: BANK / NBFC PORTAL
+    // STRICT RBAC CHECK FOR STAKEHOLDER PORTALS
     if (currentPath === '/portal/bank' || currentPath === '/bank') {
+      if (userRole !== 'bank') {
+        return (
+          <AppLayout currentPath="/dashboard" navigate={navigate}>
+            <AccessDeniedPage navigate={navigate} requiredRole="Bank & Financial Underwriter (Role 3)" />
+          </AppLayout>
+        );
+      }
       return (
         <AppLayout currentPath="/portal/bank" navigate={navigate}>
           <BankPortalPage navigate={navigate} />
@@ -193,8 +194,14 @@ function AppContent() {
       );
     }
 
-    // 6. ROLE 4: GOVERNMENT / AUDITOR PORTAL
     if (currentPath === '/portal/auditor' || currentPath === '/auditor' || currentPath === '/government') {
+      if (userRole !== 'auditor') {
+        return (
+          <AppLayout currentPath="/dashboard" navigate={navigate}>
+            <AccessDeniedPage navigate={navigate} requiredRole="Government & Environmental Auditor (Role 4)" />
+          </AppLayout>
+        );
+      }
       return (
         <AppLayout currentPath="/portal/auditor" navigate={navigate}>
           <AuditorPortalPage navigate={navigate} />
@@ -202,8 +209,14 @@ function AppContent() {
       );
     }
 
-    // 7. ROLE 5: SYSTEM ADMIN PORTAL
     if (currentPath === '/portal/admin' || currentPath === '/admin') {
+      if (userRole !== 'admin') {
+        return (
+          <AppLayout currentPath="/dashboard" navigate={navigate}>
+            <AccessDeniedPage navigate={navigate} requiredRole="System Platform Admin (Role 5)" />
+          </AppLayout>
+        );
+      }
       return (
         <AppLayout currentPath="/portal/admin" navigate={navigate}>
           <AdminPortalPage navigate={navigate} />
@@ -212,13 +225,58 @@ function AppContent() {
     }
 
     if (currentPath === '/portal/dyer') {
+      if (userRole !== 'dyer') {
+        return (
+          <AppLayout currentPath="/dashboard" navigate={navigate}>
+            <AccessDeniedPage navigate={navigate} requiredRole="Dyeing Partner Facility (Role 2)" />
+          </AppLayout>
+        );
+      }
       return (
         <AppLayout currentPath="/dashboard" navigate={navigate}>
           <DyerPortalPage navigate={navigate} />
         </AppLayout>
       );
     }
+
     if (currentPath === '/portal/cetp') {
+      if (userRole !== 'cetp') {
+        return (
+          <AppLayout currentPath="/dashboard" navigate={navigate}>
+            <AccessDeniedPage navigate={navigate} requiredRole="CETP ZLD Plant Operator (Role 3)" />
+          </AppLayout>
+        );
+      }
+      return (
+        <AppLayout currentPath="/dashboard" navigate={navigate}>
+          <CetpPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Role-specific home page fallback
+    if (userRole === 'bank') {
+      return (
+        <AppLayout currentPath="/portal/bank" navigate={navigate}>
+          <BankPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (userRole === 'auditor') {
+      return (
+        <AppLayout currentPath="/portal/auditor" navigate={navigate}>
+          <AuditorPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (userRole === 'dyer') {
+      return (
+        <AppLayout currentPath="/dashboard" navigate={navigate}>
+          <DyerPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+    if (userRole === 'cetp') {
       return (
         <AppLayout currentPath="/dashboard" navigate={navigate}>
           <CetpPortalPage navigate={navigate} />
@@ -241,7 +299,7 @@ function AppContent() {
   );
 }
 
-export function App() {
+export default function App() {
   return (
     <AppProvider>
       <AuthProvider>
@@ -250,5 +308,3 @@ export function App() {
     </AppProvider>
   );
 }
-
-export default App;

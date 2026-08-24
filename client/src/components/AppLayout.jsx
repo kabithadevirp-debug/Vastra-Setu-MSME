@@ -11,13 +11,7 @@ import {
   ChevronDown, 
   Plus, 
   Bell, 
-  Building2,
-  Clock,
-  ShieldAlert,
-  FileText,
-  Landmark,
-  Shield,
-  Cpu
+  FileText
 } from 'lucide-react';
 
 export function AppLayout({ currentPath, navigate, children }) {
@@ -30,12 +24,6 @@ export function AppLayout({ currentPath, navigate, children }) {
     { label: 'Passports', path: '/passports', icon: QrCode },
     { label: 'Trust & Compliance', path: '/compliance', icon: ShieldCheck },
     { label: 'Green Growth Twin', path: '/twin', icon: Leaf },
-  ];
-
-  const rolePortals = [
-    { label: 'Bank / NBFC Portal', path: '/portal/bank', icon: Landmark, role: 'Role 3' },
-    { label: 'Government Auditor', path: '/portal/auditor', icon: ShieldAlert, role: 'Role 4' },
-    { label: 'System Admin', path: '/portal/admin', icon: Cpu, role: 'Role 5' },
   ];
 
   const handleLogout = () => {
@@ -158,10 +146,10 @@ export function AppLayout({ currentPath, navigate, children }) {
         <aside className="w-full md:w-64 shrink-0">
           <div className="bg-white rounded-2xl p-3 border border-zinc-200 shadow-sm sticky top-22 space-y-4">
             
-            {/* SECTION 1: ROLE 1 MSME / PRODUCER */}
+            {/* STRICT MSME PRODUCER NAVIGATION ONLY */}
             <div className="space-y-1">
-              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 rounded-md">
-                Role 1: MSME Producer
+              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 rounded-md border border-emerald-200">
+                MSME Producer Workspace
               </div>
               {msmeNavItems.map((item) => {
                 const Icon = item.icon;
@@ -178,36 +166,6 @@ export function AppLayout({ currentPath, navigate, children }) {
                   >
                     <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-zinc-400'}`} />
                     <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* SECTION 2: ROLE PORTALS */}
-            <div className="pt-2 border-t border-zinc-100 space-y-1">
-              <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-                Other Platform Portals
-              </div>
-              {rolePortals.map((item) => {
-                const Icon = item.icon;
-                const isActive = currentPath === item.path;
-                return (
-                  <button
-                    key={item.label}
-                    onClick={() => navigate(item.path)}
-                    className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold transition-all ${
-                      isActive 
-                        ? 'bg-slate-900 text-white shadow-sm font-extrabold' 
-                        : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100/70'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-teal-400' : 'text-zinc-400'}`} />
-                      <span>{item.label}</span>
-                    </div>
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-zinc-100 text-zinc-500 font-mono">
-                      {item.role}
-                    </span>
                   </button>
                 );
               })}
