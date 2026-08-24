@@ -16,8 +16,11 @@ public class AuditLog {
     @JoinColumn(name = "msme_id")
     private MsmeAccount msmeAccount;
 
-    @Column(name = "action_type", nullable = false, length = 40)
-    private String actionType; // LOGIN, DOCUMENT_UPLOAD, VERIFICATION_OUTCOME, PROFILE_CHANGE, PASSWORD_CHANGE
+    @Column(name = "action", length = 100)
+    private String action = "REGISTER_SUCCESS";
+
+    @Column(name = "action_type", length = 100)
+    private String actionType = "REGISTER_SUCCESS";
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
@@ -35,6 +38,7 @@ public class AuditLog {
 
     public AuditLog(MsmeAccount msmeAccount, String actionType, String description) {
         this.msmeAccount = msmeAccount;
+        this.action = actionType;
         this.actionType = actionType;
         this.description = description;
         this.timestamp = OffsetDateTime.now();
@@ -46,8 +50,16 @@ public class AuditLog {
     public MsmeAccount getMsmeAccount() { return msmeAccount; }
     public void setMsmeAccount(MsmeAccount msmeAccount) { this.msmeAccount = msmeAccount; }
 
-    public String getActionType() { return actionType; }
-    public void setActionType(String actionType) { this.actionType = actionType; }
+    public String getAction() { return action; }
+    public void setAction(String action) { this.action = action; }
+
+    public String getActionType() { 
+        return actionType != null ? actionType : action; 
+    }
+    public void setActionType(String actionType) { 
+        this.actionType = actionType;
+        this.action = actionType;
+    }
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }

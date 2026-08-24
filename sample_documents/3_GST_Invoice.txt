@@ -1,0 +1,24 @@
+======================================================================
+               SRI JAYAVARMA KNITS & EXPORTS PVT LTD
+                  TAX INVOICE / EXPORT BILL
+======================================================================
+
+Seller GSTIN   : 33AAACJ1928A1Z5
+Invoice No     : INV-2026-0892
+Invoice Date   : 14/08/2026
+Buyer Name     : INDITEX / ZARA DEUTSCHLAND GMBH
+Buyer Address  : Hamburg Port Distribution Hub, Germany
+
+----------------------------------------------------------------------
+Item Description                       HSN Code    Qty       Rate      Amount
+----------------------------------------------------------------------
+1. 100% Organic Cotton Polo Shirt     61051000    4,000 pcs ₹362.50   ₹14,50,000
+   (GOTS Certified Fiber)
+
+Sub Total                                                             ₹14,50,000
+IGST (Zero Rated Export)                                                      ₹0
+Total Amount Payable                                                  ₹14,50,000
+
+Payment Terms  : Letter of Credit (L/C) at Sight
+Destination    : Port of Hamburg, Germany
+======================================================================

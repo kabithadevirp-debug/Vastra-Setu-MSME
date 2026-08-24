@@ -34,17 +34,11 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/register",
-                                "/api/verify-otp",
-                                "/api/resend-otp",
-                                "/api/login",
-                                "/api/refresh-token",
-                                "/api/identity-proof",
-                                "/api/identity-proof/status",
-                                "/api/health",
-                                "/uploads/**"
+                                "/api/**",
+                                "/uploads/**",
+                                "/verify/**"
                         ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 

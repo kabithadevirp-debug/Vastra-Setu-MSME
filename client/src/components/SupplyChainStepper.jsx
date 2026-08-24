@@ -14,11 +14,15 @@ import {
   Building2,
   Calendar,
   Layers,
-  Leaf
+  Leaf,
+  FlaskConical,
+  ArrowRight
 } from 'lucide-react';
+import { useApp } from '../context/AppContext';
 
-export function SupplyChainStepper({ batch, loading = false, className = '' }) {
-  // Skeleton loading state
+export function SupplyChainStepper({ batch, loading = false, className = '', navigate }) {
+  const { setCurrentRole } = useApp() || {};
+
   if (loading) {
     return (
       <div className={`bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-6 animate-pulse ${className}`}>
@@ -73,6 +77,8 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
         { label: 'GOTS Scope Cert', value: batch.fiberCertificate?.certificateNo || 'CU-841920 Verified' },
       ],
       emptyText: null,
+      portalRoute: null,
+      portalRole: null
     },
     {
       id: 'dyer',
@@ -96,6 +102,9 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
         { label: 'Chemical Safety', value: batch.dyeingRecord?.chemicalCompliance || 'OEKO-TEX Standard 100 Class I & ZDHC MRSL' },
       ] : [],
       emptyText: 'Awaiting Dyeing Partner Verification — The dyehouse has not yet uploaded chemical compliance certificates.',
+      portalRoute: '/portal/dyer',
+      portalRole: 'dyer',
+      portalLabel: 'Open Dyer Verification Portal →'
     },
     {
       id: 'cetp',
@@ -119,6 +128,9 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
         { label: 'TNPCB Consent Order', value: batch.cetpRecord?.certificateNo || 'TNPCB-CETP-ZLD-BATCH-8842' },
       ] : [],
       emptyText: 'Awaiting CETP Verification — Effluent water recycling and ZLD clearance have not been certified yet.',
+      portalRoute: '/portal/cetp',
+      portalRole: 'cetp',
+      portalLabel: 'Open CETP ZLD Verification Portal →'
     },
     {
       id: 'port',
@@ -140,6 +152,8 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
         { label: 'Transport Distance', value: 'approx. 10,800 nautical km' },
       ] : [],
       emptyText: 'Pending Export Dispatch — Shipment will be queued once all supplier verifications are completed.',
+      portalRoute: null,
+      portalRole: null
     },
     {
       id: 'destination',
@@ -161,6 +175,8 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
         { label: 'EU DPP Compliance', value: 'ESPR 2026 Compliant ✓' },
       ] : [],
       emptyText: 'Pending Arrival — Final delivery occurs following customs clearance at destination port.',
+      portalRoute: null,
+      portalRole: null
     }
   ];
 
@@ -173,9 +189,19 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
   const [activeStageId, setActiveStageId] = useState(initialActiveId);
   const activeStage = stages.find(s => s.id === activeStageId) || stages[0];
 
-  // Calculate progress % for connecting bar
   const completedCount = stages.filter(s => s.isDone).length;
   const progressPercent = Math.min(100, Math.max(0, ((completedCount - 1) / (stages.length - 1)) * 100));
+
+  const handlePortalNavigation = (route, role) => {
+    if (setCurrentRole && role) {
+      setCurrentRole(role);
+    }
+    if (navigate) {
+      navigate(route);
+    } else {
+      window.location.href = route;
+    }
+  };
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -336,11 +362,25 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
           {activeStage.description}
         </p>
 
-        {/* Empty state notice if stage not complete */}
+        {/* Pending Notice & Direct Portal Action Button */}
         {!activeStage.isDone && activeStage.emptyText && (
-          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 flex items-center gap-2">
-            <Info className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>{activeStage.emptyText}</span>
+          <div className="p-4 bg-amber-50/90 rounded-xl border border-amber-200 space-y-3">
+            <div className="flex items-center gap-2 text-xs text-amber-900 font-medium">
+              <Info className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>{activeStage.emptyText}</span>
+            </div>
+
+            {activeStage.portalRoute && (
+              <button
+                type="button"
+                onClick={() => handlePortalNavigation(activeStage.portalRoute, activeStage.portalRole)}
+                className="w-full py-2.5 px-4 bg-amber-700 hover:bg-amber-800 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:scale-[1.01]"
+              >
+                <FlaskConical className="w-4 h-4" />
+                <span>{activeStage.portalLabel}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
           </div>
         )}
 
@@ -358,6 +398,33 @@ export function SupplyChainStepper({ batch, loading = false, className = '' }) {
           </div>
         )}
 
+      </div>
+
+      {/* Helpful Portal Quick Shortcut Strip */}
+      <div className="p-4 bg-brand-50/60 rounded-2xl border border-brand-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div className="space-y-0.5">
+          <strong className="text-brand-900 font-extrabold block">Multi-Stakeholder Verification Portals:</strong>
+          <p className="text-brand-700 text-[11px]">
+            Switch roles to test supplier submissions & approvals in real time.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap gap-2 shrink-0">
+          <button
+            onClick={() => handlePortalNavigation('/portal/dyer', 'dyer')}
+            className="px-3 py-1.5 bg-white border border-brand-300 hover:bg-brand-100 text-brand-800 rounded-xl font-bold text-[11px] flex items-center gap-1 shadow-2xs"
+          >
+            <span>Dyer Portal</span>
+            <ArrowRight className="w-3 h-3 text-brand-600" />
+          </button>
+          <button
+            onClick={() => handlePortalNavigation('/portal/cetp', 'cetp')}
+            className="px-3 py-1.5 bg-white border border-brand-300 hover:bg-brand-100 text-brand-800 rounded-xl font-bold text-[11px] flex items-center gap-1 shadow-2xs"
+          >
+            <span>CETP Portal</span>
+            <ArrowRight className="w-3 h-3 text-brand-600" />
+          </button>
+        </div>
       </div>
 
     </div>

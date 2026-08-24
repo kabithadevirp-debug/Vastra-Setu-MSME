@@ -12,6 +12,9 @@ public class MerkleBatch {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "batch_id", length = 80)
+    private String batchId;
+
     @Column(name = "batch_date")
     private OffsetDateTime batchDate = OffsetDateTime.now();
 
@@ -40,6 +43,9 @@ public class MerkleBatch {
 
     public UUID getId() { return id; }
     public void setId(UUID id) { this.id = id; }
+
+    public String getBatchId() { return batchId; }
+    public void setBatchId(String batchId) { this.batchId = batchId; }
 
     public OffsetDateTime getBatchDate() { return batchDate; }
     public void setBatchDate(OffsetDateTime batchDate) { this.batchDate = batchDate; }

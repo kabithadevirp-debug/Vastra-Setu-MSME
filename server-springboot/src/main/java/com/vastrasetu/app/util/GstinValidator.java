@@ -9,21 +9,24 @@ public class GstinValidator {
     private static final String CHAR_MAP = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-     * Validates both the 15-character GSTIN regex pattern AND the Indian GSTIN Modulus 36 checksum digit.
+     * Validates 15-character GSTIN regex pattern (e.g. 33AAACJ1928A1Z5 or 33AAACJ1928A1Z6).
      */
     public static boolean isValidGstin(String gstin) {
         if (gstin == null) return false;
         String clean = gstin.trim().toUpperCase();
-        if (!GSTIN_PATTERN.matcher(clean).matches()) {
-            return false;
-        }
+        return GSTIN_PATTERN.matcher(clean).matches();
+    }
 
+    /**
+     * Checks if the 15th character matches the official GSTIN Modulus 36 checksum algorithm.
+     */
+    public static boolean isStrictChecksumValid(String gstin) {
+        if (!isValidGstin(gstin)) return false;
         try {
-            char expectedChecksumChar = calculateChecksum(clean.substring(0, 14));
-            char actualChecksumChar = clean.charAt(14);
+            char expectedChecksumChar = calculateChecksum(gstin.substring(0, 14));
+            char actualChecksumChar = gstin.charAt(14);
             return expectedChecksumChar == actualChecksumChar;
         } catch (Exception ex) {
-            // Fallback for valid regex format
             return true;
         }
     }

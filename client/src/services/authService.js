@@ -15,9 +15,16 @@ export const authService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     });
-    const data = await response.json();
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (err) {
+      throw new Error('Server unreachable or returned an invalid response.');
+    }
+
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Registration failed. Please try again.');
+      throw new Error(data.message || data.error || 'Registration failed. Please check inputs.');
     }
     return data.data;
   },
@@ -31,9 +38,16 @@ export const authService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ msmeId, otp }),
     });
-    const data = await response.json();
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (err) {
+      throw new Error('Invalid server response during OTP verification.');
+    }
+
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'OTP verification failed.');
+      throw new Error(data.message || data.error || 'OTP verification failed.');
     }
     return data.data;
   },
@@ -47,9 +61,16 @@ export const authService = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ identifier, password }),
     });
-    const data = await response.json();
+
+    let data;
+    try {
+      data = await response.json();
+    } catch (err) {
+      throw new Error('Invalid server response during login.');
+    }
+
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Invalid GSTIN/Email or password.');
+      throw new Error(data.message || data.error || 'Invalid GSTIN/Email or password.');
     }
     if (data.data?.accessToken) {
       localStorage.setItem('vastrasetu_jwt', data.data.accessToken);
@@ -77,7 +98,7 @@ export const authService = {
     });
     const data = await response.json();
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Failed to submit identity proof.');
+      throw new Error(data.message || data.error || 'Failed to submit identity proof.');
     }
     return data.data;
   },
@@ -89,7 +110,7 @@ export const authService = {
     const response = await fetch(`${API_BASE}/identity-proof/status?msmeId=${encodeURIComponent(msmeId)}`);
     const data = await response.json();
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Failed to fetch verification status.');
+      throw new Error(data.message || data.error || 'Failed to fetch verification status.');
     }
     return data.data;
   },
@@ -101,7 +122,7 @@ export const authService = {
     const response = await fetch(`${API_BASE}/profile?msmeId=${encodeURIComponent(msmeId)}`);
     const data = await response.json();
     if (!response.ok || !data.success) {
-      throw new Error(data.message || 'Failed to fetch profile.');
+      throw new Error(data.message || data.error || 'Failed to fetch profile.');
     }
     return data.data;
   },
