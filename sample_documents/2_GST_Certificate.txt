@@ -1,0 +1,20 @@
+======================================================================
+                 GOVERNMENT OF INDIA - GST COUNCIL
+             REGISTRATION CERTIFICATE (FORM GST REG-06)
+======================================================================
+
+Registration Number (GSTIN): 33AAACJ1928A1Z5
+Legal Name                 : SRI JAYAVARMA KNITS & EXPORTS PRIVATE LIMITED
+Trade Name                 : SRI JAYAVARMA KNITS & EXPORTS
+Constitution of Business  : Private Limited Company
+Address of Principal Place : 42/B, Avinashi Road, Tiruppur, Tamil Nadu - 641603
+
+Date of Liability          : 01/07/2017
+Date of Validity           : From 01/07/2017 to Perpetual
+Type of Registration       : Regular
+
+Jurisdictional Office      : Central Tax & State Tax Tiruppur Circle II
+State Code                 : 33 (Tamil Nadu)
+Modulus 36 Checksum Status : VERIFIED VALID
+
+======================================================================

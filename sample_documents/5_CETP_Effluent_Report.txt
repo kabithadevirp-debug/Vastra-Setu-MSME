@@ -1,0 +1,21 @@
+======================================================================
+               ARULPURAM CETP CO-OPERATIVE SOCIETY
+           EFFLUENT TREATMENT & ZLD COMPLIANCE REPORT
+======================================================================
+
+Member Unit Name: SRI JAYAVARMA KNITS & EXPORTS PVT LTD
+Member Code     : CETP-TPR-928
+Report Date     : 10/08/2026
+
+----------------------------------------------------------------------
+PARAMETER                              TEST RESULT     STANDARD
+----------------------------------------------------------------------
+Raw Effluent Intake Volume             2,60,000 L/mo   -
+RO Permeate Recovery Volume            2,39,200 L/mo   -
+Treatment Efficiency                   92%             > 90%
+Discharge Compliance Status            COMPLIANT (ZLD) Zero Discharge
+TDS in Recovered Water                 120 mg/L        < 200 mg/L
+ZDHC Certification Level               Level 3 Zero Discharge
+
+Clearance Status: ACTIVE COMPLIANT (Zero Liquid Discharge Verified)
+======================================================================

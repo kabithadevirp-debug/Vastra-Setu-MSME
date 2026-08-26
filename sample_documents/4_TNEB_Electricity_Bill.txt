@@ -1,0 +1,26 @@
+======================================================================
+               TANGEDCO - TAMIL NADU ELECTRICITY BOARD
+             HIGH TENSION (HT) ELECTRICITY TARIFF BILL
+======================================================================
+
+HT Service No  : 03-928-001-92
+Consumer Name  : SRI JAYAVARMA KNITS & EXPORTS PVT LTD
+Tariff Category: HT III - Industrial Textile Cluster
+Billing Month  : August 2026
+Bill Date      : 05/08/2026
+
+----------------------------------------------------------------------
+METRIC                                 READING
+----------------------------------------------------------------------
+Previous Meter Reading                 1,42,840 kWh
+Current Meter Reading                  1,46,800 kWh
+Total Units Consumed                   3,960 kWh
+
+Energy Charges (@ ₹8.50/unit)          ₹33,660.00
+Demand Charges                         ₹4,740.00
+Total Bill Amount                      ₹38,400.00
+Due Date                               20/08/2026
+
+CEA India Grid Emission Factor         : 0.716 kg CO2e/kWh
+Calculated Monthly Carbon Footprint    : 2,835.36 kg CO2e
+======================================================================
