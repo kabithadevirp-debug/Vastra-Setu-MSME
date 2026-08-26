@@ -91,7 +91,7 @@ public class ProductPassportService {
 
         passport.setMerkleProof("[\"" + merkleRoot + "\"]");
         passport.setQrCodeUrl("/verify/" + batchId);
-        passport.setStatus("ISSUED");
+        passport.setStatus("PENDING_DYER");
 
         ProductPassport saved = passportRepository.save(passport);
 

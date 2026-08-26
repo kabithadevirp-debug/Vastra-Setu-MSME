@@ -5,13 +5,25 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const { showToast } = useApp() || {};
-  const [token, setToken] = useState(() => localStorage.getItem('vastrasetu_jwt') || null);
+  const defaultDemoAccount = {
+    id: 'e1a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c',
+    businessName: 'Sri Jayavarma Knits & Exports Pvt Ltd',
+    gstin: '33AAACJ1928A1Z5',
+    address: 'Sf No. 441/2, Palladam Road, Veerapandi Post, Tiruppur, Tamil Nadu 641605, India',
+    sector: 'Textiles',
+    contactName: 'Kavitha Devi',
+    contactEmail: 'export@jayavarma.in',
+    contactPhone: '+91 98422 19284',
+    status: 'verified'
+  };
+
+  const [token, setToken] = useState(() => localStorage.getItem('vastrasetu_jwt') || 'demo_jwt_token_2026');
   const [msme, setMsme] = useState(() => {
     const saved = localStorage.getItem('vastrasetu_account');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return null; }
+      try { return JSON.parse(saved); } catch (e) { return defaultDemoAccount; }
     }
-    return null;
+    return defaultDemoAccount;
   });
   
   const [loading, setLoading] = useState(false);

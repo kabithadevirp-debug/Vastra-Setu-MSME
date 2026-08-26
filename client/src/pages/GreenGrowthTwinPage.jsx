@@ -16,8 +16,18 @@ import {
   CheckCircle2
 } from 'lucide-react';
 
+import { useApp } from '../context/AppContext';
+import { AccessDeniedPage } from './AccessDeniedPage';
+
 export function GreenGrowthTwinPage({ navigate }) {
   const { msme } = useAuth();
+  const { currentRole } = useApp() || {};
+  const userRole = currentRole || msme?.role || 'msme';
+
+  if (userRole !== 'msme') {
+    return <AccessDeniedPage navigate={navigate} requiredRole="MSME Garment Producer / Exporter" />;
+  }
+
   const [loading, setLoading] = useState(true);
   const [trendData, setTrendData] = useState([]);
   const [prediction, setPrediction] = useState(null);

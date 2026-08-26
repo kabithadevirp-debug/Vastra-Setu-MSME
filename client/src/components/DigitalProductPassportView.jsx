@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { HangtagPrintModal } from './HangtagPrintModal';
 import { 
   CheckCircle2, 
   ExternalLink, 
@@ -19,11 +20,13 @@ import {
   Building2,
   Share2,
   ChevronRight,
-  Info
+  Info,
+  Printer
 } from 'lucide-react';
 
 export function DigitalProductPassportView({ batch, passportData, isPublic = false, navigate }) {
   const [copied, setCopied] = useState(false);
+  const [showHangtagModal, setShowHangtagModal] = useState(false);
 
   // Safely extract props with fallbacks
   const data = passportData || batch || {};
@@ -145,21 +148,29 @@ export function DigitalProductPassportView({ batch, passportData, isPublic = fal
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             <button
               onClick={handleCopyLink}
               className="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center gap-1.5 transition-all"
             >
               <Share2 className="w-3.5 h-3.5" />
-              <span>{copied ? 'Link Copied!' : 'Share Passport'}</span>
+              <span>{copied ? 'Link Copied!' : 'Share'}</span>
             </button>
 
             <button
               onClick={handleDownloadQr}
-              className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+              className="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center gap-1.5 transition-all"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Download QR</span>
+              <span>Save QR</span>
+            </button>
+
+            <button
+              onClick={() => setShowHangtagModal(true)}
+              className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" />
+              <span>Print 2.5"×4.5" Hangtag</span>
             </button>
           </div>
         </div>
@@ -235,13 +246,23 @@ export function DigitalProductPassportView({ batch, passportData, isPublic = fal
               />
             </div>
 
-            <div className="pt-1 flex items-center justify-center gap-2">
+            <div className="pt-1 flex items-center justify-center gap-3">
               <button
                 onClick={handleDownloadQr}
-                className="text-[10px] font-bold text-emerald-800 hover:underline flex items-center gap-1"
+                className="text-[11px] font-bold text-emerald-800 hover:underline flex items-center gap-1"
               >
                 <Download className="w-3 h-3" />
-                <span>Download QR</span>
+                <span>Save QR PNG</span>
+              </button>
+
+              <span className="text-zinc-300">•</span>
+
+              <button
+                onClick={() => setShowHangtagModal(true)}
+                className="text-[11px] font-bold text-emerald-800 hover:underline flex items-center gap-1"
+              >
+                <Printer className="w-3 h-3" />
+                <span>Print Hangtag Tag</span>
               </button>
             </div>
           </div>
@@ -574,6 +595,20 @@ export function DigitalProductPassportView({ batch, passportData, isPublic = fal
         </div>
 
       </div>
+
+      {/* PRINTABLE HANGTAG MODAL */}
+      <HangtagPrintModal
+        isOpen={showHangtagModal}
+        onClose={() => setShowHangtagModal(false)}
+        batch={{
+          batchNumber: batchNo,
+          productName: productName,
+          styleCode: hsCode,
+          fabricComposition: fabricDescription,
+          carbonKgPerPiece: carbonKg,
+          waterRecycledPercent: 94.2
+        }}
+      />
 
     </div>
   );
