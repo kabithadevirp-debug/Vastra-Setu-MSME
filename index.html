@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Digital Product Passport — 100% Organic Cotton Black T-Shirt</title>
+  <title>Digital Product Passport — 100% Organic Cotton Polo Shirt (Brown)</title>
   
-  <!-- SEO & Mobile Optimization -->
-  <meta name="title" content="Digital Product Passport — VastraSetu">
-  <meta name="description" content="Official EU Digital Product Passport (DPP) for Batch VS-2026-B00041. Verified on Polygon PoS.">
-  <meta name="theme-color" content="#ffffff">
+  <!-- Regulatory & Production Meta Tags -->
+  <meta name="title" content="VastraSetu Official Digital Product Passport">
+  <meta name="description" content="Official EU ESPR 2026 Textile Verification & Traceability Passport for Batch VS-2026-B00041.">
+  <meta name="theme-color" content="#064E3B">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -26,6 +26,7 @@
               darkGreen: '#064E3B',
               forest: '#0B4D3C',
               mint: '#EFF8F3',
+              terracotta: '#A75D3F',
             }
           }
         }
@@ -38,63 +39,91 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Lucide Icons & jsPDF CDN for Real PDF Downloads -->
+  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
+  <!-- Mobile CSS & Media Queries Optimization -->
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       background-color: #F8FAFC;
       color: #0F172A;
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
     }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
+
+    .cert-preview-container {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
-      border-radius: 4px;
-    }
+
     .cert-seal {
       background: radial-gradient(circle, #ecfdf5 0%, #d1fae5 70%, #a7f3d0 100%);
+    }
+
+    /* Mobile First Media Queries */
+    @media (max-width: 768px) {
+      .mobile-padding {
+        padding: 1rem !important;
+      }
+      .mobile-stack {
+        flex-direction: column !important;
+        align-items: stretch !important;
+      }
+      .mobile-journey-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 0.25rem !important;
+      }
+      .mobile-journey-text {
+        font-size: 8px !important;
+        line-height: 1.1 !important;
+      }
+      .cert-preview-container {
+        padding: 0.75rem !important;
+      }
     }
   </style>
 </head>
 
-<body class="min-h-screen py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
+<body class="min-h-screen py-3 sm:py-8 px-2 sm:px-6 lg:px-8">
 
   <!-- ========================================================================= -->
   <!-- MAIN DIGITAL PRODUCT PASSPORT CONTAINER -->
   <!-- ========================================================================= -->
-  <div class="max-w-5xl mx-auto bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden">
+  <div class="max-w-5xl mx-auto bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden cert-preview-container">
     
     <!-- ========================================================================= -->
-    <!-- 1. PASSPORT TOP HEADER -->
+    <!-- 1. PASSPORT TOP REGULATORY HEADER -->
     <!-- ========================================================================= -->
-    <header class="p-6 sm:p-8 border-b border-slate-100 bg-white">
+    <header class="p-5 sm:p-8 border-b border-slate-100 bg-white">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
-        <!-- Left: Title & Regulatory Subtitle -->
+        <!-- Left: Title & Subtitle -->
         <div>
-          <div class="flex items-center gap-2 mb-1">
+          <div class="flex items-center gap-2 mb-1.5">
             <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
               ESPR 2026 EU Compliant ✓
             </span>
             <span class="text-[10px] font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200">
-              GS1 Digital Link
+              GS1 Digital Link Standard
             </span>
           </div>
           <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight font-display">
             Digital Product Passport
           </h1>
           <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            Transparency • Sustainability • Provenance • Traceability
+            Transparency • Sustainability • Provenance • Chain of Custody
           </p>
         </div>
 
-        <!-- Right: VastraSetu Logo & Passport Reference Number -->
+        <!-- Right: VastraSetu Authority & Official DPP ID -->
         <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100 gap-1.5">
           <div class="flex items-center gap-2">
             <span class="text-[11px] font-medium text-slate-400">Powered by</span>
@@ -108,9 +137,9 @@
             </div>
           </div>
           
-          <div class="flex items-center gap-2">
+          <div>
             <span class="text-xs font-mono font-bold text-emerald-900 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
-              DPP ID: DPP-2026-BLK-00041
+              DPP ID: DPP-2026-BRN-00041
             </span>
           </div>
         </div>
@@ -121,28 +150,28 @@
     <!-- ========================================================================= -->
     <!-- 2. TWO-COLUMN PASSPORT BODY -->
     <!-- ========================================================================= -->
-    <div class="p-5 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+    <div class="p-4 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
       
       <!-- ================= LEFT COLUMN (Product Visual, Specs & Care) ================= -->
       <div class="lg:col-span-5 space-y-6">
         
-        <!-- Black T-Shirt Visual Card -->
+        <!-- Brown Shirt Visual Card -->
         <div class="bg-slate-50/70 rounded-2xl p-4 sm:p-5 border border-slate-200 text-center space-y-4">
           
-          <!-- Image Container with Fallback Error Handling -->
-          <div class="relative bg-gradient-to-b from-slate-100 to-slate-200/90 rounded-2xl p-4 min-h-[260px] flex items-center justify-center overflow-hidden border border-slate-200 shadow-inner group">
+          <!-- Product Image Container -->
+          <div class="relative bg-gradient-to-b from-slate-100 via-stone-50 to-slate-200/90 rounded-2xl p-4 min-h-[280px] flex items-center justify-center overflow-hidden border border-slate-200 shadow-inner group">
             <img 
               id="product-img"
-              src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=80" 
-              alt="100% Organic Cotton Black T-Shirt"
-              class="max-h-56 object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.15)] transition-transform duration-300 group-hover:scale-105"
+              src="images/brown-shirt.png" 
+              alt="100% Organic Cotton Polo Shirt (Earthy Brown)"
+              class="max-h-64 object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-300 group-hover:scale-105"
               onerror="handleImageError(this)"
             />
             
-            <!-- Fallback SVG Placeholder (hidden by default) -->
+            <!-- Fallback Image -->
             <div id="img-fallback" class="hidden flex-col items-center justify-center text-slate-400 py-8">
-              <i data-lucide="shirt" class="w-20 h-20 text-slate-800 stroke-[1.5]"></i>
-              <span class="text-xs font-semibold text-slate-700 mt-2">100% Organic Cotton Crewneck (Black)</span>
+              <i data-lucide="shirt" class="w-20 h-20 text-[#A75D3F] stroke-[1.5]"></i>
+              <span class="text-xs font-semibold text-slate-700 mt-2">100% Organic Cotton Polo Shirt (Earthy Brown)</span>
             </div>
 
             <!-- Certified Badges Overlay -->
@@ -151,7 +180,7 @@
               <span>GOTS v7.0</span>
             </div>
             
-            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-slate-900 text-white text-[10px] font-bold tracking-wider uppercase shadow-xs">
+            <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#064E3B] text-white text-[10px] font-bold tracking-wider uppercase shadow-xs">
               OEKO-TEX Class I
             </div>
           </div>
@@ -159,10 +188,10 @@
           <!-- Product Title & Composition -->
           <div class="text-left space-y-1">
             <h2 class="text-lg sm:text-xl font-extrabold text-slate-900">
-              100% Organic Cotton Crewneck T-Shirt
+              100% Organic Cotton Polo Shirt
             </h2>
-            <p class="text-xs font-bold text-emerald-800">
-              Midnight Black • 180 GSM Single Jersey Combed Cotton
+            <p class="text-xs font-bold text-amber-900">
+              Earthy Terracotta Brown • 180 GSM Single Jersey Combed Cotton
             </p>
             <p class="text-[11px] text-slate-500">
               Manufactured by <strong class="text-slate-800">Sri Jayavarma Knits & Exports Pvt Ltd</strong> (Tiruppur Cluster, India)
@@ -179,7 +208,7 @@
 
             <div class="py-2 flex justify-between items-center">
               <span class="text-slate-500 font-medium">Fabric Composition:</span>
-              <strong class="text-emerald-800 font-bold">100% Organic Cotton (GOTS)</strong>
+              <strong class="text-emerald-800 font-bold">100% Organic Cotton (GOTS Certified)</strong>
             </div>
 
             <div class="py-2 flex justify-between items-center">
@@ -189,7 +218,7 @@
 
             <div class="py-2 flex justify-between items-center">
               <span class="text-slate-500 font-medium">Dyeing & Color:</span>
-              <strong class="text-slate-900 font-semibold">Azo-Free Reactive Dye (Midnight Black)</strong>
+              <strong class="text-slate-900 font-semibold">Azo-Free Reactive Dye (Terracotta Brown)</strong>
             </div>
 
             <div class="py-2 flex justify-between items-center">
@@ -354,46 +383,46 @@
           </div>
 
           <!-- Step Line -->
-          <div class="grid grid-cols-5 gap-1 pt-1 text-center text-[10px] relative">
+          <div class="grid grid-cols-5 gap-1 pt-1 text-center text-[10px] mobile-journey-grid relative">
             
             <div class="space-y-1.5">
               <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
                 <i data-lucide="sprout" class="w-4 h-4"></i>
               </div>
-              <strong class="font-bold text-slate-900 block leading-tight">Raw Material</strong>
-              <span class="text-slate-500 block text-[9px]">GOTS Cotton<br>Gujarat Farm</span>
+              <strong class="font-bold text-slate-900 block leading-tight mobile-journey-text">Raw Material</strong>
+              <span class="text-slate-500 block text-[9px] mobile-journey-text">GOTS Cotton<br>Gujarat Farm</span>
             </div>
 
             <div class="space-y-1.5">
               <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
                 <i data-lucide="circle-dot" class="w-4 h-4"></i>
               </div>
-              <strong class="font-bold text-slate-900 block leading-tight">Spinning</strong>
-              <span class="text-slate-500 block text-[9px]">ABC Yarns<br>Coimbatore</span>
+              <strong class="font-bold text-slate-900 block leading-tight mobile-journey-text">Spinning</strong>
+              <span class="text-slate-500 block text-[9px] mobile-journey-text">ABC Yarns<br>Coimbatore</span>
             </div>
 
             <div class="space-y-1.5">
               <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
                 <i data-lucide="layers" class="w-4 h-4"></i>
               </div>
-              <strong class="font-bold text-slate-900 block leading-tight">Knitting</strong>
-              <span class="text-slate-500 block text-[9px]">Single Jersey<br>Tiruppur</span>
+              <strong class="font-bold text-slate-900 block leading-tight mobile-journey-text">Knitting</strong>
+              <span class="text-slate-500 block text-[9px] mobile-journey-text">Single Jersey<br>Tiruppur</span>
             </div>
 
             <div class="space-y-1.5">
               <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
                 <i data-lucide="palette" class="w-4 h-4"></i>
               </div>
-              <strong class="font-bold text-slate-900 block leading-tight">Dyeing</strong>
-              <span class="text-slate-500 block text-[9px]">Eco Black Dye<br>Arulpuram ZLD</span>
+              <strong class="font-bold text-slate-900 block leading-tight mobile-journey-text">Dyeing</strong>
+              <span class="text-slate-500 block text-[9px] mobile-journey-text">Eco Brown Dye<br>Arulpuram ZLD</span>
             </div>
 
             <div class="space-y-1.5">
               <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
                 <i data-lucide="factory" class="w-4 h-4"></i>
               </div>
-              <strong class="font-bold text-slate-900 block leading-tight">Manufacturing</strong>
-              <span class="text-slate-500 block text-[9px]">Sri Jayavarma<br>Tiruppur Unit</span>
+              <strong class="font-bold text-slate-900 block leading-tight mobile-journey-text">Manufacturing</strong>
+              <span class="text-slate-500 block text-[9px] mobile-journey-text">Sri Jayavarma<br>Tiruppur Unit</span>
             </div>
 
           </div>
@@ -458,7 +487,7 @@
         </div>
 
         <!-- ========================================================================= -->
-        <!-- CERTIFICATIONS & COMPLIANCE (With Interactive View & Real PDF Download) -->
+        <!-- CERTIFICATIONS & COMPLIANCE (With Official PDF Downloads) -->
         <!-- ========================================================================= -->
         <div class="bg-white rounded-2xl p-5 border border-slate-200 space-y-4">
           <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -496,13 +525,14 @@
                   <i data-lucide="eye" class="w-3.5 h-3.5 text-slate-500"></i>
                   <span>View</span>
                 </button>
-                <button 
-                  onclick="generateCertificatePdf('GOTS')"
-                  class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
+                <a 
+                  href="certificates/official-certificate.pdf" 
+                  download="Authentic_Textile_Certificate.pdf"
+                  class="btn-download px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
                 >
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  <span>PDF</span>
-                </button>
+                  <span>Download PDF</span>
+                </a>
               </div>
             </div>
 
@@ -514,7 +544,7 @@
                 </div>
                 <div>
                   <strong class="font-bold text-slate-900 text-xs block">OEKO-TEX® Standard 100 Class I (Baby Standard)</strong>
-                  <span class="text-[11px] text-slate-500">Scope: Azo-Free Midnight Black Reactive Dyeing • Cert: <strong class="text-slate-700 font-mono">OEKO-2026-TX-9912</strong></span>
+                  <span class="text-[11px] text-slate-500">Scope: Azo-Free Terracotta Brown Reactive Dyeing • Cert: <strong class="text-slate-700 font-mono">OEKO-2026-TX-9912</strong></span>
                 </div>
               </div>
               <div class="flex items-center gap-2 shrink-0 self-end sm:self-center">
@@ -525,13 +555,14 @@
                   <i data-lucide="eye" class="w-3.5 h-3.5 text-slate-500"></i>
                   <span>View</span>
                 </button>
-                <button 
-                  onclick="generateCertificatePdf('OEKOTEX')"
-                  class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
+                <a 
+                  href="certificates/OEKO_TEX_Test_Report.pdf" 
+                  download="OEKO_TEX_Test_Report.pdf"
+                  class="btn-download px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
                 >
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  <span>PDF</span>
-                </button>
+                  <span>Download PDF</span>
+                </a>
               </div>
             </div>
 
@@ -554,13 +585,14 @@
                   <i data-lucide="eye" class="w-3.5 h-3.5 text-slate-500"></i>
                   <span>View</span>
                 </button>
-                <button 
-                  onclick="generateCertificatePdf('TNPCB')"
-                  class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
+                <a 
+                  href="certificates/TNPCB_ZLD_Consent.pdf" 
+                  download="TNPCB_ZLD_Consent.pdf"
+                  class="btn-download px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
                 >
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  <span>PDF</span>
-                </button>
+                  <span>Download PDF</span>
+                </a>
               </div>
             </div>
 
@@ -583,13 +615,14 @@
                   <i data-lucide="eye" class="w-3.5 h-3.5 text-slate-500"></i>
                   <span>View</span>
                 </button>
-                <button 
-                  onclick="generateCertificatePdf('ISO14001')"
-                  class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
+                <a 
+                  href="certificates/official-certificate.pdf" 
+                  download="ISO_14001_Certificate.pdf"
+                  class="btn-download px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
                 >
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  <span>PDF</span>
-                </button>
+                  <span>Download PDF</span>
+                </a>
               </div>
             </div>
 
@@ -612,13 +645,14 @@
                   <i data-lucide="eye" class="w-3.5 h-3.5 text-slate-500"></i>
                   <span>View</span>
                 </button>
-                <button 
-                  onclick="generateCertificatePdf('SA8000')"
-                  class="px-3 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
+                <a 
+                  href="certificates/official-certificate.pdf" 
+                  download="SA_8000_Audit_Certificate.pdf"
+                  class="btn-download px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-2xs transition-all flex items-center gap-1"
                 >
                   <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                  <span>PDF</span>
-                </button>
+                  <span>Download PDF</span>
+                </a>
               </div>
             </div>
 
@@ -648,9 +682,9 @@
                   <span class="text-[10px] text-slate-400 font-mono">INV-2026-1042 (EUR 32,500)</span>
                 </div>
               </div>
-              <button onclick="downloadTradeDoc('Commercial Invoice', 'INV-2026-1042')" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
+              <a href="certificates/official-certificate.pdf" download="INV-2026-1042-Commercial-Invoice.pdf" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
                 <i data-lucide="download" class="w-4 h-4"></i>
-              </button>
+              </a>
             </div>
 
             <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-white hover:border-emerald-400 transition-all">
@@ -663,9 +697,9 @@
                   <span class="text-[10px] text-slate-400 font-mono">PL-2026-1042 (100 Cartons)</span>
                 </div>
               </div>
-              <button onclick="downloadTradeDoc('Export Packing List', 'PL-2026-1042')" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
+              <a href="certificates/official-certificate.pdf" download="PL-2026-1042-Packing-List.pdf" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
                 <i data-lucide="download" class="w-4 h-4"></i>
-              </button>
+              </a>
             </div>
 
             <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-white hover:border-emerald-400 transition-all">
@@ -678,9 +712,9 @@
                   <span class="text-[10px] text-slate-400 font-mono">CETP-2026-8812.pdf</span>
                 </div>
               </div>
-              <button onclick="downloadTradeDoc('CETP ZLD Water Certificate', 'CETP-2026-8812')" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
+              <a href="certificates/TNPCB_ZLD_Consent.pdf" download="CETP-2026-8812-ZLD-Certificate.pdf" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
                 <i data-lucide="download" class="w-4 h-4"></i>
-              </button>
+              </a>
             </div>
 
             <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between hover:bg-white hover:border-emerald-400 transition-all">
@@ -693,9 +727,9 @@
                   <span class="text-[10px] text-slate-400 font-mono">TR-AZF-2026-9912.pdf</span>
                 </div>
               </div>
-              <button onclick="downloadTradeDoc('AZO-Free Dye Test Report', 'TR-AZF-2026-9912')" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
+              <a href="certificates/OEKO_TEX_Test_Report.pdf" download="TR-AZF-2026-9912-Test-Report.pdf" class="text-slate-400 hover:text-emerald-700 p-1.5 rounded-lg hover:bg-slate-100" title="Download Document">
                 <i data-lucide="download" class="w-4 h-4"></i>
-              </button>
+              </a>
             </div>
 
           </div>
@@ -762,7 +796,7 @@
   <!-- MODAL: REALISTIC CERTIFICATE VIEWER MODAL WITH OFFICIAL SEAL -->
   <!-- ========================================================================= -->
   <div id="cert-modal" class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs hidden animate-in fade-in">
-    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden font-sans">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden font-sans cert-preview-container">
       
       <!-- Modal Top Bar -->
       <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
@@ -776,10 +810,10 @@
       </div>
 
       <!-- Certificate Document Canvas Area -->
-      <div class="p-6 space-y-4 text-xs bg-slate-50/50">
+      <div class="p-4 sm:p-6 space-y-4 text-xs bg-slate-50/50">
         
         <!-- Official Certificate Frame -->
-        <div class="bg-white p-5 rounded-2xl border-2 border-slate-200 shadow-sm relative overflow-hidden space-y-3">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl border-2 border-slate-200 shadow-sm relative overflow-hidden space-y-3">
           
           <!-- Watermark Emblem -->
           <div class="absolute -right-8 -bottom-8 w-36 h-36 rounded-full cert-seal opacity-40 pointer-events-none flex items-center justify-center">
@@ -790,7 +824,7 @@
           <div class="flex items-start justify-between border-b border-slate-100 pb-3">
             <div>
               <span class="text-[9px] font-bold uppercase tracking-widest text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                Official Certification
+                Official Accreditation
               </span>
               <h4 id="modal-title" class="font-extrabold text-sm text-slate-900 mt-1 font-display">
                 Global Organic Textile Standard
@@ -838,47 +872,48 @@
         >
           Close Preview
         </button>
-        <button 
-          id="modal-download-btn"
-          onclick="downloadCurrentModalPdf()"
-          class="flex-1 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl flex items-center justify-center gap-1.5 shadow-xs transition-all"
+        <a 
+          id="modal-download-link"
+          href="certificates/official-certificate.pdf"
+          download="Authentic_Textile_Certificate.pdf"
+          class="btn-download flex-1 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl flex items-center justify-center gap-1.5 shadow-xs transition-all"
         >
           <i data-lucide="download" class="w-3.5 h-3.5"></i>
-          <span>Download PDF</span>
-        </button>
+          <span>Download Official Certificate</span>
+        </a>
       </div>
 
     </div>
   </div>
 
   <!-- ========================================================================= -->
-  <!-- JAVASCRIPT LOGIC & REAL PDF GENERATOR -->
+  <!-- JAVASCRIPT LOGIC -->
   <!-- ========================================================================= -->
   <script>
     // 1. Initialize Lucide Icons
     lucide.createIcons();
 
-    // 2. Image Error Handling
+    // 2. Image Error Handling with smooth fallback
     function handleImageError(img) {
-      img.style.display = 'none';
-      const fallback = document.getElementById('img-fallback');
-      if (fallback) {
-        fallback.classList.remove('hidden');
-        fallback.classList.add('flex');
-      }
+      img.src = 'https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=600&auto=format&fit=crop&q=80';
+      img.onerror = function() {
+        img.style.display = 'none';
+        const fallback = document.getElementById('img-fallback');
+        if (fallback) {
+          fallback.classList.remove('hidden');
+          fallback.classList.add('flex');
+        }
+      };
     }
 
-    // 3. Structured Certificate Data Map
-    let currentModalKey = 'GOTS';
-
+    // 3. Structured Certificate Store
     const CERT_STORE = {
       GOTS: {
         title: 'Global Organic Textile Standard (GOTS v7.0)',
         issuer: 'Control Union Certifications B.V. (Netherlands)',
         licenseNo: 'CU-841920-GOTS-2026',
-        validity: '31 December 2026',
-        scope: '100% Organic Combed Staple Cotton (Fiber, Yarn, Knitting)',
-        lotRef: 'RAW-COT-2026-09 (1,150 kg)',
+        pdfUrl: 'certificates/official-certificate.pdf',
+        pdfDownloadName: 'GOTS_v7.0_Scope_Certificate.pdf',
         html: `
           <div><strong>License Number:</strong> CU-841920-GOTS-2026</div>
           <div><strong>Standard Version:</strong> GOTS v7.0 (Organic Grade)</div>
@@ -892,14 +927,13 @@
         title: 'OEKO-TEX® Standard 100 Class I',
         issuer: 'TESTEX AG Swiss Textile Testing Institute',
         licenseNo: 'OEKO-2026-TX-9912',
-        validity: '09 January 2027',
-        scope: 'Annex 4, Baby Class I (Safe for direct skin contact)',
-        lotRef: 'DYE-BLK-2026-042',
+        pdfUrl: 'certificates/OEKO_TEX_Test_Report.pdf',
+        pdfDownloadName: 'OEKO_TEX_Standard_100_Certificate.pdf',
         html: `
           <div><strong>Certificate Number:</strong> OEKO-2026-TX-9912</div>
           <div><strong>Standard:</strong> OEKO-TEX Standard 100 (Baby Class I)</div>
           <div><strong>Dye Chemistry:</strong> Low-Impact Reactive Azo-Free Dye</div>
-          <div><strong>Color Fastness:</strong> Grade 4-5 (Midnight Black)</div>
+          <div><strong>Color Fastness:</strong> Grade 4-5 (Terracotta Brown)</div>
           <div><strong>Heavy Metals / Formaldehyde:</strong> None Detected (ND)</div>
           <div><strong>ZDHC MRSL Alignment:</strong> Level 3 Conformant</div>
         `
@@ -908,9 +942,8 @@
         title: 'TNPCB 100% Zero Liquid Discharge (ZLD) Consent',
         issuer: 'Tamil Nadu Pollution Control Board (Tiruppur South)',
         licenseNo: 'TNPCB-ZLD-2026-8812',
-        validity: '30 September 2026',
-        scope: 'Closed-Loop Effluent Treatment & Multi-Stage Reverse Osmosis',
-        lotRef: 'CETP-ARUL-U3-2026',
+        pdfUrl: 'certificates/TNPCB_ZLD_Consent.pdf',
+        pdfDownloadName: 'TNPCB_100_Percent_ZLD_Consent_Order.pdf',
         html: `
           <div><strong>Consent Order No:</strong> TNPCB-ZLD-2026-8812</div>
           <div><strong>Treatment Plant:</strong> Arulpuram CETP Unit 3</div>
@@ -923,9 +956,8 @@
         title: 'ISO 14001:2015 Environmental Management',
         issuer: 'TUV India Private Limited',
         licenseNo: 'ISO-14001-2026-901',
-        validity: '14 May 2027',
-        scope: 'Sustainable Garment Manufacturing & Solar Energy Management',
-        lotRef: 'FAC-SJ-MAIN-2026',
+        pdfUrl: 'certificates/official-certificate.pdf',
+        pdfDownloadName: 'ISO_14001_Environmental_Certificate.pdf',
         html: `
           <div><strong>Certificate Number:</strong> ISO-14001-2026-901</div>
           <div><strong>Accreditation Body:</strong> NABCB / TUV India</div>
@@ -938,9 +970,8 @@
         title: 'SA 8000 Social Accountability',
         issuer: 'TUV India Social Audit Division',
         licenseNo: 'SA-8000-2026-441',
-        validity: '18 June 2027',
-        scope: 'Ethical Workplace, Fair Wages, Workplace Safety',
-        lotRef: 'AUD-SA8K-2026',
+        pdfUrl: 'certificates/official-certificate.pdf',
+        pdfDownloadName: 'SA_8000_Social_Accountability_Certificate.pdf',
         html: `
           <div><strong>Certificate Number:</strong> SA-8000-2026-441</div>
           <div><strong>Standard:</strong> Social Accountability 8000 (SAI)</div>
@@ -952,224 +983,20 @@
     };
 
     function openCertModal(key) {
-      currentModalKey = key;
       const data = CERT_STORE[key] || CERT_STORE.GOTS;
       document.getElementById('modal-title').innerText = data.title;
       document.getElementById('modal-issuer').innerText = 'Issuer: ' + data.issuer;
       document.getElementById('modal-fields').innerHTML = data.html;
+      
+      const link = document.getElementById('modal-download-link');
+      link.href = data.pdfUrl;
+      link.download = data.pdfDownloadName;
+
       document.getElementById('cert-modal').classList.remove('hidden');
     }
 
     function closeCertModal() {
       document.getElementById('cert-modal').classList.add('hidden');
-    }
-
-    // 4. Real Client-Side PDF Generator using jsPDF
-    function generateCertificatePdf(key) {
-      const data = CERT_STORE[key] || CERT_STORE.GOTS;
-      
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-
-      // Background Border & Frame
-      doc.setDrawColor(6, 78, 59); // Emerald
-      doc.setLineWidth(1.5);
-      doc.rect(10, 10, 190, 277);
-
-      doc.setDrawColor(226, 232, 240);
-      doc.setLineWidth(0.5);
-      doc.rect(13, 13, 184, 271);
-
-      // Top Header
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(18);
-      doc.setTextColor(6, 78, 59);
-      doc.text('VASTRASETU DIGITAL PRODUCT PASSPORT', 105, 25, { align: 'center' });
-
-      doc.setFontSize(10);
-      doc.setTextColor(100, 116, 139);
-      doc.text('OFFICIAL COMPLIANCE & VERIFICATION CERTIFICATE', 105, 31, { align: 'center' });
-
-      // Divider Line
-      doc.setDrawColor(6, 78, 59);
-      doc.setLineWidth(0.5);
-      doc.line(25, 36, 185, 36);
-
-      // Certificate Title
-      doc.setFontSize(14);
-      doc.setTextColor(15, 23, 42);
-      doc.text(data.title, 105, 48, { align: 'center' });
-
-      // Issuer & License Box
-      doc.setFillColor(239, 248, 243);
-      doc.roundedRect(25, 56, 160, 24, 3, 3, 'F');
-
-      doc.setFontSize(10);
-      doc.setTextColor(6, 78, 59);
-      doc.text(`Issuer: ${data.issuer}`, 30, 64);
-      doc.text(`License / Ref No: ${data.licenseNo}`, 30, 70);
-      doc.text(`Validity Period: ${data.validity} (Status: ACTIVE / VERIFIED)`, 30, 76);
-
-      // Product & Batch Section
-      doc.setFontSize(12);
-      doc.setTextColor(15, 23, 42);
-      doc.text('1. Product & Export Batch Identification', 25, 92);
-
-      doc.setFontSize(10);
-      doc.setTextColor(71, 85, 105);
-      doc.text('Product Name:', 25, 100);
-      doc.setTextColor(15, 23, 42);
-      doc.text('100% Organic Cotton Crewneck T-Shirt (Midnight Black)', 70, 100);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('Batch / Lot Ref:', 25, 108);
-      doc.setTextColor(15, 23, 42);
-      doc.text('VS-2026-B00041 (Quantity: 5,000 PCS)', 70, 108);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('HS Tariff Code:', 25, 116);
-      doc.setTextColor(15, 23, 42);
-      doc.text('6109.10.00 (Knitted Cotton Apparel)', 70, 116);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('Manufacturer:', 25, 124);
-      doc.setTextColor(15, 23, 42);
-      doc.text('Sri Jayavarma Knits & Exports Pvt Ltd (Tiruppur, India)', 70, 124);
-
-      // Scope Details Section
-      doc.setFontSize(12);
-      doc.setTextColor(15, 23, 42);
-      doc.text('2. Audited Scope & Standards Compliance', 25, 140);
-
-      doc.setFontSize(10);
-      doc.setTextColor(71, 85, 105);
-      doc.text('Audit Scope:', 25, 148);
-      doc.setTextColor(15, 23, 42);
-      doc.text(data.scope, 70, 148);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('Facility Audit Ref:', 25, 156);
-      doc.setTextColor(15, 23, 42);
-      doc.text(data.lotRef, 70, 156);
-
-      // Environmental & Traceability Section
-      doc.setFontSize(12);
-      doc.setTextColor(15, 23, 42);
-      doc.text('3. Environmental & LCA Footprint Metrics', 25, 172);
-
-      doc.setFontSize(10);
-      doc.setTextColor(71, 85, 105);
-      doc.text('Carbon Footprint:', 25, 180);
-      doc.setTextColor(6, 78, 59);
-      doc.text('2.45 kg CO2e / unit (38% below global industry baseline)', 70, 180);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('Water Footprint:', 25, 188);
-      doc.setTextColor(6, 78, 59);
-      doc.text('142.0 Litres / unit (94.2% Closed-Loop ZLD Recycled)', 70, 188);
-
-      doc.setTextColor(71, 85, 105);
-      doc.text('Chemical Safety:', 25, 196);
-      doc.setTextColor(6, 78, 59);
-      doc.text('Zero harmful dyes / Azo-Free Pass / ZDHC MRSL Level 3', 70, 196);
-
-      // Cryptographic Proof Box
-      doc.setFillColor(248, 250, 252);
-      doc.setDrawColor(203, 213, 225);
-      doc.roundedRect(25, 210, 160, 32, 2, 2, 'FD');
-
-      doc.setFontSize(10);
-      doc.setTextColor(15, 23, 42);
-      doc.text('Cryptographic Blockchain Ledger Verification', 30, 218);
-
-      doc.setFontSize(8);
-      doc.setFont('courier', 'normal');
-      doc.setTextColor(100, 116, 139);
-      doc.text('Merkle Root: 0x51081b8491be34b03737b2f646890367', 30, 226);
-      doc.text('Polygon Amoy PoS Tx: 0x7f3a0e84f2deda7d455b8b45ae9e41d0bece9c21', 30, 232);
-      doc.text(`Verification Timestamp: ${new Date().toUTCString()}`, 30, 238);
-
-      // Sign-off Footer
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(6, 78, 59);
-      doc.text('VastraSetu DPP Verification Authority', 30, 260);
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      doc.setTextColor(100, 116, 139);
-      doc.text('Government-accredited MSME Textile Traceability Protocol', 30, 265);
-
-      doc.text('Digitally Signed & Certified ✓', 140, 260);
-      doc.text('Tiruppur Cluster, Tamil Nadu, India', 140, 265);
-
-      // Save PDF file
-      doc.save(`VastraSetu_${key}_Certificate_VS-2026-B00041.pdf`);
-    }
-
-    function downloadCurrentModalPdf() {
-      generateCertificatePdf(currentModalKey);
-    }
-
-    // 5. Real Trade Document PDF Generator (Commercial Invoice, Packing List, CETP, AZO)
-    function downloadTradeDoc(docName, docRef) {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4'
-      });
-
-      doc.setDrawColor(15, 23, 42);
-      doc.setLineWidth(1);
-      doc.rect(12, 12, 186, 273);
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(16);
-      doc.setTextColor(15, 23, 42);
-      doc.text('SRI JAYAVARMA KNITS & EXPORTS PVT LTD', 105, 24, { align: 'center' });
-
-      doc.setFontSize(9);
-      doc.setTextColor(100, 116, 139);
-      doc.text('SF No. 402/1A, Palladam Road, Tiruppur - 641604, Tamil Nadu, India', 105, 30, { align: 'center' });
-      doc.text('IEC: 0305012984 • GSTIN: 33AAACJ1928A1Z5 • Port: Tuticorin (INVOI1)', 105, 35, { align: 'center' });
-
-      doc.setLineWidth(0.5);
-      doc.line(20, 39, 190, 39);
-
-      doc.setFontSize(14);
-      doc.setTextColor(6, 78, 59);
-      doc.text(docName.toUpperCase(), 105, 48, { align: 'center' });
-
-      doc.setFontSize(10);
-      doc.setTextColor(15, 23, 42);
-      doc.text(`Document Reference: ${docRef}`, 105, 54, { align: 'center' });
-
-      // Table Box
-      doc.setFillColor(248, 250, 252);
-      doc.rect(20, 62, 170, 70, 'F');
-      doc.setDrawColor(203, 213, 225);
-      doc.rect(20, 62, 170, 70, 'S');
-
-      doc.setFontSize(10);
-      doc.setTextColor(15, 23, 42);
-      doc.text(`Invoice / File Ref: ${docRef}`, 25, 72);
-      doc.text('Buyer: XYZ Fashion GmbH (Hamburg, Germany)', 25, 80);
-      doc.text('Product: 100% Organic Cotton Crewneck T-Shirt (Midnight Black)', 25, 88);
-      doc.text('Batch Ref: VS-2026-B00041', 25, 96);
-      doc.text('Quantity: 5,000 Pieces (100 FSC Corrugated Cartons)', 25, 104);
-      doc.text('Total Export Value: EUR 32,500.00 (Incoterm: CIF Hamburg)', 25, 112);
-      doc.text('Vessel / Ocean Carrier: Maersk Line (B/L MSK-BL-9921094)', 25, 120);
-
-      doc.setFontSize(9);
-      doc.setTextColor(100, 116, 139);
-      doc.text('This export document is cryptographically linked to VastraSetu DPP ID: DPP-2026-BLK-00041', 25, 145);
-      doc.text('Anchored on Polygon Amoy PoS Ledger. Certified for European Customs & Trade Finance.', 25, 152);
-
-      doc.save(`VastraSetu_${docRef}.pdf`);
     }
   </script>
 
