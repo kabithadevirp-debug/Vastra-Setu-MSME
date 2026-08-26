@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>VastraSetu DPP — 100% Organic Cotton T-Shirt (Midnight Black)</title>
+  <title>Digital Product Passport — 100% Organic Cotton Black T-Shirt</title>
   
-  <!-- Primary Meta Tags -->
-  <meta name="title" content="Digital Product Passport — Organic Cotton T-Shirt (Black)">
-  <meta name="description" content="Official EU Digital Product Passport (DPP) for Batch VS-2026-B00041. Verified on Polygon PoS.">
-  <meta name="theme-color" content="#064E3B">
+  <!-- SEO & Social Meta Tags -->
+  <meta name="title" content="Digital Product Passport — VastraSetu">
+  <meta name="description" content="Official EU Digital Product Passport for 100% Organic Cotton Crewneck T-Shirt (Midnight Black).">
+  <meta name="theme-color" content="#ffffff">
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -24,9 +24,9 @@
             brand: {
               emerald: '#059669',
               darkGreen: '#064E3B',
-              teal: '#0D9488',
-              cyan: '#06B6D4',
-              purple: '#7C3AED',
+              forest: '#0B4D3C',
+              mint: '#EFF8F3',
+              cardBorder: '#E2E8F0',
             }
           }
         }
@@ -37,7 +37,7 @@
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Lucide Icons & QR Code Generator -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -50,745 +50,661 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-
-    .badge-verified {
-      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
-      border: 1px solid #A7F3D0;
-      color: #065F46;
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
     }
-
-    .badge-polygon {
-      background: linear-gradient(135deg, #FAF5FF 0%, #F3E8FF 100%);
-      border: 1px solid #E9D5FF;
-      color: #6B21A8;
-    }
-
-    /* Print styling for 2.5" x 4.5" hangtag */
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      #printable-hangtag, #printable-hangtag * {
-        visibility: visible;
-      }
-      #printable-hangtag {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 2.5in !important;
-        height: 4.5in !important;
-        margin: 0 auto;
-        box-shadow: none !important;
-      }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
     }
   </style>
 </head>
 
-<body class="min-h-screen pb-16">
+<body class="min-h-screen py-4 sm:py-8 px-3 sm:px-6 lg:px-8">
 
-  <!-- 1. TOP VERIFIED STICKY NAVBAR -->
-  <header class="bg-white/95 backdrop-blur-md border-b border-zinc-200 shadow-2xs sticky top-0 z-40">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        
-        {/* Brand Logo */}
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-950 via-emerald-800 to-teal-700 flex items-center justify-center text-white font-extrabold shadow-sm">
-            <span class="text-base">◈</span>
-          </div>
-          <div>
-            <div class="flex items-center gap-1.5">
-              <span class="font-display font-extrabold text-lg text-zinc-900 tracking-tight">
-                Vastra<span class="text-emerald-700">Setu</span>
-              </span>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
-                Official DPP
-              </span>
-            </div>
-            <p class="text-[10px] text-zinc-400 font-mono -mt-0.5">EU ESPR 2026 Verified</p>
-          </div>
-        </div>
-
-        {/* Top Badges & Blockchain Tag */}
-        <div class="flex items-center gap-2">
-          <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full badge-polygon text-xs font-mono font-bold">
-            <i data-lucide="hexagon" class="w-3.5 h-3.5 text-purple-700"></i>
-            <span>Polygon PoS Anchored</span>
-          </div>
-          
-          <button 
-            onclick="openHangtagModal()"
-            class="px-3.5 py-1.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs transition-all"
-          >
-            <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-            <span>Hangtag Tag</span>
-          </button>
-        </div>
-
-      </div>
-    </div>
-  </header>
-
-  <!-- 2. MASTER PRODUCT BANNER -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 space-y-6">
+  <!-- MAIN PASSPORT CONTAINER (Max 960px for pristine desktop & mobile layout) -->
+  <div class="max-w-4xl mx-auto bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
     
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-zinc-200 shadow-sm space-y-4">
-      
-      <!-- Top Eyebrow -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-zinc-100 pb-4">
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded border border-emerald-200">
-            ESPR 2026 EU Compliant ✓
-          </span>
-          <span class="text-xs font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-2.5 py-0.5 rounded border border-purple-200">
-            GS1 Digital Link
-          </span>
-        </div>
-
-        <div class="flex items-center gap-2 text-xs font-mono text-zinc-500">
-          <span>Batch Ref:</span>
-          <strong class="text-emerald-900 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-bold">
-            VS-2026-B00041
-          </strong>
-        </div>
-      </div>
-
-      <!-- Headline & Summary -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1">
-          <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-zinc-900 tracking-tight">
-            100% Organic Cotton Crewneck T-Shirt (Midnight Black)
+    <!-- ========================================================================= -->
+    <!-- 1. PASSPORT HEADER -->
+    <!-- ========================================================================= -->
+    <header class="p-6 sm:p-8 border-b border-slate-100 bg-white">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        
+        <!-- Left: Title & Subtitle -->
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Digital Product Passport
           </h1>
-          <p className="text-xs sm:text-sm text-zinc-500 font-medium">
-            180 GSM Single Jersey Combed Cotton • Manufactured by <strong class="text-zinc-900">Sri Jayavarma Knits & Exports Pvt Ltd</strong> (Tiruppur Cluster)
+          <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
+            Transparency • Sustainability • Trust
           </p>
         </div>
 
-        <!-- Quick Top Metrics -->
-        <div class="flex items-center gap-2 shrink-0">
-          <button 
-            onclick="sharePassport()" 
-            class="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center gap-1.5 transition-all"
-          >
-            <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-            <span id="share-btn-text">Share DPP</span>
-          </button>
-          
-          <button 
-            onclick="downloadQrPng()" 
-            class="px-3.5 py-2 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-800 font-bold text-xs flex items-center gap-1.5 transition-all"
-          >
-            <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Save QR PNG</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 3. TWO-COLUMN LAYOUT -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-      
-      <!-- ================= LEFT COLUMN (35%) ================= -->
-      <div class="lg:col-span-4 space-y-6">
-        
-        <!-- Black Garment Image & Spec List -->
-        <div class="bg-white rounded-3xl p-5 border border-zinc-200 shadow-sm space-y-4 text-center">
-          
-          {/* Black T-Shirt High-Res Showcase */}
-          <div class="bg-gradient-to-b from-zinc-900 via-zinc-950 to-black rounded-2xl p-6 flex flex-col items-center justify-center min-h-[260px] border border-zinc-800 shadow-inner relative overflow-hidden group">
-            
-            <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[9px] font-mono font-bold uppercase">
-              100% GOTS Organic
+        <!-- Right: Brand Logo & DPP ID -->
+        <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] font-medium text-slate-400">Powered by</span>
+            <div class="flex items-center gap-1">
+              <!-- VastraSetu Logo Icon -->
+              <div class="w-5 h-5 rounded-md bg-[#064E3B] text-white flex items-center justify-center font-black text-xs">
+                ◈
+              </div>
+              <span class="font-bold text-slate-900 text-sm tracking-tight">
+                Vastra<span class="text-emerald-700">Setu</span>
+              </span>
             </div>
+          </div>
+          <div class="mt-1">
+            <span class="text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+              DPP ID: DPP-2026-BLK-00041
+            </span>
+          </div>
+        </div>
 
-            <!-- Crisp Black T-Shirt Visual -->
+      </div>
+    </header>
+
+    <!-- ========================================================================= -->
+    <!-- 2. TWO-COLUMN PASSPORT BODY -->
+    <!-- ========================================================================= -->
+    <div class="p-5 sm:p-8 grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+      
+      <!-- ================= LEFT COLUMN (Product Visual & Metadata) ================= -->
+      <div class="md:col-span-5 space-y-6">
+        
+        <!-- Black T-Shirt Visual Card -->
+        <div class="bg-slate-50/70 rounded-2xl p-4 border border-slate-200 text-center">
+          
+          <!-- Image Container with Fallback Error Handling -->
+          <div class="relative bg-gradient-to-b from-slate-100 to-slate-200 rounded-xl p-4 min-h-[220px] flex items-center justify-center overflow-hidden border border-slate-200 shadow-inner">
             <img 
+              id="product-img"
               src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=600&auto=format&fit=crop&q=80" 
               alt="100% Organic Cotton Black T-Shirt"
-              class="max-h-52 object-contain rounded-xl drop-shadow-[0_15px_25px_rgba(0,0,0,0.8)] filter brightness-90 contrast-125 transition-transform duration-300 group-hover:scale-105"
+              class="max-h-48 object-contain drop-shadow-md transition-transform duration-300 hover:scale-105"
+              onerror="handleImageError(this)"
             />
             
-            <span class="text-[10px] font-mono text-zinc-400 mt-2 font-bold">
-              Color: Midnight Black • Eco Reactive Dye
+            <!-- Fallback SVG Placeholder (hidden by default) -->
+            <div id="img-fallback" class="hidden flex-col items-center justify-center text-slate-400 py-8">
+              <i data-lucide="shirt" class="w-16 h-16 text-slate-700 stroke-[1.5]"></i>
+              <span class="text-xs font-semibold text-slate-600 mt-2">Midnight Black Crewneck</span>
+            </div>
+
+            <!-- Certified Badge Overlay -->
+            <div class="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-emerald-700 text-white text-[9px] font-bold tracking-wider uppercase shadow-xs">
+              GOTS Organic
+            </div>
+          </div>
+
+          <!-- Product Title & Composition -->
+          <div class="text-left mt-3.5 space-y-0.5">
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">
+              Organic Cotton Crewneck T-Shirt
+            </h2>
+            <p class="text-xs font-semibold text-emerald-800">
+              100% Organic Cotton (Midnight Black • 180 GSM)
+            </p>
+          </div>
+
+          <!-- Specification Key-Value List -->
+          <div class="mt-4 pt-3 border-t border-slate-200 divide-y divide-slate-100 text-xs text-left">
+            
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Brand:</span>
+              <strong class="text-slate-900 font-semibold">XYZ Fashion GmbH (Germany)</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Manufacturer:</span>
+              <strong class="text-slate-900 font-semibold truncate max-w-[170px]">Sri Jayavarma Knits Pvt Ltd</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Product Category:</span>
+              <strong class="text-slate-900 font-semibold">Apparel & Textiles</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">HS Code:</span>
+              <strong class="text-slate-900 font-mono font-bold">6109.10.00</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Country of Origin:</span>
+              <strong class="text-slate-900 font-semibold">India (Tiruppur Cluster)</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Date of Manufacture:</span>
+              <strong class="text-slate-900 font-semibold">15 May 2026</strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Batch / Lot No:</span>
+              <strong class="text-emerald-800 font-mono font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                VS-2026-B00041
+              </strong>
+            </div>
+
+            <div class="py-2 flex justify-between items-center">
+              <span class="text-slate-500 font-medium">Global Trade Item No:</span>
+              <strong class="text-slate-900 font-mono font-semibold">08976543211234</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Scan QR Card (Mint Green Container) -->
+        <div class="bg-[#EFF8F3] border border-emerald-200 rounded-2xl p-4 text-center space-y-2.5">
+          <p class="text-[11px] font-bold text-emerald-950 leading-snug">
+            Scan QR to verify authenticity & view full product journey
+          </p>
+
+          <div id="qrcode-target" class="bg-white p-2.5 rounded-xl inline-block shadow-xs border border-emerald-100 mx-auto"></div>
+
+          <div class="flex items-center justify-center gap-2 pt-1 text-xs">
+            <button 
+              onclick="copyDppLink()" 
+              id="copy-link-btn"
+              class="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 transition-all"
+            >
+              <i data-lucide="share-2" class="w-3 h-3"></i>
+              <span id="copy-text">Share Link</span>
+            </button>
+            <span class="text-slate-300">•</span>
+            <button 
+              onclick="downloadQrImage()" 
+              class="text-[11px] font-bold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 transition-all"
+            >
+              <i data-lucide="download" class="w-3 h-3"></i>
+              <span>Save QR</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= RIGHT COLUMN (Pass Pillar, Journey, Impact, Certificates) ================= -->
+      <div class="md:col-span-7 space-y-6">
+        
+        <!-- 4 Top Pillar Badges -->
+        <div class="grid grid-cols-4 gap-2 bg-slate-50/80 p-2.5 rounded-2xl border border-slate-200 text-center">
+          
+          <div class="p-1 space-y-1">
+            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+              <i data-lucide="git-merge" class="w-3.5 h-3.5"></i>
+            </div>
+            <span class="text-[10px] font-bold text-slate-700 block">Traceable</span>
+          </div>
+
+          <div class="p-1 space-y-1">
+            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            </div>
+            <span class="text-[10px] font-bold text-slate-700 block">Verifiable</span>
+          </div>
+
+          <div class="p-1 space-y-1">
+            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+              <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+            </div>
+            <span class="text-[10px] font-bold text-slate-700 block">Transparent</span>
+          </div>
+
+          <div class="p-1 space-y-1">
+            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+              <i data-lucide="leaf" class="w-3.5 h-3.5"></i>
+            </div>
+            <span class="text-[10px] font-bold text-slate-700 block">Sustainable</span>
+          </div>
+
+        </div>
+
+        <!-- Product Journey Timeline -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 font-display">
+              Product Journey
+            </h3>
+            <span class="text-[10px] font-bold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+              5 Steps Verified
             </span>
           </div>
 
-          <!-- Product Specification Table -->
-          <div class="text-left divide-y divide-zinc-100 text-xs">
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Brand / Buyer:</span>
-              <strong class="text-zinc-900 font-bold">XYZ Fashion GmbH (Germany)</strong>
+          <!-- Horizontal Step Line -->
+          <div class="grid grid-cols-5 gap-1 pt-2 text-center text-[10px] relative">
+            
+            <!-- Step 1 -->
+            <div class="space-y-1.5">
+              <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
+                <i data-lucide="sprout" class="w-4 h-4"></i>
+              </div>
+              <strong class="font-bold text-slate-900 block leading-tight">Raw Material</strong>
+              <span class="text-slate-400 block text-[9px]">GOTS Cotton<br>Gujarat/Coimbatore</span>
             </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Manufacturer:</span>
-              <strong class="text-zinc-900 font-bold truncate max-w-[170px]">Sri Jayavarma Knits Pvt Ltd</strong>
-            </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Fabric Composition:</span>
-              <strong class="text-emerald-800 font-bold">100% Organic Cotton (180 GSM)</strong>
-            </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">HS Tariff Code:</span>
-              <strong class="text-zinc-900 font-mono font-bold">6109.10.00 (Cotton T-Shirts)</strong>
-            </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Origin Cluster:</span>
-              <strong class="text-zinc-900 font-bold">Tiruppur, Tamil Nadu, India</strong>
-            </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Destination:</span>
-              <strong class="text-zinc-900 font-bold">Hamburg Port, Germany (CIF)</strong>
-            </div>
-            <div class="py-2.5 flex justify-between">
-              <span class="text-zinc-500 font-medium">Batch Volume:</span>
-              <strong class="text-zinc-900 font-mono font-bold">5,000 Pieces</strong>
-            </div>
-          </div>
 
+            <!-- Step 2 -->
+            <div class="space-y-1.5">
+              <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
+                <i data-lucide="circle-dot" class="w-4 h-4"></i>
+              </div>
+              <strong class="font-bold text-slate-900 block leading-tight">Spinning</strong>
+              <span class="text-slate-400 block text-[9px]">ABC Yarns<br>Coimbatore, India</span>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="space-y-1.5">
+              <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
+                <i data-lucide="layers" class="w-4 h-4"></i>
+              </div>
+              <strong class="font-bold text-slate-900 block leading-tight">Knitting</strong>
+              <span class="text-slate-400 block text-[9px]">Single Jersey<br>Tiruppur, India</span>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="space-y-1.5">
+              <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
+                <i data-lucide="palette" class="w-4 h-4"></i>
+              </div>
+              <strong class="font-bold text-slate-900 block leading-tight">Dyeing</strong>
+              <span class="text-slate-400 block text-[9px]">Eco Black Dye<br>Tiruppur, India</span>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="space-y-1.5">
+              <div class="w-8 h-8 rounded-full bg-[#064E3B] text-white flex items-center justify-center mx-auto shadow-xs">
+                <i data-lucide="factory" class="w-4 h-4"></i>
+              </div>
+              <strong class="font-bold text-slate-900 block leading-tight">Manufacturing</strong>
+              <span class="text-slate-400 block text-[9px]">Sri Jayavarma<br>Tiruppur, India</span>
+            </div>
+
+          </div>
         </div>
 
-        <!-- Persistent GS1 QR Box -->
-        <div class="bg-[#EFF8F3] border border-emerald-200 rounded-3xl p-5 text-center space-y-3">
-          <p class="text-xs font-bold text-emerald-950 leading-snug">
-            Persistent Digital Product Passport QR
-          </p>
-          <p class="text-[11px] text-emerald-800">
-            Scan to view raw blockchain certificates & life-cycle audit
-          </p>
+        <!-- Sustainability Impact (4 Metric Cards) -->
+        <div class="space-y-2">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 font-display">
+            Sustainability Impact
+          </h3>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <i data-lucide="leaf" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-display">
+                2.45 <span class="text-xs font-normal text-slate-400">kg</span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-medium block">Carbon Footprint</span>
+              <span class="text-[9px] text-emerald-700 font-bold block">(per unit)</span>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="w-6 h-6 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                <i data-lucide="droplet" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-display">
+                142.0 <span class="text-xs font-normal text-slate-400">L</span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-medium block">Water Usage</span>
+              <span class="text-[9px] text-teal-700 font-bold block">(94% Recycled ZLD)</span>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="w-6 h-6 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-display">
+                2.1 <span class="text-xs font-normal text-slate-400">kWh</span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-medium block">Energy Usage</span>
+              <span class="text-[9px] text-amber-700 font-bold block">(64% Solar & Wind)</span>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs space-y-1">
+              <div class="w-6 h-6 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-display">
+                100 <span class="text-xs font-normal text-slate-400">%</span>
+              </div>
+              <span class="text-[10px] text-slate-500 font-medium block">Sustainable Materials</span>
+              <span class="text-[9px] text-emerald-700 font-bold block">(GOTS Organic)</span>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- CERTIFICATIONS & COMPLIANCE (With Interactive View & Download Buttons) -->
+        <!-- ========================================================================= -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 font-display">
+              Certifications & Compliance
+            </h3>
+            <span class="text-[10px] text-slate-400">Click to preview document</span>
+          </div>
+
+          <div class="divide-y divide-slate-100 text-xs">
+            
+            <!-- Cert 1: GOTS -->
+            <div class="py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <div>
+                  <strong class="font-bold text-slate-900 block">Global Organic Textile Standard (GOTS)</strong>
+                  <span class="text-[10px] text-slate-400">Lic: CU-841920 • Control Union</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="openCertModal('GOTS')"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] transition-all"
+                >
+                  View
+                </button>
+                <button 
+                  onclick="downloadDoc('GOTS-Scope-Certificate.pdf')"
+                  class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-emerald-700 transition-all"
+                  title="Download PDF"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Cert 2: OEKO-TEX -->
+            <div class="py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <div>
+                  <strong class="font-bold text-slate-900 block">OEKO-TEX® Standard 100 Class I</strong>
+                  <span class="text-[10px] text-slate-400">Lic: OEKO-2026-TX-9912 • TESTEX AG</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="openCertModal('OEKOTEX')"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] transition-all"
+                >
+                  View
+                </button>
+                <button 
+                  onclick="downloadDoc('OEKO-TEX-Test-Report.pdf')"
+                  class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-emerald-700 transition-all"
+                  title="Download PDF"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Cert 3: ISO 14001 -->
+            <div class="py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <div>
+                  <strong class="font-bold text-slate-900 block">ISO 14001:2015 (Environmental Management)</strong>
+                  <span class="text-[10px] text-slate-400">TUV India • Valid to 2027</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="openCertModal('ISO14001')"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] transition-all"
+                >
+                  View
+                </button>
+                <button 
+                  onclick="downloadDoc('ISO-14001-Certificate.pdf')"
+                  class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-emerald-700 transition-all"
+                  title="Download PDF"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Cert 4: SA 8000 -->
+            <div class="py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <div>
+                  <strong class="font-bold text-slate-900 block">SA 8000 (Social Accountability)</strong>
+                  <span class="text-[10px] text-slate-400">TUV India • Zero Child Labour</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="openCertModal('SA8000')"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] transition-all"
+                >
+                  View
+                </button>
+                <button 
+                  onclick="downloadDoc('SA-8000-Social-Audit.pdf')"
+                  class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-emerald-700 transition-all"
+                  title="Download PDF"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Cert 5: CETP ZLD -->
+            <div class="py-2.5 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                <div>
+                  <strong class="font-bold text-slate-900 block">CETP 100% ZLD Water Consent</strong>
+                  <span class="text-[10px] text-slate-400">TNPCB • Arulpuram CETP Unit 3</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button 
+                  onclick="openCertModal('TNPCB')"
+                  class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-[11px] transition-all"
+                >
+                  View
+                </button>
+                <button 
+                  onclick="downloadDoc('TNPCB-ZLD-Consent.pdf')"
+                  class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-emerald-700 transition-all"
+                  title="Download PDF"
+                >
+                  <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- PRODUCT DOCUMENTS (Commercial Invoice, Packing List, B/L) -->
+        <!-- ========================================================================= -->
+        <div class="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 space-y-3">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 font-display">
+            Product Documents
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            
+            <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+                <div>
+                  <strong class="text-slate-800 font-semibold block text-[11px]">Commercial Invoice</strong>
+                  <span class="text-[10px] text-slate-400 font-mono">INV-2026-1042.pdf</span>
+                </div>
+              </div>
+              <button onclick="downloadDoc('INV-2026-1042.pdf')" class="text-slate-400 hover:text-emerald-700 p-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+                <div>
+                  <strong class="text-slate-800 font-semibold block text-[11px]">Export Packing List</strong>
+                  <span class="text-[10px] text-slate-400 font-mono">PKL-2026-1042.pdf</span>
+                </div>
+              </div>
+              <button onclick="downloadDoc('PKL-2026-1042.pdf')" class="text-slate-400 hover:text-emerald-700 p-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+                <div>
+                  <strong class="text-slate-800 font-semibold block text-[11px]">CETP ZLD Clearance</strong>
+                  <span class="text-[10px] text-slate-400 font-mono">CETP-2026-8812.pdf</span>
+                </div>
+              </div>
+              <button onclick="downloadDoc('CETP-2026-8812.pdf')" class="text-slate-400 hover:text-emerald-700 p-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <div class="p-3 bg-slate-50/80 rounded-xl border border-slate-200 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i>
+                <div>
+                  <strong class="text-slate-800 font-semibold block text-[11px]">AZO-Free Test Report</strong>
+                  <span class="text-[10px] text-slate-400 font-mono">TR-AZF-2026-9912.pdf</span>
+                </div>
+              </div>
+              <button onclick="downloadDoc('TR-AZF-2026-9912.pdf')" class="text-slate-400 hover:text-emerald-700 p-1">
+                <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- PASSPORT ISSUANCE & BLOCKCHAIN ANCHOR BOX -->
+        <!-- ========================================================================= -->
+        <div class="border border-slate-200 bg-slate-50/60 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
           
-          <div id="qrcode-box" class="bg-white p-3.5 rounded-2xl inline-block shadow-xs border border-emerald-200 mx-auto"></div>
-
-          <div class="pt-1 flex items-center justify-center gap-3 text-xs">
-            <button onclick="downloadQrPng()" class="font-bold text-emerald-800 hover:underline flex items-center gap-1">
-              <i data-lucide="download" class="w-3.5 h-3.5"></i>
-              <span>Save PNG</span>
-            </button>
-            <span class="text-zinc-300">•</span>
-            <button onclick="openHangtagModal()" class="font-bold text-emerald-800 hover:underline flex items-center gap-1">
-              <i data-lucide="printer" class="w-3.5 h-3.5"></i>
-              <span>Print Hangtag</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Exporter Statutory Identity Card -->
-        <div class="bg-white rounded-3xl p-5 border border-zinc-200 shadow-sm space-y-3 text-xs">
-          <div class="flex items-center gap-2 pb-2 border-b border-zinc-100">
-            <i data-lucide="building-2" class="w-4 h-4 text-emerald-700"></i>
-            <h3 class="font-bold text-zinc-900 font-display">Exporter Statutory Identity</h3>
-          </div>
-
-          <div class="space-y-2 font-mono text-[11px]">
-            <div class="flex justify-between bg-zinc-50 p-2 rounded-xl">
-              <span class="text-zinc-400 font-sans">IEC Code:</span>
-              <strong class="text-emerald-800">0305012984</strong>
-            </div>
-            <div class="flex justify-between bg-zinc-50 p-2 rounded-xl">
-              <span class="text-zinc-400 font-sans">GSTIN:</span>
-              <strong class="text-emerald-800">33AAACJ1928A1Z5</strong>
-            </div>
-            <div class="flex justify-between bg-zinc-50 p-2 rounded-xl">
-              <span class="text-zinc-400 font-sans">PAN:</span>
-              <strong class="text-zinc-800">AAACJ1928A</strong>
-            </div>
-            <div class="flex justify-between bg-zinc-50 p-2 rounded-xl">
-              <span class="text-zinc-400 font-sans">Udyam MSME:</span>
-              <strong class="text-zinc-800">UDYAM-TN-32-0019284</strong>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ================= RIGHT COLUMN (65%) ================= -->
-      <div class="lg:col-span-8 space-y-6">
-        
-        <!-- Environmental Impact Highlights (4 Metric Cards) -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          
-          <div class="bg-white p-4 rounded-3xl border border-zinc-200 shadow-xs space-y-1">
-            <div class="flex items-center justify-between text-zinc-400 text-xs">
-              <span class="font-bold">Carbon</span>
-              <i data-lucide="leaf" class="w-4 h-4 text-emerald-600"></i>
-            </div>
-            <div class="text-2xl font-extrabold text-emerald-900 font-display">2.45 <span class="text-xs font-normal text-zinc-500">kg</span></div>
-            <span class="text-[10px] text-emerald-600 font-bold block">↓ 38% vs industry</span>
-          </div>
-
-          <div class="bg-white p-4 rounded-3xl border border-zinc-200 shadow-xs space-y-1">
-            <div class="flex items-center justify-between text-zinc-400 text-xs">
-              <span class="font-bold">ZLD Water</span>
-              <i data-lucide="droplets" class="w-4 h-4 text-teal-600"></i>
-            </div>
-            <div class="text-2xl font-extrabold text-teal-900 font-display">94.2%</div>
-            <span class="text-[10px] text-teal-700 font-bold block">Closed-Loop Recovery</span>
-          </div>
-
-          <div class="bg-white p-4 rounded-3xl border border-zinc-200 shadow-xs space-y-1">
-            <div class="flex items-center justify-between text-zinc-400 text-xs">
-              <span class="font-bold">Clean Power</span>
-              <i data-lucide="zap" class="w-4 h-4 text-amber-500"></i>
-            </div>
-            <div class="text-2xl font-extrabold text-amber-900 font-display">64%</div>
-            <span class="text-[10px] text-amber-700 font-bold block">Solar & Wind Grid</span>
-          </div>
-
-          <div class="bg-white p-4 rounded-3xl border border-zinc-200 shadow-xs space-y-1">
-            <div class="flex items-center justify-between text-zinc-400 text-xs">
-              <span class="font-bold">Chemicals</span>
-              <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i>
-            </div>
-            <div class="text-2xl font-extrabold text-blue-900 font-display">Pass</div>
-            <span class="text-[10px] text-blue-700 font-bold block">ZDHC MRSL Level 3</span>
-          </div>
-
-        </div>
-
-        <!-- 4 INTERACTIVE DETAIL TABS -->
-        <div class="bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden">
-          
-          <!-- Tab Headers -->
-          <div class="flex items-center border-b border-zinc-200 bg-zinc-50/70 overflow-x-auto text-xs font-bold">
-            <button onclick="switchTab('traceability')" id="tab-btn-traceability" class="px-5 py-3.5 border-b-2 border-emerald-700 text-emerald-800 bg-white shrink-0 transition-all">
-              1. Traceability & Supply Chain
-            </button>
-            <button onclick="switchTab('documents')" id="tab-btn-documents" class="px-5 py-3.5 border-b-2 border-transparent text-zinc-500 hover:text-zinc-900 shrink-0 transition-all">
-              2. Verified Documents (Evidence Ledger)
-            </button>
-            <button onclick="switchTab('environment')" id="tab-btn-environment" class="px-5 py-3.5 border-b-2 border-transparent text-zinc-500 hover:text-zinc-900 shrink-0 transition-all">
-              3. Environmental & ZLD Audit
-            </button>
-            <button onclick="switchTab('circularity')" id="tab-btn-circularity" class="px-5 py-3.5 border-b-2 border-transparent text-zinc-500 hover:text-zinc-900 shrink-0 transition-all">
-              4. Garment Care & Circularity
-            </button>
-          </div>
-
-          <!-- TAB CONTENT 1: TRACEABILITY TIMELINE -->
-          <div id="tab-content-traceability" class="p-6 space-y-6">
-            <div>
-              <h3 class="text-base font-bold text-zinc-900 font-display">
-                End-to-End Production Journey (Tiruppur Cluster)
-              </h3>
-              <p class="text-xs text-zinc-500">
-                Every stage is backed by verifiable facility certificates and mass-balance reconciliations.
-              </p>
-            </div>
-
-            <div class="space-y-4 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-zinc-200">
-              
-              <!-- Stage 1 -->
-              <div class="relative flex items-start gap-4 text-xs">
-                <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 z-10 text-[11px] shadow-sm">
-                  1
-                </div>
-                <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 w-full space-y-1">
-                  <div class="flex items-center justify-between">
-                    <strong class="text-zinc-900 text-sm font-bold">1. Organic Fiber Origin (GOTS Certified)</strong>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">DOCUMENT SUPPORTED</span>
-                  </div>
-                  <p class="text-zinc-600"><strong>Facility:</strong> Coimbatore Heritage Cotton Mills (GOTS Lic: CU-841920)</p>
-                  <p class="text-zinc-500">1,150 kg 100% GOTS v7.0 certified organic staple cotton harvested in Gujarat.</p>
-                </div>
-              </div>
-
-              <!-- Stage 2 -->
-              <div class="relative flex items-start gap-4 text-xs">
-                <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 z-10 text-[11px] shadow-sm">
-                  2
-                </div>
-                <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 w-full space-y-1">
-                  <div class="flex items-center justify-between">
-                    <strong class="text-zinc-900 text-sm font-bold">2. Fabric Knitting & Processing</strong>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">DOCUMENT SUPPORTED</span>
-                  </div>
-                  <p class="text-zinc-600"><strong>Facility:</strong> Sri Jayavarma Knitting Unit 2, Tiruppur</p>
-                  <p class="text-zinc-500">1,120 kg circular knit 24-gauge single jersey fabric (180 GSM), combed ring spun.</p>
-                </div>
-              </div>
-
-              <!-- Stage 3 -->
-              <div class="relative flex items-start gap-4 text-xs">
-                <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 z-10 text-[11px] shadow-sm">
-                  3
-                </div>
-                <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 w-full space-y-1">
-                  <div class="flex items-center justify-between">
-                    <strong class="text-zinc-900 text-sm font-bold">3. Dyeing & Wet Processing (Midnight Black)</strong>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">DOCUMENT SUPPORTED</span>
-                  </div>
-                  <p class="text-zinc-600"><strong>Facility:</strong> Rainbow Eco-Dyers Tiruppur (OEKO-TEX Lic: OEKO-2026-TX-9912)</p>
-                  <p class="text-zinc-500">1,100 kg low-impact reactive azo-free black dyeing at 60°C. OEKO-TEX Baby Class I pass.</p>
-                </div>
-              </div>
-
-              <!-- Stage 4 -->
-              <div class="relative flex items-start gap-4 text-xs">
-                <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 z-10 text-[11px] shadow-sm">
-                  4
-                </div>
-                <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 w-full space-y-1">
-                  <div class="flex items-center justify-between">
-                    <strong class="text-zinc-900 text-sm font-bold">4. Garment Manufacturing (Cut & Sew)</strong>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">DOCUMENT SUPPORTED</span>
-                  </div>
-                  <p class="text-zinc-600"><strong>Facility:</strong> Sri Jayavarma Main Unit, Tiruppur</p>
-                  <p class="text-zinc-500">5,000 finished black crewneck t-shirts sewn with certified organic cotton thread.</p>
-                </div>
-              </div>
-
-              <!-- Stage 5 -->
-              <div class="relative flex items-start gap-4 text-xs">
-                <div class="w-7 h-7 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center shrink-0 z-10 text-[11px] shadow-sm">
-                  5
-                </div>
-                <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 w-full space-y-1">
-                  <div class="flex items-center justify-between">
-                    <strong class="text-zinc-900 text-sm font-bold">5. Finishing, Hangtag Affixing & Sea Freight</strong>
-                    <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">DOCUMENT SUPPORTED</span>
-                  </div>
-                  <p class="text-zinc-600"><strong>Logistics:</strong> Maersk Line Ocean Freight (Tuticorin Port INVOI1 ➔ Hamburg DEHAM)</p>
-                  <p class="text-zinc-500">100 FSC recycled cartons. Bill of Lading MSK-BL-9921094. DPP QR hangtags attached.</p>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- TAB CONTENT 2: VERIFIED DOCUMENTS LEDGER -->
-          <div id="tab-content-documents" class="p-6 space-y-4 hidden">
-            <div>
-              <h3 class="text-base font-bold text-zinc-900 font-display">
-                Attached Export Evidence & Certificate Ledger
-              </h3>
-              <p class="text-xs text-zinc-500">
-                All 7 compliance and export documents required for EU customs clearance and bank trade financing.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              
-              <!-- Doc 1: GOTS -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">
-                      Material Standard
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">GOTS v7.0 Scope Certificate</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">CU-841920-GOTS-2026</p>
-                  </div>
-                  <button onclick="viewDocModal('GOTS')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ Issuer: Control Union Certifications B.V. (Valid until 2026-12-31)
-                </div>
-              </div>
-
-              <!-- Doc 2: OEKO-TEX -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">
-                      Chemical Safety
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">OEKO-TEX Standard 100 Class I</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">OEKO-2026-TX-9912</p>
-                  </div>
-                  <button onclick="viewDocModal('OEKOTEX')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ Issuer: TESTEX AG Swiss Testing Institute (Valid until 2027-01-09)
-                </div>
-              </div>
-
-              <!-- Doc 3: TNPCB ZLD -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 px-2 py-0.5 rounded">
-                      Water Consent
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">TNPCB 100% ZLD Consent Order</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">TNPCB-ZLD-2026-8812</p>
-                  </div>
-                  <button onclick="viewDocModal('TNPCB')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ Tamil Nadu Pollution Control Board (Valid until 2026-09-30)
-                </div>
-              </div>
-
-              <!-- Doc 4: Commercial Invoice -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-purple-800 bg-purple-50 px-2 py-0.5 rounded">
-                      Commercial Sale
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">Commercial Export Invoice</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">INV-2026-1042</p>
-                  </div>
-                  <button onclick="viewDocModal('INVOICE')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ 5,000 PCS • EUR 32,500 • Incoterm: CIF Hamburg
-                </div>
-              </div>
-
-              <!-- Doc 5: Packing List -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded">
-                      Logistics
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">Export Packing List</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">PL-2026-1042</p>
-                  </div>
-                  <button onclick="viewDocModal('PACKING')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ 100 Cartons • 1,100 kg Net • 1,240 kg Gross
-                </div>
-              </div>
-
-              <!-- Doc 6: Ocean B/L & Shipping Bill -->
-              <div class="p-4 rounded-2xl border border-zinc-200 bg-white hover:border-emerald-500 transition-all space-y-2">
-                <div class="flex items-start justify-between">
-                  <div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-2 py-0.5 rounded">
-                      Customs & Freight
-                    </span>
-                    <h4 class="font-bold text-zinc-900 text-xs mt-1">Ocean Bill of Lading & Shipping Bill</h4>
-                    <p class="text-[11px] font-mono text-zinc-500">MSK-BL-9921094 • SB-9912048</p>
-                  </div>
-                  <button onclick="viewDocModal('BL')" class="text-emerald-700 font-bold hover:underline">View</button>
-                </div>
-                <div class="text-[11px] text-zinc-500 bg-zinc-50 p-2 rounded-xl">
-                  ✓ Carrier: Maersk Line • Port: Tuticorin (INVOI1)
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- TAB CONTENT 3: ENVIRONMENTAL & ZLD AUDIT -->
-          <div id="tab-content-environment" class="p-6 space-y-6 hidden text-xs">
-            <div>
-              <h3 class="text-base font-bold text-zinc-900 font-display">
-                Environmental Footprint & ZLD Closed-Loop Telemetry
-              </h3>
-              <p class="text-xs text-zinc-500">
-                Verified life-cycle assessment (LCA) compliance under ISO 14040 / 14044 methodology.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200 space-y-2">
-                <strong class="text-emerald-950 font-bold text-sm block">100% Zero Liquid Discharge (ZLD)</strong>
-                <p class="text-emerald-900 leading-relaxed">
-                  Dyeing effluent treated at Arulpuram CETP Unit 3 utilizing biological aeration, multi-stage reverse osmosis, and thermal brine evaporation.
-                </p>
-                <div class="font-mono text-[11px] bg-white p-2.5 rounded-xl border border-emerald-200 text-emerald-900 space-y-1">
-                  <div>• Treated Water Recycled: <strong>94.2%</strong></div>
-                  <div>• Salt / Brine Recovered: <strong>12.4 MT</strong></div>
-                  <div>• River / Land Discharge: <strong>0.00 Litres (Zero Discharge)</strong></div>
-                </div>
-              </div>
-
-              <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-2">
-                <strong class="text-zinc-900 font-bold text-sm block">Renewable Grid Energy Allocation</strong>
-                <p class="text-zinc-600 leading-relaxed">
-                  Spinning and garment sewing units powered by captive wind turbines and rooftop solar photovoltaic arrays in the Tiruppur green industrial zone.
-                </p>
-                <div class="font-mono text-[11px] bg-white p-2.5 rounded-xl border border-zinc-200 text-zinc-800 space-y-1">
-                  <div>• Solar Energy: <strong>38%</strong></div>
-                  <div>• Wind Energy: <strong>26%</strong></div>
-                  <div>• Grid Power: <strong>36%</strong></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB CONTENT 4: CIRCULARITY & CARE -->
-          <div id="tab-content-circularity" class="p-6 space-y-6 hidden text-xs">
-            <div>
-              <h3 class="text-base font-bold text-zinc-900 font-display">
-                Garment Care, Longevity & End-of-Life Circularity
-              </h3>
-              <p class="text-xs text-zinc-500">
-                Guidelines for maximizing garment life and participating in closed-loop textile recycling.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-1 text-center">
-                <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-700 flex items-center justify-center mx-auto mb-2">
-                  <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                </div>
-                <strong class="text-zinc-900 block font-bold">Wash Cold (30°C)</strong>
-                <p class="text-zinc-500 text-[11px]">Wash with similar dark colors using mild organic detergents to preserve fibers.</p>
-              </div>
-
-              <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-1 text-center">
-                <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center mx-auto mb-2">
-                  <i data-lucide="sun" class="w-5 h-5"></i>
-                </div>
-                <strong class="text-zinc-900 block font-bold">Line Dry in Shade</strong>
-                <p class="text-zinc-500 text-[11px]">Avoid tumble drying. Air drying protects the organic knit and reduces carbon footprint by 0.4 kg.</p>
-              </div>
-
-              <div class="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-1 text-center">
-                <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-2">
-                  <i data-lucide="recycle" class="w-5 h-5"></i>
-                </div>
-                <strong class="text-zinc-900 block font-bold">100% Mono-Material</strong>
-                <p class="text-zinc-500 text-[11px]">Pure 100% cotton structure allows seamless mechanical fiber-to-fiber recycling.</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 5. IMMUTABLE BLOCKCHAIN PROVENANCE CARD -->
-        <div class="border border-zinc-200 bg-[#FAFAFC] rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 border border-purple-200 flex items-center justify-center font-bold text-base shrink-0">
-              <i data-lucide="hexagon" class="w-5 h-5"></i>
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-black">
+              ✓
             </div>
             <div>
-              <strong class="text-zinc-900 block font-bold font-sans text-xs">Polygon Amoy PoS Ledger Verified</strong>
-              <span class="text-zinc-500 text-[11px]">Merkle Root: 0x51081b8491be34b03737b2f646890367</span>
-              <span class="text-purple-700 font-bold block text-[10px]">Tx Hash: 0x7f28a0e84f2deda7d455b8b45ae9e41d0bece</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase block">Passport Issued By</span>
+              <strong class="text-slate-900 font-bold block">VastraSetu Platform</strong>
+              <span class="text-[10px] text-slate-500">Tiruppur, India</span>
             </div>
           </div>
 
-          <span class="px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] border border-emerald-300 shrink-0">
-            IMMUTABLE LEDGER ✓
-          </span>
+          <div class="text-left sm:text-center">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Issue Date</span>
+            <span class="font-bold text-slate-800 text-[11px]">20 May 2026</span>
+          </div>
+
+          <div class="text-left sm:text-center">
+            <span class="text-[10px] font-bold text-slate-400 uppercase block">Valid Until</span>
+            <span class="font-bold text-slate-800 text-[11px]">20 May 2028</span>
+          </div>
+
+          <!-- Polygon Emblem -->
+          <div class="flex items-center gap-2 border-t sm:border-t-0 sm:border-l border-slate-200 pt-2 sm:pt-0 sm:pl-3 w-full sm:w-auto">
+            <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
+              <i data-lucide="hexagon" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <strong class="text-[11px] font-bold text-slate-900 block">Blockchain Verified</strong>
+              <span class="text-[10px] font-mono text-purple-700 font-semibold block">Polygon: 0x7f3a...9c21</span>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
     </div>
 
-  </main>
+    <!-- ========================================================================= -->
+    <!-- FOOTER: GS1 DIGITAL LINK COMPLIANCE -->
+    <!-- ========================================================================= -->
+    <footer class="p-4 sm:p-6 border-t border-slate-100 bg-white text-center space-y-1">
+      <p class="text-[11px] text-slate-400 font-medium">
+        This Digital Product Passport is generated in compliance with GS1 Digital Link Standard
+      </p>
+      <div class="flex items-center justify-center gap-1.5 text-[10px] font-mono text-slate-500 font-bold tracking-widest uppercase">
+        <span>((( GS1 Digital Link )))</span>
+      </div>
+    </footer>
+
+  </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL 1: PRINTABLE GARMENT HANGTAG (2.5" x 4.5") -->
+  <!-- MODAL: INTERACTIVE CERTIFICATE VIEWER -->
   <!-- ========================================================================= -->
-  <div id="hangtag-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm hidden animate-in fade-in">
-    <div class="bg-white rounded-3xl shadow-2xl border border-zinc-200 max-w-sm w-full overflow-hidden font-sans">
+  <div id="cert-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs hidden animate-in fade-in">
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full overflow-hidden font-sans">
       
-      <div class="bg-zinc-900 text-white p-4 flex items-center justify-between">
+      <!-- Modal Header -->
+      <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
         <div class="flex items-center gap-2">
-          <i data-lucide="printer" class="w-4 h-4 text-emerald-400"></i>
-          <h3 class="font-bold text-xs text-white">Printable Garment Hangtag</h3>
+          <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+          <h3 id="modal-title" class="font-bold text-xs text-white">Certificate Preview</h3>
         </div>
-        <button onclick="closeHangtagModal()" class="text-zinc-400 hover:text-white p-1">
+        <button onclick="closeCertModal()" class="text-slate-400 hover:text-white p-1">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
-      <!-- Physical Hangtag Card -->
-      <div class="p-6 bg-zinc-100 flex flex-col items-center justify-center">
+      <!-- Modal Body -->
+      <div class="p-6 space-y-4 text-xs">
         
-        <div id="printable-hangtag" class="w-64 bg-white rounded-3xl shadow-xl border-2 border-zinc-900 p-4 text-center relative overflow-hidden font-sans">
-          
-          <!-- Punch Hole -->
-          <div class="w-3.5 h-3.5 rounded-full border-2 border-zinc-900 mx-auto mb-2.5 bg-zinc-100 shadow-inner"></div>
-
-          <!-- Logo -->
-          <div class="flex items-center justify-center gap-1 mb-1">
-            <span class="font-extrabold text-xs tracking-wider text-zinc-900 uppercase">
-              Vastra<span class="text-emerald-700">Setu</span>
+        <div class="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-950 space-y-1">
+          <div class="flex justify-between items-center">
+            <strong class="font-bold">Cryptographic Status:</strong>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900 font-mono">
+              VERIFIED VALID ✓
             </span>
           </div>
-          <span class="text-[8px] font-bold text-emerald-800 uppercase tracking-widest bg-emerald-50 py-0.5 px-2 rounded-full inline-block mb-2 border border-emerald-200">
-            Digital Product Passport
-          </span>
-
-          <h4 class="font-bold text-[11px] text-zinc-900 mb-0.5 line-clamp-1">Organic Cotton T-Shirt (Black)</h4>
-          <p class="text-[9px] text-zinc-500 mb-2 font-mono">VS-2026-B00041 • HS 6109.10</p>
-
-          <!-- QR -->
-          <div id="hangtag-qr-target" class="bg-white p-2 rounded-xl border border-zinc-300 inline-block shadow-xs mb-2"></div>
-
-          <div class="text-[9px] text-zinc-600 bg-zinc-50 py-1 px-2 rounded-lg border border-zinc-200 mb-2 font-medium">
-            100% Organic Cotton (180 GSM)
-          </div>
-
-          <div class="grid grid-cols-2 gap-1 text-left mb-2 bg-zinc-50 p-1.5 rounded-lg border border-zinc-200">
-            <div class="p-0.5">
-              <span class="text-[7px] uppercase text-zinc-400 block font-bold">Carbon</span>
-              <span class="text-[9px] font-bold text-emerald-900">2.45 kg CO₂e</span>
-            </div>
-            <div class="p-0.5 border-l border-zinc-200 pl-1.5">
-              <span class="text-[7px] uppercase text-zinc-400 block font-bold">ZLD Water</span>
-              <span class="text-[9px] font-bold text-teal-900">94.2% Recycled</span>
-            </div>
-          </div>
-
-          <div class="text-[8px] text-zinc-500 border-t border-dashed border-zinc-300 pt-1.5 flex items-center justify-between">
-            <span>Origin: Tiruppur, India</span>
-            <span class="font-bold text-emerald-700">EU DPP Ready ✓</span>
-          </div>
+          <p id="modal-issuer" class="text-[11px] text-emerald-900 font-medium">Issuer: Control Union Certifications</p>
         </div>
 
-      </div>
-
-      <div class="p-4 bg-white border-t border-zinc-200 flex items-center justify-between gap-2">
-        <button onclick="downloadQrPng()" class="flex-1 py-2 text-xs font-bold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-xl transition-all">
-          Save PNG
-        </button>
-        <button onclick="window.print()" class="flex-1 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl flex items-center justify-center gap-1 shadow-xs transition-all">
-          <i data-lucide="printer" class="w-3 h-3"></i>
-          <span>Print Hangtag</span>
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
-  <!-- MODAL 2: DOCUMENT VIEWER MODAL -->
-  <!-- ========================================================================= -->
-  <div id="doc-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-sm hidden animate-in fade-in">
-    <div class="bg-white rounded-3xl shadow-2xl border border-zinc-200 max-w-lg w-full overflow-hidden font-sans">
-      
-      <div class="bg-zinc-900 text-white p-4 sm:p-5 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <i data-lucide="shield-check" class="w-5 h-5 text-emerald-400"></i>
-          <h3 id="doc-modal-title" class="font-bold text-sm text-white">Document Verification</h3>
-        </div>
-        <button onclick="closeDocModal()" class="text-zinc-400 hover:text-white p-1">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
-      </div>
-
-      <div class="p-6 space-y-4 text-xs font-mono">
-        <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-950 space-y-1">
-          <div class="flex justify-between items-center">
-            <strong class="font-bold font-sans">Authenticity Status:</strong>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-200 text-emerald-900">ISSUER VERIFIED ✓</span>
-          </div>
-          <p id="doc-modal-issuer" class="text-[11px]">Issuer: Control Union Certifications B.V.</p>
+        <div id="modal-fields" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2 text-slate-700 font-mono text-[11px]">
+          <!-- Injected via JS -->
         </div>
 
-        <div id="doc-modal-fields" class="bg-zinc-50 p-4 rounded-2xl border border-zinc-200 space-y-2 text-zinc-700">
-          <!-- Populated by JS -->
-        </div>
-
-        <div class="text-[11px] text-zinc-400 pt-2 border-t border-zinc-100 flex justify-between">
+        <div class="text-[10px] text-slate-400 pt-2 border-t border-slate-100 flex justify-between font-mono">
           <span>SHA-256 Hash:</span>
-          <span class="font-mono text-zinc-600">0x7f28a0e84f...</span>
+          <span class="text-slate-600">0x51081b8491be...</span>
         </div>
+
       </div>
 
-      <div class="p-4 bg-zinc-50 border-t border-zinc-200 text-right">
-        <button onclick="closeDocModal()" class="px-5 py-2 bg-zinc-900 text-white font-bold text-xs rounded-xl">
-          Close Preview
+      <!-- Modal Footer -->
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+        <button 
+          onclick="closeCertModal()"
+          class="flex-1 py-2 text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 rounded-xl transition-all"
+        >
+          Close
+        </button>
+        <button 
+          id="modal-download-btn"
+          onclick="downloadCurrentModalDoc()"
+          class="flex-1 py-2 text-xs font-bold text-white bg-emerald-700 hover:bg-emerald-800 rounded-xl flex items-center justify-center gap-1.5 shadow-xs transition-all"
+        >
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span>Download PDF</span>
         </button>
       </div>
 
@@ -799,141 +715,144 @@
   <!-- JAVASCRIPT LOGIC -->
   <!-- ========================================================================= -->
   <script>
-    // 1. Initialize Icons
+    // 1. Initialize Lucide Icons
     lucide.createIcons();
 
-    // 2. Generate Dynamic QR Codes
-    const currentUrl = window.location.href;
-
-    new QRCode(document.getElementById("qrcode-box"), {
-      text: currentUrl,
-      width: 130,
-      height: 130,
+    // 2. Generate Dynamic GS1 QR Code pointing to current hosted URL
+    const passportUrl = window.location.href;
+    new QRCode(document.getElementById("qrcode-target"), {
+      text: passportUrl,
+      width: 120,
+      height: 120,
       colorDark: "#064E3B",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
     });
 
-    new QRCode(document.getElementById("hangtag-qr-target"), {
-      text: currentUrl,
-      width: 100,
-      height: 100,
-      colorDark: "#092F23",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+    // 3. Image Error Handling
+    function handleImageError(img) {
+      img.style.display = 'none';
+      const fallback = document.getElementById('img-fallback');
+      if (fallback) {
+        fallback.classList.remove('hidden');
+        fallback.classList.add('flex');
+      }
+    }
 
-    // 3. Tab Switching Logic
-    function switchTab(tabKey) {
-      const tabs = ['traceability', 'documents', 'environment', 'circularity'];
-      tabs.forEach(t => {
-        const content = document.getElementById(`tab-content-${t}`);
-        const btn = document.getElementById(`tab-btn-${t}`);
-        if (t === tabKey) {
-          content.classList.remove('hidden');
-          btn.classList.add('border-emerald-700', 'text-emerald-800', 'bg-white');
-          btn.classList.remove('border-transparent', 'text-zinc-500');
-        } else {
-          content.classList.add('hidden');
-          btn.classList.remove('border-emerald-700', 'text-emerald-800', 'bg-white');
-          btn.classList.add('border-transparent', 'text-zinc-500');
-        }
+    // 4. Copy Share Link
+    function copyDppLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        const textSpan = document.getElementById('copy-text');
+        textSpan.innerText = '✓ Copied!';
+        setTimeout(() => textSpan.innerText = 'Share Link', 2500);
       });
     }
 
-    // 4. Modal Functions
-    function openHangtagModal() {
-      document.getElementById('hangtag-modal').classList.remove('hidden');
-    }
-    function closeHangtagModal() {
-      document.getElementById('hangtag-modal').classList.add('hidden');
-    }
-
-    function sharePassport() {
-      navigator.clipboard.writeText(window.location.href);
-      const btn = document.getElementById('share-btn-text');
-      btn.innerText = '✓ Link Copied!';
-      setTimeout(() => btn.innerText = 'Share DPP', 2500);
-    }
-
-    function downloadQrPng() {
-      const img = document.querySelector('#qrcode-box img');
-      if (img && img.src) {
-        const a = document.createElement('a');
-        a.download = 'VastraSetu_Black_TShirt_DPP_QR.png';
-        a.href = img.src;
-        a.click();
+    // 5. Download QR Image
+    function downloadQrImage() {
+      const qrImg = document.querySelector('#qrcode-target img');
+      if (qrImg && qrImg.src) {
+        const link = document.createElement('a');
+        link.download = 'VastraSetu_Black_TShirt_DPP_QR.png';
+        link.href = qrImg.src;
+        link.click();
       }
     }
 
-    // Document Modal Preview
-    function viewDocModal(type) {
-      const modal = document.getElementById('doc-modal');
-      const title = document.getElementById('doc-modal-title');
-      const issuer = document.getElementById('doc-modal-issuer');
-      const fields = document.getElementById('doc-modal-fields');
+    // 6. Interactive Certificate Modal Logic
+    let currentActiveDoc = 'GOTS-Scope-Certificate.pdf';
 
-      if (type === 'GOTS') {
-        title.innerText = 'GOTS v7.0 Scope Certificate';
-        issuer.innerText = 'Issuer: Control Union Certifications B.V. (License: CU-841920)';
-        fields.innerHTML = `
-          <div><strong>Standard:</strong> Global Organic Textile Standard (GOTS) v7.0</div>
-          <div><strong>Certified Material:</strong> 100% Organic Combed Staple Cotton</div>
+    const CERT_DETAILS = {
+      GOTS: {
+        title: 'Global Organic Textile Standard (GOTS v7.0)',
+        issuer: 'Issuer: Control Union Certifications B.V. (License: CU-841920)',
+        filename: 'GOTS-Scope-Certificate.pdf',
+        html: `
+          <div><strong>Standard:</strong> GOTS Version 7.0</div>
+          <div><strong>Product Category:</strong> 100% Organic Combed Cotton</div>
+          <div><strong>Scope:</strong> Fiber Ginning, Spinning & Knitting</div>
           <div><strong>Valid Until:</strong> 31 Dec 2026</div>
-          <div><strong>Batch Fiber Lot:</strong> RAW-COT-2026-09 (1,150 kg)</div>
-        `;
-      } else if (type === 'OEKOTEX') {
-        title.innerText = 'OEKO-TEX Standard 100 Class I Test Report';
-        issuer.innerText = 'Issuer: TESTEX AG Swiss Textile Testing Institute';
-        fields.innerHTML = `
-          <div><strong>Standard:</strong> OEKO-TEX Standard 100 (Annex 4, Baby Class I)</div>
-          <div><strong>Chemical Compliance:</strong> Azo-Free Dyes & ZDHC Level 3 Pass</div>
-          <div><strong>Color:</strong> Midnight Black Reactive Dyeing</div>
-          <div><strong>Heavy Metals:</strong> ND (None Detected)</div>
-        `;
-      } else if (type === 'TNPCB') {
-        title.innerText = 'TNPCB 100% ZLD Consent Order';
-        issuer.innerText = 'Issuer: Tamil Nadu Pollution Control Board (Tiruppur South)';
-        fields.innerHTML = `
-          <div><strong>Consent Ref:</strong> TNPCB-ZLD-2026-8812</div>
-          <div><strong>Water Standard:</strong> 100% Zero Liquid Discharge Closed-Loop</div>
-          <div><strong>Recovery Rate:</strong> 94.2% Treated Effluent Water</div>
-          <div><strong>Treatment Facility:</strong> Arulpuram CETP Unit 3</div>
-        `;
-      } else if (type === 'INVOICE') {
-        title.innerText = 'Commercial Export Invoice (Customs/Bank Copy)';
-        issuer.innerText = 'Issuer: Sri Jayavarma Knits & Exports Pvt Ltd';
-        fields.innerHTML = `
-          <div><strong>Invoice No:</strong> INV-2026-1042</div>
-          <div><strong>Buyer:</strong> XYZ Fashion GmbH (Hamburg, Germany)</div>
-          <div><strong>Quantity:</strong> 5,000 PCS @ EUR 6.50 / piece</div>
-          <div><strong>Total Value:</strong> EUR 32,500 (Incoterm: CIF Hamburg)</div>
-        `;
-      } else if (type === 'PACKING') {
-        title.innerText = 'Export Packing List';
-        issuer.innerText = 'Issuer: Sri Jayavarma Logistics Hub';
-        fields.innerHTML = `
-          <div><strong>Packing List No:</strong> PL-2026-1042</div>
-          <div><strong>Cartons:</strong> 100 Corrugated Boxes</div>
-          <div><strong>Net Weight:</strong> 1,100 kg</div>
-          <div><strong>Gross Weight:</strong> 1,240 kg</div>
-        `;
-      } else {
-        title.innerText = 'Ocean Bill of Lading & Customs Shipping Bill';
-        issuer.innerText = 'Issuer: Maersk Line & Indian Customs ICEGATE';
-        fields.innerHTML = `
-          <div><strong>B/L Number:</strong> MSK-BL-9921094</div>
-          <div><strong>Shipping Bill:</strong> SB-9912048-2026</div>
-          <div><strong>Port of Loading:</strong> Tuticorin (INVOI1)</div>
-          <div><strong>Port of Discharge:</strong> Hamburg (DEHAM)</div>
-        `;
+          <div><strong>Batch Lot Ref:</strong> RAW-COT-2026-09 (1,150 kg)</div>
+        `
+      },
+      OEKOTEX: {
+        title: 'OEKO-TEX® Standard 100 Class I',
+        issuer: 'Issuer: TESTEX AG Swiss Textile Institute',
+        filename: 'OEKO-TEX-Test-Report.pdf',
+        html: `
+          <div><strong>Test Class:</strong> Annex 4, Baby Class I (Direct skin contact)</div>
+          <div><strong>Chemical Check:</strong> Azo-Free Dye Pass & ZDHC Level 3</div>
+          <div><strong>Colour Fastness:</strong> Grade 4-5 (Midnight Black Reactive)</div>
+          <div><strong>Harmful Substances:</strong> Below Detectable Limits (ND)</div>
+        `
+      },
+      ISO14001: {
+        title: 'ISO 14001:2015 Environmental Management',
+        issuer: 'Issuer: TUV India Certification Hub',
+        filename: 'ISO-14001-Certificate.pdf',
+        html: `
+          <div><strong>Facility:</strong> Sri Jayavarma Knits Main Unit</div>
+          <div><strong>Environmental Policy:</strong> Energy efficiency & zero solid waste</div>
+          <div><strong>Solar Power Captive:</strong> 38% On-site rooftop</div>
+          <div><strong>Valid Until:</strong> 14 May 2027</div>
+        `
+      },
+      SA8000: {
+        title: 'SA 8000 Social Accountability',
+        issuer: 'Issuer: TUV India Social Audit Division',
+        filename: 'SA-8000-Social-Audit.pdf',
+        html: `
+          <div><strong>Standard:</strong> Social Accountability International SA8000</div>
+          <div><strong>Audit Scope:</strong> Fair wages, living conditions, zero child labor</div>
+          <div><strong>Gender Diversity:</strong> 64% female workforce</div>
+          <div><strong>Audit Score:</strong> Grade A (100% Compliant)</div>
+        `
+      },
+      TNPCB: {
+        title: 'TNPCB 100% Zero Liquid Discharge (ZLD) Consent',
+        issuer: 'Issuer: Tamil Nadu Pollution Control Board (Tiruppur South)',
+        filename: 'TNPCB-ZLD-Consent.pdf',
+        html: `
+          <div><strong>Consent Order:</strong> TNPCB-ZLD-2026-8812</div>
+          <div><strong>Effluent Treatment:</strong> Arulpuram CETP Unit 3</div>
+          <div><strong>Water Recycled Rate:</strong> 94.2% closed-loop recovery</div>
+          <div><strong>River/Land Discharge:</strong> 0.00 Litres (Zero Discharge)</div>
+        `
       }
+    };
 
-      modal.classList.remove('hidden');
+    function openCertModal(key) {
+      const data = CERT_DETAILS[key] || CERT_DETAILS.GOTS;
+      currentActiveDoc = data.filename;
+      document.getElementById('modal-title').innerText = data.title;
+      document.getElementById('modal-issuer').innerText = data.issuer;
+      document.getElementById('modal-fields').innerHTML = data.html;
+      document.getElementById('cert-modal').classList.remove('hidden');
     }
 
-    function closeDocModal() {
-      document.getElementById('doc-modal').classList.add('hidden');
+    function closeCertModal() {
+      document.getElementById('cert-modal').classList.add('hidden');
+    }
+
+    // 7. Download PDF Simulation (generates text-backed printable verification file)
+    function downloadDoc(filename) {
+      const content = `VASTRASETU DIGITAL PRODUCT PASSPORT OFFICIAL CERTIFICATE\n` +
+        `Document: ${filename}\n` +
+        `Product: 100% Organic Cotton Crewneck T-Shirt (Midnight Black)\n` +
+        `Batch: VS-2026-B00041\n` +
+        `Issuer Status: CRYPTOGRAPHICALLY VERIFIED ON POLYGON POS (Tx: 0x7f3a...9c21)\n` +
+        `Timestamp: ${new Date().toISOString()}\n` +
+        `Verification URL: ${window.location.href}\n`;
+
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename.replace('.pdf', '.txt');
+      link.click();
+    }
+
+    function downloadCurrentModalDoc() {
+      downloadDoc(currentActiveDoc);
     }
   </script>
 
