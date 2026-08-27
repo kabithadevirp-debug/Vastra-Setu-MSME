@@ -103,13 +103,23 @@ export function DashboardPage({ navigate }) {
           </p>
         </div>
 
-        <button
-          onClick={() => navigate('/create-batch')}
-          className="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-all hover:scale-105 shrink-0"
-        >
-          <Plus className="w-4 h-4" />
-          <span>+ Create Garment Batch</span>
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => navigate('/twin')}
+            className="px-4 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-all hover:scale-105"
+          >
+            <Sparkles className="w-4 h-4 text-emerald-400" />
+            <span>Green Growth Twin</span>
+          </button>
+
+          <button
+            onClick={() => navigate('/create-batch')}
+            className="px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center gap-2 shadow-xs transition-all hover:scale-105"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Create Garment Batch</span>
+          </button>
+        </div>
       </div>
 
       {/* 2. THE 5 CORE QUESTIONS KPI CARDS */}

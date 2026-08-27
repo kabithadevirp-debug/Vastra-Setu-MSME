@@ -18,6 +18,16 @@ import { ReceiverConfirmationPage } from './pages/ReceiverConfirmationPage';
 import { DocumentVaultPage } from './pages/DocumentVaultPage';
 import { BankSnapshotPage } from './pages/BankSnapshotPage';
 import { GovernmentAuditPage } from './pages/GovernmentAuditPage';
+import { DyerPortalPage } from './pages/DyerPortalPage';
+import { CetpPortalPage } from './pages/CetpPortalPage';
+import { BankPortalPage } from './pages/BankPortalPage';
+import { AuditorPortalPage } from './pages/AuditorPortalPage';
+import { AdminPortalPage } from './pages/AdminPortalPage';
+import { GreenGrowthTwinPage } from './pages/GreenGrowthTwinPage';
+import { IdentityUploadPage } from './pages/IdentityUploadPage';
+import { DocumentUploadPage } from './pages/DocumentUploadPage';
+import { AnalyticsPage } from './pages/AnalyticsPage';
+import { PassportViewPage } from './pages/PassportViewPage';
 
 function AppContent() {
   const { msme, isAuthenticated, loading } = useAuth();
@@ -58,17 +68,24 @@ function AppContent() {
     return <ReceiverConfirmationPage token={token} navigate={navigate} />;
   }
 
-  // 3. UNAUTHENTICATED USERS (Auth Flows)
+  // 3. LANDING PAGE & PUBLIC ENTRY (Always render Landing Page on /)
+  if (currentPath === '/' || currentPath === '/landing' || currentPath === '/home') {
+    return <LandingPage navigate={navigate} />;
+  }
+
+  // 4. AUTH FLOWS (Login, Register, OTP)
+  if (currentPath === '/login') {
+    return <LoginPage navigate={navigate} />;
+  }
+  if (currentPath === '/register') {
+    return <RegisterPage navigate={navigate} />;
+  }
+  if (currentPath === '/verify-otp') {
+    return <OtpVerifyPage navigate={navigate} />;
+  }
+
+  // 5. UNAUTHENTICATED USERS REDIRECT TO LANDING
   if (!isAuthenticated || !msme) {
-    if (currentPath === '/login') {
-      return <LoginPage navigate={navigate} />;
-    }
-    if (currentPath === '/register') {
-      return <RegisterPage navigate={navigate} />;
-    }
-    if (currentPath === '/verify-otp') {
-      return <OtpVerifyPage navigate={navigate} />;
-    }
     return <LandingPage navigate={navigate} />;
   }
 
@@ -124,6 +141,97 @@ function AppContent() {
       return (
         <AppLayout currentPath="/govt-audit" navigate={navigate}>
           <GovernmentAuditPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Dyeing Partner Facility Portal
+    if (currentPath === '/portal/dyer' || currentPath === '/dyer') {
+      return (
+        <AppLayout currentPath="/portal/dyer" navigate={navigate}>
+          <DyerPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // CETP ZLD Plant Operator Portal
+    if (currentPath === '/portal/cetp' || currentPath === '/cetp') {
+      return (
+        <AppLayout currentPath="/portal/cetp" navigate={navigate}>
+          <CetpPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Bank / NBFC Financial Portal
+    if (currentPath === '/portal/bank') {
+      return (
+        <AppLayout currentPath="/portal/bank" navigate={navigate}>
+          <BankPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Government & Regulatory Auditor Portal
+    if (currentPath === '/portal/auditor') {
+      return (
+        <AppLayout currentPath="/portal/auditor" navigate={navigate}>
+          <AuditorPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Platform Admin Portal
+    if (currentPath === '/portal/admin' || currentPath === '/admin') {
+      return (
+        <AppLayout currentPath="/portal/admin" navigate={navigate}>
+          <AdminPortalPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Green Growth Twin Intelligence & Simulator
+    if (currentPath === '/twin' || currentPath === '/green-twin') {
+      return (
+        <AppLayout currentPath="/twin" navigate={navigate}>
+          <GreenGrowthTwinPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Document Upload Desk
+    if (currentPath === '/document-upload' || currentPath === '/upload-doc') {
+      return (
+        <AppLayout currentPath="/document-upload" navigate={navigate}>
+          <DocumentUploadPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Identity Verification Desk
+    if (currentPath === '/identity-upload' || currentPath === '/identity') {
+      return (
+        <AppLayout currentPath="/identity-upload" navigate={navigate}>
+          <IdentityUploadPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Sustainability Analytics
+    if (currentPath === '/analytics') {
+      return (
+        <AppLayout currentPath="/analytics" navigate={navigate}>
+          <AnalyticsPage navigate={navigate} />
+        </AppLayout>
+      );
+    }
+
+    // Digital Product Passport View
+    if (currentPath.startsWith('/passport/') || currentPath.startsWith('/passports/')) {
+      const passportId = currentPath.replace('/passport/', '').replace('/passports/', '');
+      return (
+        <AppLayout currentPath="/passports" navigate={navigate}>
+          <PassportViewPage batchId={passportId} navigate={navigate} />
         </AppLayout>
       );
     }

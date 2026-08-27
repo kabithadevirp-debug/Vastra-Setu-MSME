@@ -23,53 +23,71 @@ public class TwinSnapshotService {
         this.opDocRepository = opDocRepository;
     }
 
-    @Transactional
+    /**
+     * Retrieves ONLY real monthly sustainability snapshots for the specified MSME, ordered by month ascending.
+     * ZERO fake seed or mock fallback arrays are generated.
+     */
+    @Transactional(readOnly = true)
     public List<MonthlySustainabilitySnapshot> getOrGenerateSnapshots(UUID msmeId) {
+        if (msmeId == null) {
+            return List.of();
+        }
         MsmeAccount account = accountRepository.findById(msmeId).orElse(null);
         if (account == null) {
-            return generateMockSnapshots();
+            return List.of();
         }
 
-        List<MonthlySustainabilitySnapshot> snapshots = snapshotRepository.findByMsmeAccountOrderBySnapshotMonthAsc(account);
-
-        if (snapshots.isEmpty()) {
-            // Seed 6 months of historical baseline data for Tiruppur cluster
-            LocalDate currentMonth = LocalDate.now().withDayOfMonth(1);
-            double[] electricity = {4776.0, 4539.0, 4329.0, 4162.0, 4036.0, 3960.0};
-            double[] water = {312000.0, 298000.0, 285000.0, 274000.0, 268000.0, 260000.0};
-            double[] production = {1400.0, 1400.0, 1400.0, 1400.0, 1400.0, 1400.0};
-
-            for (int i = 5; i >= 0; i--) {
-                LocalDate m = currentMonth.minusMonths(i);
-                MonthlySustainabilitySnapshot snap = new MonthlySustainabilitySnapshot();
-                snap.setMsmeAccount(account);
-                snap.setSnapshotMonth(m);
-                snap.setElectricityKwh(electricity[5 - i]);
-                snap.setWaterLitres(water[5 - i]);
-                snap.setProductionUnits(production[5 - i]);
-                snapshotRepository.save(snap);
-            }
-            snapshots = snapshotRepository.findByMsmeAccountOrderBySnapshotMonthAsc(account);
-        }
-
-        return snapshots;
+        return snapshotRepository.findByMsmeAccountOrderBySnapshotMonthAsc(account);
     }
 
-    private List<MonthlySustainabilitySnapshot> generateMockSnapshots() {
-        List<MonthlySustainabilitySnapshot> list = new ArrayList<>();
-        LocalDate currentMonth = LocalDate.now().withDayOfMonth(1);
-        double[] electricity = {4776.0, 4539.0, 4329.0, 4162.0, 4036.0, 3960.0};
-        double[] water = {312000.0, 298000.0, 285000.0, 274000.0, 268000.0, 260000.0};
-
-        for (int i = 5; i >= 0; i--) {
-            LocalDate m = currentMonth.minusMonths(i);
-            MonthlySustainabilitySnapshot snap = new MonthlySustainabilitySnapshot();
-            snap.setSnapshotMonth(m);
-            snap.setElectricityKwh(electricity[5 - i]);
-            snap.setWaterLitres(water[5 - i]);
-            snap.setProductionUnits(1400.0);
-            list.add(snap);
+    /**
+     * Upserts a real MonthlySustainabilitySnapshot when an OperationalDocument (TNEB_BILL, CETP_REPORT, GST_INVOICE)
+     * reaches VERIFIED status.
+     */
+    @Transactional
+    public MonthlySustainabilitySnapshot upsertSnapshotFromDocument(UUID msmeId, LocalDate snapshotMonth, Double kwh, Double waterLitres, Double productionUnits, UUID docId) {
+        MsmeAccount account = accountRepository.findById(msmeId).orElse(null);
+        if (account == null) {
+            return null;
         }
-        return list;
+
+        LocalDate normalizedMonth = snapshotMonth != null ? snapshotMonth.withDayOfMonth(1) : LocalDate.now().withDayOfMonth(1);
+        List<MonthlySustainabilitySnapshot> existingList = snapshotRepository.findByMsmeAccountOrderBySnapshotMonthAsc(account);
+        MonthlySustainabilitySnapshot snapshot = existingList.stream()
+                .filter(s -> s.getSnapshotMonth() != null && s.getSnapshotMonth().equals(normalizedMonth))
+                .findFirst()
+                .orElse(null);
+
+        if (snapshot == null) {
+            snapshot = new MonthlySustainabilitySnapshot();
+            snapshot.setMsmeAccount(account);
+            snapshot.setSnapshotMonth(normalizedMonth);
+        }
+
+        if (kwh != null && kwh > 0) {
+            snapshot.setElectricityKwh(kwh);
+        }
+        if (waterLitres != null && waterLitres > 0) {
+            snapshot.setWaterLitres(waterLitres);
+        }
+        if (productionUnits != null && productionUnits > 0) {
+            snapshot.setProductionUnits(productionUnits);
+        }
+
+        // Carbon estimated using CEA India Central Electricity Authority baseline emission factor (0.716 kg CO2e / kWh)
+        double currentKwh = snapshot.getElectricityKwh() != null ? snapshot.getElectricityKwh() : 0.0;
+        snapshot.setCarbonKgEstimated(currentKwh * 0.716);
+
+        if (docId != null) {
+            String docStr = docId.toString();
+            String existing = snapshot.getSourceDocumentIds();
+            if (existing == null || existing.isBlank()) {
+                snapshot.setSourceDocumentIds(docStr);
+            } else if (!existing.contains(docStr)) {
+                snapshot.setSourceDocumentIds(existing + "," + docStr);
+            }
+        }
+
+        return snapshotRepository.save(snapshot);
     }
 }

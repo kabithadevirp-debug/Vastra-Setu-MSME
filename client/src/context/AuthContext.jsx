@@ -17,13 +17,13 @@ export function AuthProvider({ children }) {
     status: 'verified'
   };
 
-  const [token, setToken] = useState(() => localStorage.getItem('vastrasetu_jwt') || 'demo_jwt_token_2026');
+  const [token, setToken] = useState(() => localStorage.getItem('vastrasetu_jwt') || null);
   const [msme, setMsme] = useState(() => {
     const saved = localStorage.getItem('vastrasetu_account');
     if (saved) {
-      try { return JSON.parse(saved); } catch (e) { return defaultDemoAccount; }
+      try { return JSON.parse(saved); } catch (e) { return null; }
     }
-    return defaultDemoAccount;
+    return null;
   });
   
   const [loading, setLoading] = useState(false);

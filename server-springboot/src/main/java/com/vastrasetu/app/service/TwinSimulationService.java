@@ -20,9 +20,9 @@ public class TwinSimulationService {
         boolean zld = Boolean.TRUE.equals(params.get("zldWaterRecycle"));
 
         List<MonthlySustainabilitySnapshot> snapshots = snapshotService.getOrGenerateSnapshots(msmeId);
-        double baseKwh = snapshots.isEmpty() ? 3960.0 : snapshots.get(snapshots.size() - 1).getElectricityKwh();
-        double baseWater = snapshots.isEmpty() ? 260000.0 : snapshots.get(snapshots.size() - 1).getWaterLitres();
-        double baseCarbon = baseKwh * 0.716; // CEA India grid factor
+        double baseKwh = snapshots.isEmpty() ? 0.0 : (snapshots.get(snapshots.size() - 1).getElectricityKwh() != null ? snapshots.get(snapshots.size() - 1).getElectricityKwh() : 0.0);
+        double baseWater = snapshots.isEmpty() ? 0.0 : (snapshots.get(snapshots.size() - 1).getWaterLitres() != null ? snapshots.get(snapshots.size() - 1).getWaterLitres() : 0.0);
+        double baseCarbon = baseKwh * 0.716; // CEA India grid factor (0.716 kg CO2e / kWh)
 
         double elecReductionFactor = 1.0;
         if (solar) elecReductionFactor -= 0.30;
@@ -35,12 +35,14 @@ public class TwinSimulationService {
         double projectedCarbon = projectedKwh * 0.716;
 
         double carbonSavedKg = baseCarbon - projectedCarbon;
-        double pctSaved = (carbonSavedKg / baseCarbon) * 100.0;
+        double pctSaved = baseCarbon > 0 ? (carbonSavedKg / baseCarbon) * 100.0 : 0.0;
 
         int scoreDelta = 0;
         if (solar) scoreDelta += 4;
         if (led) scoreDelta += 2;
         if (zld) scoreDelta += 3;
+
+        int baseTrustScore = 86;
 
         Map<String, Object> res = new LinkedHashMap<>();
         res.put("baselineCarbonKg", Math.round(baseCarbon * 100.0) / 100.0);
@@ -52,8 +54,9 @@ public class TwinSimulationService {
         res.put("baselineWaterLitres", baseWater);
         res.put("projectedWaterLitres", projectedWater);
         res.put("trustScoreDelta", scoreDelta);
-        res.put("projectedTrustScore", 94 + scoreDelta);
-        res.put("note", "Simulation preview. Actual improvements will update live when new TNEB/CETP documents are uploaded.");
+        res.put("projectedTrustScore", baseTrustScore + scoreDelta);
+        res.put("isSimulation", true);
+        res.put("note", "Projection mode based on current real baseline. Hypothetical figures are never written to official ledger tables.");
         return res;
     }
 }

@@ -67,7 +67,7 @@ Instead of storing every passport on-chain, VastraSetu hashes all passports in a
 
 ```
                   ┌──────────────────────────────┐
-                  │    Merkle Root (On Polygon)   │
+                  │    Merkle Root (On Polygon)  │
                   └──────────────┬───────────────┘
                                  │
                    ┌─────────────┴─────────────┐

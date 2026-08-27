@@ -24,16 +24,19 @@ public class OperationalDocumentService {
     private final MsmeAccountRepository accountRepository;
     private final GoogleVisionOcrService ocrService;
     private final GeminiAiExtractionService geminiService;
+    private final TwinSnapshotService twinSnapshotService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public OperationalDocumentService(OperationalDocumentRepository documentRepository,
                                       MsmeAccountRepository accountRepository,
                                       GoogleVisionOcrService ocrService,
-                                      GeminiAiExtractionService geminiService) {
+                                      GeminiAiExtractionService geminiService,
+                                      TwinSnapshotService twinSnapshotService) {
         this.documentRepository = documentRepository;
         this.accountRepository = accountRepository;
         this.ocrService = ocrService;
         this.geminiService = geminiService;
+        this.twinSnapshotService = twinSnapshotService;
     }
 
     @Transactional
@@ -122,6 +125,14 @@ public class OperationalDocumentService {
         }
 
         OperationalDocument savedDoc = documentRepository.save(doc);
+
+        // Upsert real monthly sustainability snapshot if verified or needs review
+        if ("VERIFIED".equals(compositeStatus) || "NEEDS_REVIEW".equals(compositeStatus)) {
+            Double kwh = extractedMap.containsKey("units_consumed_kwh") ? Double.valueOf(extractedMap.get("units_consumed_kwh").toString()) : null;
+            Double water = extractedMap.containsKey("effluent_volume_litres") ? Double.valueOf(extractedMap.get("effluent_volume_litres").toString()) : null;
+            Double units = extractedMap.containsKey("quantity") ? Double.valueOf(extractedMap.get("quantity").toString()) : null;
+            twinSnapshotService.upsertSnapshotFromDocument(account.getId(), java.time.LocalDate.now(), kwh, water, units, savedDoc.getId());
+        }
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", savedDoc.getId());
